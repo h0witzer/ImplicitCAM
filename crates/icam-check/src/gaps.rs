@@ -1,5 +1,7 @@
-//! icam-check gaps: where a field compiled from local rules has no rule yet, counted
-//! from each solid's topology and the face normals along its edges.
+//! icam-check gaps: a census of each solid's topology (mixed vertices, tangent and changing
+//! edges, features under a refinement floor), written on 2026-10-26 to count where the
+//! per-cell local-rule compiler had no formula. That compiler (`frep3.rs`) was deleted on
+//! 2026-10-30 and no formula is compiled (decision 2); the census stands on its own.
 //!
 //! A small enough ball about a point of a valid solid holds one face (its surface
 //! is the formula), one edge (max where convex, min where concave, a separator

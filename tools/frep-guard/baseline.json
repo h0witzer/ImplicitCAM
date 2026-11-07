@@ -1,5 +1,5 @@
 {
-  "note": "Per-file allowances for frep-guard rules (tools/frep-guard/rules.mjs). There are none (Derek, 2026-10-25): code over a rule is slated for replacement, not grandfathered, so the tree reports it until it is replaced, a commit that touches it is refused, and an edit may only lower its count. The replacement list is in docs/EXACT_FIELD.md.",
+  "note": "Per-file allowances for frep-guard rules (tools/frep-guard/rules.mjs). There are none (Derek, 2026-10-25): code over a rule is slated for replacement, not grandfathered, so the tree reports it until it is replaced, a commit that touches it must lower every count it is over on, and an edit may only lower its count. The replacement list is in docs/EXACT_FIELD.md.",
   "allow": {},
   "log": [
     {

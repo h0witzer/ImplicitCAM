@@ -1,5 +1,7 @@
-//! Prismatic STEP solids -> exact horizontal faces (milestone-1 input to the
-//! F-rep compile).
+//! Prismatic STEP solids -> exact horizontal faces, the input to the prismatic compiler
+//! (`frep.rs`). Both are the prismatic part model, being retired (roadmap milestone 0,
+//! CONTRIBUTING.md decision 11): the planner will read any solid through the exact
+//! evaluator and pose-general queries.
 //!
 //! A solid is prismatic (for a vertical tool) when every face is a horizontal
 //! plane or a vertical wall: a vertical plane, a cylinder with a vertical axis,
@@ -16,7 +18,7 @@
 //! about a horizontal one) are carried conservatively, for roughing: each stands as
 //! solid over its footprint (its boundary projected to the plan; a fillet meets its
 //! neighbors tangentially, so its boundary bounds its shadow) from the bottom up to
-//! its top, in `Part::envelope`. The faces beside it are kept exact, a curve next to
+//! its top, in `Face::envelope`. The faces beside it are kept exact, a curve next to
 //! a fillet taking the depth of the wall beyond the fillet. Anything else is refused
 //! by name.
 

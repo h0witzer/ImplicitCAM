@@ -92,8 +92,9 @@ feature's sign rule is wrong there; Claim 4 says which.
 
 ## How the proofs connect to the code
 
-- The proofs live in `proofs/`, a Lake project (Lean 4 and Mathlib, Apache-2.0), separate from
-  the Cargo workspace and not linked into any binary.
+- The proofs will live in `proofs/`, a Lake project (Lean 4 and Mathlib, Apache-2.0), separate
+  from the Cargo workspace and not linked into any binary. The folder does not exist yet (step
+  2 below creates it).
 - No tool checks the Rust or WGSL against the proofs. Each claim in the code will cite its
   theorem by name in a comment, and the guard will fail when `lake build` fails or a cited name
   is missing. Not built yet.

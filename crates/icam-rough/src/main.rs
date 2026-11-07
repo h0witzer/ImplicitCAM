@@ -52,8 +52,6 @@
 //!   bench: the roughing scored against a baseline program on the first roughing spike's objectives
 //!     --baseline <program>   the baseline program (its tool sheet beside it, same name .set)
 //!     --set <file>           the tool sheet, when it is elsewhere
-//!     --align                find where the program places the part (turned, upside
-//!                            down, shifted) from its own cuts
 //!     --place <t[f],x,y,z>   place it so instead (quarter turns, f upside down, shift)
 //!     --reference <mm/s,deg> the reference cut (feed, engagement) instead of the
 //!                            baseline's medians (with --window, pass the whole program's:
@@ -195,26 +193,9 @@ fn go(args: &[String]) -> Result<ExitCode, String> {
         (Cmd::Bench, None) => return Err("bench needs --baseline <program>".into()),
         _ => None,
     };
-    let (frep, (lo, hi), rep) = match (&baseline, flag("--align")) {
-        (Some((base, _)), true) => {
-            let part = icam_core::prismatic::ReadPart::read(&file)?;
-            let a = bench::align(&part, base)?;
-            let p = a.place;
-            println!(
-                "placed in the program: {} quarter turn(s){}, shift ({:.3}, {:.3}, {:.3}); its tool tips reach {:.4} mm into the part on average (orientations tried: {})",
-                p.quarter_turns,
-                if p.flip { ", upside down" } else { "" },
-                p.shift.x,
-                p.shift.y,
-                p.shift.z,
-                a.depth,
-                a.tried.iter().map(|(q, d)| format!("{}{} {:.3}", q.quarter_turns, if q.flip { "f" } else { "" }, d)).collect::<Vec<_>>().join(", ")
-            );
-            for (q, e) in &a.failed {
-                println!("note: orientation {}{} did not compile: {e}", q.quarter_turns, if q.flip { " upside down" } else { "" });
-            }
-            (a.frep, (icam_core::geom::V2::new(a.bbox.x0, a.bbox.y0), icam_core::geom::V2::new(a.bbox.x1, a.bbox.y1)), a.report)
-        }
+    // The part's placement is an input (--place), never fitted to a program's cuts (Derek,
+    // 2026-10-24): the --align that did so was removed on 2026-11-07.
+    let (frep, (lo, hi), rep) = match () {
         _ if opt("--place").is_some() => {
             // "3f,1073.15,655.288,25.4": quarter turns (f: upside down first), then the shift.
             let v = opt("--place").unwrap_or_default();

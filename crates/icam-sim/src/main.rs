@@ -38,6 +38,10 @@
 //!                         along x at this speed; reports the same after it
 //!     --no-scroll         place levels the view moves on from anew, never scrolled (to compare)
 //!
+//!   icam-sim part-bench <file.step> [--gpu]
+//!     the part's brick cache built and timed level by level; with --gpu, the exact evaluator's
+//!     kernel checked against the CPU reference (partgpu.rs)
+//!
 //!   icam-sim clock <program.nc> [--accel <mm/s2>] [--blocks <n>]
 //!     how long the program runs on the machine's clock (see play.rs, `machine_clock`), and at
 //!     its programmed feeds alone
@@ -52,7 +56,7 @@
 //!     --region x0,y0,x1,y1  only the part's surface over this rectangle (mm, the part's frame)
 //!     --generic           find the surface's points the general way even for a prismatic part
 //!     --record <file>     write the analysis record (JSON, a few kilobytes)
-//!     --check             read 20000 points again in double precision on the CPU, and with
+//!     --check             read every thousandth point again in double precision on the CPU, and with
 //!                         every move, the faces up against the 64-bit top-down check
 //!
 //!   icam-sim field <program.nc> --set <tools.set> --part <step> [options]

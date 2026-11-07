@@ -4,7 +4,7 @@ ImplicitCAM is a CAM kernel for subtractive machining that works on fields. The 
 stock and the toolpath plan are scalar fields, and toolpaths are read off solved fields instead
 of being built from offset curves and trimmed surfaces. [README.md](README.md) has the
 overview and the current status. [docs/ARCHITECTURE_AND_ROADMAP.md](docs/ARCHITECTURE_AND_ROADMAP.md)
-has the thesis, the decisions and the phases.
+has the thesis, the history of the decisions and the milestones.
 
 Help is welcome, from a single test part to a new plan field. This page covers the contributor
 agreement, how to build and test, the design decisions every change keeps, how to propose
@@ -42,8 +42,9 @@ cargo test --workspace --release         # unit and pipeline tests
 node tools/frep-guard/check.mjs          # the design guard over the whole tree
 ```
 
-The GPU test skips itself on a machine without a GPU that wgpu can open; `icam-check gpu` runs
-the full GPU-against-CPU comparison when you have one.
+The GPU tests skip themselves on a machine without a GPU that wgpu can open. With one,
+`icam-sim part-bench --gpu <part.step>` checks the exact evaluator's kernel against the CPU
+reference, and `icam-check gpu` checks the prismatic contact kernel (being retired).
 
 The reference papers are not in the repository: most are publisher copies we may not
 redistribute. `node tools/fetch-references.mjs` downloads the open copies and checks their
@@ -52,9 +53,11 @@ paper matters here.
 
 ## The design decisions
 
-These are Derek's decisions. Sections 2 and 9 of the roadmap record each one with its date
-and reason. A change that contradicts one is not merged, however good it is otherwise; to change
-a decision, see [Proposing a change to a decision](#proposing-a-change-to-a-decision).
+These are Derek's decisions, and this list is their one record (Derek, 2026-11-07): the guard's
+session-start text and the edit-check prompts copy it verbatim, and section 9 of the roadmap
+keeps the dated history of how each came to be. A change that contradicts one is not merged,
+however good it is otherwise; to change a decision, see
+[Proposing a change to a decision](#proposing-a-change-to-a-decision).
 
 1. **F-rep is the only internal representation.** Every stage after import (planning, gouge
    and collision checks, engagement, medial axis, reach, certification) reads fields, never
@@ -65,37 +68,44 @@ a decision, see [Proposing a change to a decision](#proposing-a-change-to-a-deci
    rewrites "a B-rep compiles to one global F-rep", 2026-09-29). The signed distance to the
    solid's boundary is one function everywhere by definition, so no cell ever holds a formula
    of its own and the field has no seams. It is evaluated pointwise from the exact surfaces and
-   the trim loops certified at import (decision 3), and the global field for planning and
-   viewing is that evaluation sampled into the sparse brick cache. No CSG tree is compiled:
+   the trim loops certified at import (decision 3). Planning reads exact values, from the
+   evaluator and its GPU kernel; the sparse brick cache samples the evaluation for drawing and
+   for finding coarse entries far from the surface, never for a decision near it (Derek,
+   2026-11-07). No CSG tree is compiled:
    global CSG needs separating primitives that fitted B-spline faces cannot supply, and the
    suite has 8,016 tangent edges (THE PART 2,105) where that construction fails. Per-cell
    formulas chosen by probes, clamps or local rules stay reversed (2026-10-02): they put seams
    in the field.
-3. **The exact evaluator is the field; the old trim walks retire** (Derek, 2026-10-27; rewrites
-   "the exact B-rep is an import-time reference", 2026-09-30). `solid3::Exact` gives the
-   signed distance: each face contributes its nearest critical point when its certified loops
-   put that point in the face, and otherwise its edges and vertices answer, signed by outward
-   normals and pseudo-normals. The file's declared tolerance is the accuracy line at edges
-   (Derek, 2026-10-26): face interiors are exact, and within the band beside an edge (the
-   tolerance plus the loops' certified deviation) either neighboring face's answer stands. What
-   it cannot decide it marks unsure instead of guessing: a face whose loops were refused, a
-   cusp edge, a search at its step cap. The double-precision CPU evaluator is the reference
-   every GPU kernel is tested against. The path-walking trim test (`solid3::classify`, `sdf`,
-   `nurbs_face_closest`) is retired and will be deleted; until then it appears only in
-   `icam-check` comparisons. `frep3` was deleted on 2026-10-30.
-4. **B-rep topology decides each operator:** max at a convex edge, min at a concave one. Never
-   a winding number.
+3. **The exact evaluator is the field, and it has no holes** (Derek, 2026-10-27; no holes:
+   Derek, 2026-11-07; rewrites "the exact B-rep is an import-time reference", 2026-09-30).
+   `solid3::Exact` gives the signed distance: each face contributes its nearest critical point
+   when its certified loops put that point in the face, and otherwise its edges and vertices
+   answer, signed by outward normals and pseudo-normals. The accuracy line at an edge is the
+   larger of the file's declared tolerance and the deviation the importer measures there
+   (Derek, 2026-10-26 and 2026-11-07): face interiors are exact, and within that band either
+   neighboring face's answer stands. Every query gets an answer: the import never refuses a
+   face (an edge off its surface is certified to the deviation it achieves, and reported), a
+   cusp edge carries a sign rule, and the search is bounded by construction, with no step cap
+   and no "unsure" answer. The double-precision CPU evaluator is the reference every GPU kernel
+   is tested against. The path-walking trim test (`solid3::classify`, `sdf`,
+   `nurbs_face_closest`) is retired and is deleted in milestone 0 of the roadmap; until then it
+   still runs inside `Exact` for a face whose loops were refused, a hole on the retirement
+   list, never a precedent. `frep3` was deleted on 2026-10-30.
+4. **Sign comes from topology, never from a winding number** (2026-09-29; restated by Derek,
+   2026-11-07). At an edge the sign comes from its two faces' outward normals, at a vertex from
+   the angle-weighted pseudo-normal. The earlier wording, "topology decides each operator, max
+   at a convex edge, min at a concave one", belonged to the global CSG plan (decision 10) and
+   has no operator left to decide.
 5. **Exact input is never tessellated.** No triangles, meshes or facets are made from B-rep or
    spline input. Meshes enter only when the mesh is the input (a scan, an STL-only file),
    through a mesh importer.
 6. **B-splines stay native.** They are never lowered to lines, arcs, biarcs or polylines,
    except by a post processor.
-7. **The glued field stays rejected; the exact field is adopted with conditions** (Derek,
-   2026-10-25). Don't build the glued local-formula proposal in
-   [docs/FREP_GLUING.md](docs/FREP_GLUING.md). Its pure field is the runtime exact field, under
-   the conditions and tests in [docs/EXACT_FIELD.md](docs/EXACT_FIELD.md): F evaluates as its
-   whole formula, queries read compiled data and F only, and formulas come from rules, never from
-   the B-rep's answers.
+7. **The glued field and the pure field stay rejected** (Derek, 2026-10-25). Neither the glued
+   local-formula proposal in [docs/FREP_GLUING.md](docs/FREP_GLUING.md) nor its pure field (F
+   for the sign, a distance among surface feet, intersection curves and triple points) is built,
+   under any name. On 2026-10-25 the pure field was recorded as adopted with conditions and
+   rejected the same day against the four guarantees; the record is decision 10.
 8. **The incumbents' toolpath constructions are not our template.** Engagement-controlled
    roughing as commercial CAM does it is a set of patented methods for a physics objective:
    keep tool load, chip thickness and engagement inside what the tool and machine can take,
@@ -128,7 +138,9 @@ a decision, see [Proposing a change to a decision](#proposing-a-change-to-a-deci
    - one portion of a region given to a diverging spiral and trochoids only to the rest;
    - a region cut, or ordered early, to host links: links run only through space that is
      already empty;
-   - a spiral traced around a wave over a Voronoi diagram of boundary segments;
+   - a Voronoi diagram anywhere in planning (Derek, 2026-11-07: wider than the claim, which
+     recites a spiral traced around a wave over one); medial information comes from solved
+     plan fields;
    - in 5-axis, flank positions taken from a slot's two walls, and, until May 2032,
      simultaneous 5-axis loops whose upper and lower patterns differ while stepping down a
      slot between two walls.
@@ -143,8 +155,8 @@ a decision, see [Proposing a change to a decision](#proposing-a-change-to-a-deci
    `icam-gpu`); if it doesn't, say why in the pull request. A single-threaded CPU loop over
    independent samples is never the default.
    - Pick formulations that parallelize: fast sweeping or the fast iterative method over
-     fast marching, Jacobi or multigrid over Gauss-Seidel, per-point walk-on-spheres, per-cell
-     pruned trees compiled to straight-line WGSL.
+     fast marching, Jacobi or multigrid over Gauss-Seidel, per-point walk-on-spheres,
+     straight-line WGSL generated per tool, machine and span record.
    - Kernels run single precision in local frames, with rounding folded into the
      certification margin. The double-precision CPU implementation is the reference every
      kernel is tested against, and borderline gouge verdicts are re-decided on the CPU
@@ -153,34 +165,45 @@ a decision, see [Proposing a change to a decision](#proposing-a-change-to-a-deci
      itself), use `rayon` over independent work.
    - Visualize on the GPU: raymarch or sphere-trace the field in a shader.
 
-10. **The four guarantees, and no intersection logic** (Derek, 2026-10-25, rewritten
-    2026-10-27; [docs/EXACT_FIELD.md](docs/EXACT_FIELD.md)). The project rests on fast parallel
-    evaluation of exact true fields with no holes and no brittle surface-intersection or B-rep
-    logic. Guarantee 4 means that nothing in the architecture may open holes or failures in the
-    exact inside/outside test everything downstream relies on, and no edge finding whose
-    search time explodes (Derek, 2026-10-26).
-    - **Trim loops** are built once at import (fitted to the edges' preimages, certified within
-      the file's tolerance) and read at a query by exact crossing parity in a cell tree: always
-      an answer, no retry, no threshold. That is the only trim test allowed. Edges and vertices
-      are read at a query for their own distance and sign.
+10. **The four guarantees. The goal is pure implicit CSG; it is blocked; the compromise is the
+    certified loops** (Derek, 2026-10-25, rewritten 2026-10-27 and 2026-11-07;
+    [docs/EXACT_FIELD.md](docs/EXACT_FIELD.md)). The goal was to turn B-rep constructs into pure
+    F-rep ones through an implicit CSG, with no trims and no intersection tests: trims and
+    intersections are what make B-rep brittle, and an implicit CSG has no holes or seams by
+    construction. B-rep logic is never rebadged as an F-rep planner. The goal is blocked for
+    fitted B-spline faces: they have no exact implicit (a bicubic patch implicitizes to degree
+    18 with extra sheets) and no separating primitives at tangent edges (8,016 in the suite,
+    2,105 on THE PART). The compromise is the exact evaluator over trim loops certified at
+    import (decision 3). A rigorous global route for B-spline faces, if one is found, is
+    preferred. The project rests on fast parallel evaluation of exact true fields with no holes
+    and no brittle surface-intersection or B-rep logic. Guarantee 4 means that nothing in the
+    architecture may open a hole, a seam or a failure in the exact inside/outside test
+    everything downstream relies on, and no edge finding whose search time explodes (Derek,
+    2026-10-26).
+    - **Trim loops** are built once at import (fitted to the edges' preimages, certified to the
+      larger of the file's tolerance and the measured deviation) and read at a query by exact
+      crossing parity in a cell tree: always an answer, no retry, no threshold. That is the only
+      trim test allowed. Edges and vertices are read at a query for their own distance and sign.
     - **A per-point search** over faces, edges and vertices is allowed in the CPU evaluator,
-      bounded by box lower bounds and the critical-point test, with a step cap whose hit marks
-      the answer unsure, and its measured rate is reported.
-    - **The distance** is the exact evaluator's (decision 3), sampled into the brick cache for
-      the global field. Until 2026-10-27 the plan was an eikonal redistance from F's zero set;
-      that is no longer the route.
+      bounded by box lower bounds and the critical-point test, bounded by construction with no
+      step cap, and its measured rate is reported.
+    - **The distance** is the exact evaluator's (decision 3). Planning reads it exactly, through
+      the GPU kernel; the brick cache is for drawing and coarse entries (decision 2). Until
+      2026-10-27 the plan was an eikonal redistance from F's zero set; that is no longer the
+      route.
     - **Still out:** Newton onto surface pairs or triples, a slide along a crossing curve,
       bisection for where an exposed piece ends, an on-the-boundary test by a sign change across
       an epsilon step, a path-walking trim test, and a per-point search over intersection curves
       or triple points. The pure field of [docs/FREP_GLUING.md](docs/FREP_GLUING.md) was built
       that way and rejected on 2026-10-25.
-    - **The evaluator, judged against the guarantees** (2026-10-27, before Derek adopted it):
-      guarantee 1 is met only with the step-5 GPU kernel (fixed Newton steps per brick with a
-      certificate); the CPU evaluator is a per-point search at 2,030 to 2,850 queries a second on
-      THE PART on all threads. Guarantee 2 is met (every `icam-check exact` check clean on THE
-      PART, no unflagged failure in 393,200 suite queries). Guarantee 3 is met except holes that
-      are flagged, not hidden: faces with refused loops, cusp edges, searches at their cap near
-      a far pole. Guarantee 4, as Derek reads it, is met.
+    - **The evaluator, judged against the guarantees** (2026-10-27, restated 2026-11-07).
+      Guarantee 1 is met by its GPU kernel (THE PART in 1 mm bricks in 2.3 s; the CPU reference
+      is a per-point search at 2,030 to 2,850 queries a second on all threads). Guarantee 2 is
+      met on THE PART (every `icam-check exact` check clean); the suite has 3 Lipschitz breaks
+      and 1 sign failure in one inconsistent solid (`rear`), unflagged, on the retirement list.
+      Guarantee 3 is not yet met: refused loops (26 suite faces, 1 on THE PART), cusp edges and
+      the search cap are holes, closed in milestone 0, and one wrong sign carried by the brick
+      cache (`docs/PROOFS.md`, piece 27829) is open. Guarantee 4, as Derek reads it, is met.
     - Before offering any field or distance method for approval, judge it in writing against
       the four guarantees: it evaluates as a straight-line parallel kernel (give the measured
       points per second); it is exact where it claims to be; it has no holes (no unresolved
@@ -189,6 +212,15 @@ a decision, see [Proposing a change to a decision](#proposing-a-change-to-a-deci
     - A method that fails one is not offered for approval, with or without conditions, and
       "approved with conditions" never licenses building it.
 
+11. **One planner, built for simultaneous 5-axis** (Derek, 2026-11-07). Every query, plan and
+    model takes a pose: a position and a tool axis. 3-axis, 2.5D and 3+2 are the same code with
+    the axis held, never their own code path, planner or part model; a restriction is a value
+    passed in. No part model exists for a class of parts: whatever the exact evaluator reads,
+    the planner plans. Every proposal says how simultaneous 5-axis calls it; if it doesn't, it
+    is out. The prismatic part model (`frep.rs`, `prismatic.rs`, `part.rs`, the references in
+    `query.rs`) and the pipeline built on it are being retired (roadmap, milestone 0); edits
+    that only lower that code's counts pass, new held-axis code does not.
+
 ### The guard
 
 [tools/frep-guard](tools/frep-guard) makes the decisions mechanical wherever a pattern can see
@@ -196,8 +228,8 @@ them. It flags B-rep internals outside import (runtime code may build and query 
 decision 3), the old B-rep evaluation and probe selection in the compiler, the B-rep's own
 loops in the field, winding numbers, tessellation and mesh names, and lowered splines, and
 surface-intersection solvers and B-rep geometry in the compiler (decision 10).
-Comments and strings are ignored. Decisions 8 and 9 are about method, not names, so no
-pattern catches them: Claude Code's edit check covers decision 8, and review covers both.
+Comments and strings are ignored. Decisions 8, 9 and 11 are about method, not names, so no
+pattern catches them: Claude Code's edit check covers 8 and 11, and review covers all three.
 
 - **Nothing is grandfathered** (Derek, 2026-10-25). `baseline.json` holds no allowances. Code
   that breaks a rule is slated for replacement and listed in
@@ -235,22 +267,31 @@ looks like. They come from Part I of the roadmap and section 13 of
    more than 1 mm. Report beside them the share of the cut past the stable depth, the
    retracts, and the time as a share of the physics bound. Scores are absolute, never
    relative to a baseline program.
-5. Engineering polish that is not a field advantage (lead-ins, arc fitting, link smoothing) is
-   copied from known-good practice, not reinvented.
+5. Engineering polish that is not a field advantage (lead-ins, arc fitting for output, the
+   links between cuts) is copied from known-good practice, not reinvented. The cutting path
+   itself is never smoothed after the fact (Derek, 2026-10-24): a path that is wrong is fixed
+   in the plan field that produced it.
 
 The anti-patterns already hit, with what each one cost, are in section 13.3. Read them before
 proposing a generator.
 
 **Also:**
 
-- **Two fields, not one.** Use a conservative Lipschitz field for safety, such as gouge and
-  collision checks, where underestimating clearance is safe. Use exact distance in a band only
-  where precision boundaries are computed (roadmap section 5).
-- **The part stays analytic.** Only the in-process stock may be discretized (roadmap section 6).
-- **Verification is independent.** Check the posted G-code with the exact swept-tool stock
-  (`icam-stock`'s `ImplicitStock`). It stays separate code from the generator's in-process
-  stock, even where the math is the same, so the checker never shares the generator's
-  mistakes.
+- **Feed follows the load; the path never does** (Derek, 2026-11-07). Feed is scheduled along
+  the path from the cut model, point by point. The path is never moved, step by step, to hold a
+  load: that is decision 8's banned servo.
+- **Bounds and exact values.** The stock's field is a bound (min and max of exact sweeps), safe
+  for gouge and collision checks; compute an exact value where a precise boundary is needed, and
+  never read a bound's magnitude as a distance (roadmap section 5).
+- **Grids solve plan fields; they decide nothing near the surface** (Derek, 2026-11-07). The
+  part and the stock stay exact. A plan field may be solved on a grid; reach, clearance, gouge
+  and a wall's position are read from exact queries, never from a sampled grid (roadmap section
+  6).
+- **Verification reads separate inputs, not separate code** (Derek, 2026-11-07). The checker
+  reads the posted program, never the planner's moves, against the exact part through
+  `icam-sweep`'s certified sweeps, the same stock the planner uses; `icam-sweep` is itself tested
+  against brute force. `icam-stock`'s `ImplicitStock` is a 3-axis-only checker and retires with
+  the prismatic code.
 - **Objectives yes, incumbent constructions no.** Decision 8 applies to every generator
   change: physics objectives, with chip thickness as the load measure, shape the plan field;
   the incumbents' constructions never shape the path, and trochoids and field spirals stay
@@ -266,8 +307,8 @@ was then taken as license to build intersection logic. So, before the choice is 
 
 - State the verdict against the four guarantees of decision 10, one line each, with the measured
   evaluation rate. A proposal that fails one is withdrawn, not offered with conditions.
-- Name every existing guard allowance the proposal would lean on (an allowed `face_distance`
-  call is not a license to build on it).
+- Say how simultaneous 5-axis calls it (decision 11).
+- Code that is still on the retirement list is not a precedent; don't lean on it.
 
 1. Open an issue titled `Proposal: <what>`. Name the decision it affects, what you would do
    instead, and the measurements that show why.
@@ -277,8 +318,9 @@ was then taken as license to build intersection logic. So, before the choice is 
    analysis, measurements and proposals. They may not state a forbidden construction as the
    plan or the next step.
 3. No code that depends on the proposal merges until Derek accepts it. When he does, the
-   decision is recorded in the roadmap with his name and the date, and the guard
-   (`rules.mjs`, `.claude/settings.json`) is updated to match.
+   decision is recorded on this page with his name and the date, the roadmap's section 9 gets
+   the dated history, and the guard (`rules.mjs`, `.claude/settings.json`) is regenerated from
+   this page.
 
 ## Code provenance and licenses
 
@@ -307,8 +349,9 @@ was then taken as license to build intersection logic. So, before the choice is 
 **Test parts and benchmarks.** The work is measured on real parts, and more variety finds more
 bugs. A useful case has:
 
-- the part as STEP. B-spline faces are welcome. The F-rep compiler takes prismatic parts in
-  their machining orientation today; other parts exercise the exact reference and its checks.
+- the part as STEP. B-spline faces are welcome. Any solid exercises the exact evaluator and its
+  checks; until milestone 0 of the roadmap lands, roughing runs only on prismatic parts in
+  their machining orientation.
 - the stock, the tools (type, diameter, corner radius, flutes) and the material.
 - optionally, a program for the part from any CAM (the baseline) in a dialect `icam-post`
   reads, with its tool table.
@@ -319,14 +362,15 @@ they're yours or how they're licensed. Measured results are as useful as the fil
 
 **Posts and machine dialects.** `icam-post` reads 3-axis mill programs in Fanuc-style and
 MultiCAM dialects. To add a dialect to the reader, include a short program you wrote or posted
-yourself, a test, and a citation of the public controller documentation you used. Writing
-programs arrives with the command line, which isn't open for contributions yet. Until then,
+yourself, a test, and a citation of the public controller documentation you used. The writer
+is being retooled for the one planner (milestone 1 of the roadmap) and isn't open for
+contributions yet. Until then,
 open an issue describing your controller's dialect, with the documentation section, so the
 design covers it. A post processor is the one place B-splines may be lowered to lines and
 arcs (decision 6); its file is added to the guard's allowed list when it exists.
 
 **Field-native research.** The ranked list of open generator work is section 13.4 of
-[docs/ROUGHING_FEASIBILITY.md](docs/ROUGHING_FEASIBILITY.md), and the phases through
+[docs/ROUGHING_FEASIBILITY.md](docs/ROUGHING_FEASIBILITY.md), and the milestones to
 simultaneous 5-axis are in Part III of the roadmap. Start with a `Proposal:` issue: the idea,
 how it passes the field-native test, and how you will measure it. Spikes and measurements are
 welcome before code. A proposal whose method comes down to one decision 8 rules out is closed,

@@ -48,7 +48,7 @@ field for a face: the trimming and the fences are section 5 and are not built.
 
 ## 2. What was built
 
-- `crates/icam-core/src/mrep.rs`: `MRep::of_patch` (floor 1e-8), `MRep::square` (exactly
+- `crates/icam-core/src/mrep.rs`: `SpanPoly::of_patch` in `span_poly.rs` (floor 1e-8), `MRep::square` (exactly
   2 d1 d2 directions, no floor), `det`, `svd`, `sigma_min`, `delta`, `invert` (the Bernstein
   basis read off the left null vector), `basis`. One-sided Jacobi for the null space and the
   singular values; coordinates normalized to the unit ball about the span's box center. Tests:
@@ -249,6 +249,8 @@ about 220 times the arithmetic per determinant.
 
 ## 8. Analytic surfaces read from B-spline faces
 
+*Recorded 2026-11-07: the "compiler", its primitives and `frep3.rs` named in sections 8 to 11 were deleted on 2026-10-30, and no CSG primitive is compiled (decision 2). The analytic recognition itself feeds the exact evaluator (section 15); the leaf and quadric proposals stay not adopted.*
+
 **Decision, 2026-10-25 (Derek).** A span that differs from an analytic surface only by the
 rounding of its numbers is that surface, and its field is that surface's: a sphere's is the
 distance from its center less its radius ("Can we treat a span as a perfect sphere when the only
@@ -337,7 +339,7 @@ everything else, THE PART included, writes UNSPECIFIED. The numbers are the only
 
 ### Withdrawn
 
-The far-out test of sections 7 and the span polynomial (a candidate must vanish 128 spans out
+The far-out test (`icam-check spanpoly`, on the span polynomial: a candidate must vanish 128 spans out
 along the span's extension): evaluated that far, the residual's mixed terms amplify the
 arithmetic's rounding by about 1e12, so exact spans of real files fail it (tork's chamfer plane
 scored 2.4e-4 while lying on its plane to 1.4e-10). Recognition does not use it.
@@ -455,6 +457,8 @@ per span and the separators along knot lines of section 5.
 
 ## 10. Checking without the B-rep reference
 
+*The "legacy per-cell field" (`SolidFrep::eval`) measured below was deleted with `frep3.rs` on 2026-10-30; the method of checking without the B-rep reference is what section 15's `icam-check exact` uses.*
+
 *2026-10-26 (Derek: "We gotta find a way to evaluate these things that doesn't rely on the
 legacy brep path if it's gonna be this painfully slow", and "I've always hated the over
 reliance on regression tests when sometimes the code we had before was bad").*
@@ -495,6 +499,8 @@ once. The fields checked run on the CPU over all threads because the compiler ha
 evaluator; the checks themselves are a few field evaluations per point.
 
 ## 11. Where the local rules have no formula
+
+*Superseded: per-cell local rules were reversed (decision 2); this section stopped where its last paragraph says, and section 12 took the trim-loop route instead.*
 
 *2026-10-26 (Derek: "it sounds like we need to create rules for holes or we brick the input
 which sounds like it's not a robust import method. Discuss", then "start").*
@@ -670,7 +676,7 @@ of the 96 points it judged. The remaining refusals are at the floor of files dec
 pieces whose certified deviation lands between 1.0e-6 and 1.2e-6, and bridges of 1e-9 in a
 parameter that cost 1.1e-6 mm on surfaces with derivatives near 1,000 mm per unit parameter.
 
-### Not done
+### Not done (as of 2026-10-26; sections 14 and 15 did it)
 
 - The old trim test is still what the B-rep distance (`Solid3::sdf`) uses; the certified loops
   are a second answer beside it. The exact pointwise evaluator that reads the loops, the exact
@@ -948,7 +954,7 @@ the loops:
    grid keeps order and shared ends, and moves the loops by 2^-41 of the domain), and a constant
    evaluates to itself. A periodic direction is snapped only when its period is a whole number
    of steps (an analytic form's 4; a closed B-spline's period is not), since a loop closes on
-   its start one period over. The snap made the beside-the-edge judge of section 12 count far
+   its start one period over. The snap made the beside-the-edge judge of section 14 count far
    more errors on B-spline faces (tork 332 to 891), all of one kind: a step out past an edge
    along the surface's own border lands on that border, the face's boundary, where either answer
    is right; before, the pieces there shared the closest-point search's last-bit rounding and

@@ -1,8 +1,8 @@
 //! Programs: G-code in and out, and the point types every crate above shares. The
 //! reader ([`gcode`]) turns a 3-axis mill program, ours or a baseline's, into tool
 //! moves in mm, so every instrument measures programs the same way. A strategy's own
-//! path is a run of tagged tool-center points ([`PathPt`]). Writing our moves into a
-//! program comes with the command line.
+//! path is a run of tagged tool-center points ([`PathPt`]). [`post`] writes our moves as a
+//! program; it is being retooled for the one planner (roadmap milestone 1).
 
 use std::ops::{Add, Sub};
 

@@ -15,8 +15,9 @@
 //!
 //! A bucket grid only finds candidates, and a move is skipped whole when its own lower
 //! bound cannot beat the lowest reach found so far. Rapids cut nothing, as in SweptStock.
-//! Separate code from the checker's stocks (ImplicitStock, icam-sweep), as the generator's
-//! own stock must be.
+//! Separate code from `ImplicitStock`, the 3-axis checker, as the generator's own stock was
+//! required to be; both retire with the prismatic code (roadmap milestones 0 and 1), and
+//! `icam-sweep` is then the one stock, for planning and for checking.
 
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, BinaryHeap};

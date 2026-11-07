@@ -1,6 +1,6 @@
 # Test parts
 
-STEP files used for regression runs of the importer, the exact B-rep reference and the span
+STEP files used for regression runs of the importer, the exact evaluator and the span
 implicits. The files themselves are not committed: none of them carries a license that lets
 this repository redistribute it (CONTRIBUTING.md, "Test data"). What is committed is
 `manifest.json`: for every file its source, size and SHA-256, and the numbers it gave on
@@ -30,11 +30,11 @@ node -e "const c=require('crypto'),fs=require('fs');let bad=0;for(const s of req
 ## Runs that use them
 
 ```sh
-cargo run --release -p icam-check --bin step_corpus -- test-parts/steptools        # importer and exact reference
+cargo run --release -p icam-check --bin step_corpus -- test-parts/steptools        # importer and the retired path-walking distance (comparison)
+cargo run --release -p icam-check -- exact test-parts/steptools                     # the exact evaluator's checks, no B-rep reference
 cargo run --release -p icam-check -- spans test-parts/steptools [n]                 # span implicits, n spans per file
 cargo run --release -p icam-check -- spans test-parts/the-part/the-part-emm0sh.step # THE PART, every span
 cargo run --release -p icam-check -- surfcheck test-parts/steptools                 # fields against the exact surfaces, no B-rep distance
-cargo run --release -p icam-check -- surfcheck test-parts/steptools/bull.stp 48 --field  # and a compiled field
 ```
 
 Baselines recorded in the manifest (2026-10-25): the importer takes 49 of 55 `steptools`

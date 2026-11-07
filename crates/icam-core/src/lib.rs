@@ -1,5 +1,7 @@
-//! ImplicitCAM core: exact geometry, exact tools, and the reference
-//! implementation of the contact query that the GPU kernels are checked against.
+//! ImplicitCAM core: exact geometry (B-splines, curves, surfaces, solids), STEP import, the
+//! exact evaluator `solid3::Exact` with its GPU kernel, and exact tool profiles. `frep`,
+//! `part`, `prismatic` and `query` are the prismatic part model and its reference contact
+//! query, being retired (roadmap milestone 0).
 
 pub mod bspline;
 pub mod curve3;

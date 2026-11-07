@@ -12,7 +12,9 @@ Fixes #
 
 ## Checklist
 
-- [ ] Keeps the nine design decisions; `node tools/frep-guard/check.mjs` passes
+- [ ] Keeps the eleven design decisions; `node tools/frep-guard/check.mjs` passes
+- [ ] Decision 11: says above how simultaneous 5-axis calls this change; no new code written
+      for a held axis, a vertical tool, a slab or a class of parts
 - [ ] Decision 8: no incumbent construction (offset passes, engagement held by curves or by
       step-by-step steering, morphed spirals, bridge moves between offset passes) as a method,
       fallback, baseline, flag or test, and none named as the design target. Trochoids and

@@ -48,6 +48,21 @@ list.
 If the field-native way is not obvious, finding it is the job, not a reason to fall back. Stop
 and say so in the issue or pull request.
 
+## One planner. Every query takes a pose.
+
+Your second reflex will be to solve the easy case first: a vertical tool, a slab, a flat floor, a
+part made of horizontal faces. This project did that, and it produced a part model only prismatic
+parts fit, built from stored edge curves, which the whole roughing pipeline now has to be moved
+off (the roadmap's "One planner" section). Derek, 2026-11-07: one planner targets simultaneous
+5-axis, and everything else falls out as a subset of it.
+
+- Every query, plan and model takes a pose: a position and a tool axis. 3-axis, 2.5D and 3+2 pass
+  a held axis; none of them gets a branch with its own algorithm.
+- There is no part model for a class of parts. Whatever the exact evaluator reads, the planner
+  plans.
+- Before you propose a change, say how simultaneous 5-axis calls it. If it doesn't, don't build
+  it.
+
 ## The field is never computed by intersecting surfaces
 
 An exact distance can be computed the B-rep way: find the nearest point on each surface, on each
@@ -57,10 +72,12 @@ was built here on 2026-10-25, measured at 34 to 277 points per second, and disca
 day. It is the brittle intersection logic the project exists to replace, and it is not a kernel.
 Decision 10 in [CONTRIBUTING.md](CONTRIBUTING.md):
 
-- The sign and the zero set come from F, one global formula over exact primitives.
-- The distance away from the surface comes from a parallel field solve on F (an eikonal
-  redistance from F's zero set, on the GPU), never from solving where surfaces meet, never from a
-  per-point search over candidate boundary pieces, never from a trim test or a stored edge curve.
+- The field is the exact evaluator's signed distance (`solid3::Exact`, decisions 2 and 3): each
+  face's nearest critical point when the trim loops certified at import put it in the face,
+  otherwise its edges and vertices, read for their own distance and sign (Derek, 2026-10-27; the
+  eikonal redistance from F planned before that is no longer the route).
+- It never comes from solving where two model surfaces meet, from a per-point search over
+  intersection curves or triple points, or from any trim test other than the certified loops.
 - Before you offer any field or distance method for approval, write its verdict against the
   four guarantees: a straight-line parallel kernel with a measured rate; exact where it claims to
   be; no holes and no thresholds that decide structure; no surface-intersection or B-rep logic.
@@ -92,16 +109,17 @@ It holds the rules; the rest of this page adds what an agent most often gets wro
 
 ## The decisions are hard constraints
 
-- The nine design decisions in CONTRIBUTING.md are not preferences to weigh against a task.
+- The eleven design decisions in CONTRIBUTING.md are not preferences to weigh against a task.
   If a task seems to need a construction they forbid, stop and say so in the issue or pull
   request instead of building around it.
-- Claude Code loads `.claude/settings.json`: all nine decisions are injected at session start,
-  every edit is checked against decisions 1-8, and the tree is re-checked when you stop. A refusal names the
-  decision it enforces. Other agents get none of this, so apply the decisions yourself and run
+- Claude Code loads `.claude/settings.json`: all eleven decisions are injected at session
+  start (copied verbatim from CONTRIBUTING.md), every edit under `crates/` and `docs/` is
+  checked against them, and the tree is re-checked when you stop. A refusal names the decision
+  it enforces. Other agents get none of this, so apply the decisions yourself and run
   `node tools/frep-guard/check.mjs` before every commit.
-- Never commit with `--no-verify` or `-n`, change `core.hooksPath`, edit `tools/frep-guard/`,
-  `.githooks/` or `.claude/settings.json`, or run `check.mjs --accept`. Those belong to the
-  maintainer.
+- Never commit with `--no-verify` or `-n`, set `core.hooksPath` to anything but `.githooks`,
+  edit `tools/frep-guard/`, `.githooks/` or `.claude/settings.json`, or run `check.mjs
+  --accept`. Those belong to the maintainer.
 - Don't route around the guard by renaming an identifier, moving code into a file the rules
   don't cover, or editing through the shell. A pattern that blocks you is pointing at a
   decision; change the approach.

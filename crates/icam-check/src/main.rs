@@ -1,11 +1,14 @@
-//! icam-check: reads exact B-rep solids from STEP, builds the exact part, and
-//! checks the GPU contact query against the exact CPU reference.
+//! icam-check: reads exact B-rep solids from STEP and checks the exact evaluator, its trim
+//! loops and spans, and the prismatic contact kernel (being retired) against their CPU
+//! references.
 //!
 //!   icam-check survey <dir>              parse every STEP file in a folder; entities and prismatic verdicts
 //!   icam-check import <file.step>        import one file's prismatic solids, report
 //!   icam-check gpu <file.step> [n] [--ref m]   GPU vs CPU on n random points per tool and mode (m on the CPU)
-//!   icam-check frep <file.step>          compile the F-rep; check sign, bound, Lipschitz and per-cell pruning
-//!   icam-check solid <file.step> [n]     exact 3D signed distance of general solids; Lipschitz and sign checks
+//!   icam-check frep <file.step>          the prismatic compiler (being retired): sign, bound, Lipschitz, per-cell pruning
+//!   icam-check solid <file.step> [n]     the retired path-walking distance (Solid3::sdf), kept for comparison
+//!   icam-check exact <file|dir> [n]      the exact evaluator (solid3::Exact) with no B-rep reference: boundary cloud, half-segment rule, Lipschitz pairs, outside the box
+//!   (faceprobe, probe, census, seps: diagnostics of one face or feature; see their branches below)
 //!   icam-check spans <file.step> [n]     M-rep of every B-spline span (n at most): size, residual, second sheets, foreign zeros
 //!   icam-check spans <dir> [n]           the same over every STEP file in a folder, n spans per file (60 by default)
 //!   icam-check spanpoly <file|dir> [n]   signed implicit polynomial of each span (n per file): degree, exactness, extraneous zeros, f32

@@ -11,7 +11,7 @@
 //! (docs/SIM_VISUALIZATION_ENGINE.md): bricks of the field's values baked on the GPU in
 //! levels around the view, each twice the cell of the one before, so a cell spans about a
 //! pixel wherever the camera looks; ray-cast every frame (cache.wgsl), never meshed. A
-//! worker thread re-bakes a level when the view moves off it. The playhead picks how many
+//! worker thread scrolls a level when the view moves off it, baking anew only what it did not hold. The playhead picks how many
 //! moves have cut the stock; moving it re-bakes only where the moves passed over come near.
 //! With --part the stock is colored by what the program left against the part (heat.rs):
 //! red where it cut into the part, green within the shop tolerance of it, blue where it
@@ -29,7 +29,7 @@
 //! With --bake the arrows move the playhead (left and right a move, up and down a hundred),
 //! Page Up and Down a thousand, Home to the start and End to the end. Space plays the
 //! program from the playhead on the machine's clock (each move at its programmed feed,
-//! rapids at icam-motion's rapid rate; acceleration is not modeled): R at the machine's own
+//! rapids at icam-motion's rapid rate, with the machine's acceleration, `ACCEL`): R at the machine's own
 //! speed, P at the speed that runs the rest of the program in a minute, [ and ] halve and
 //! double it. While a move runs, the stock is cut by it up to where the tool stands (the
 //! stock's tail, stock.rs), so at any speed every frame is the stock at that instant and the

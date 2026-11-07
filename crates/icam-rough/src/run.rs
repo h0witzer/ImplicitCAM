@@ -1,4 +1,5 @@
-//! The job, end to end. For each operation found from the field (`ops`), top down:
+//! The job, end to end. For each operation found from the field (`ops`), in nearest-ready
+//! order (see `run`):
 //!
 //!   plan     the clearance at its slab (the compiled F-rep's section leaves), the plan
 //!            field and its seeds, the chosen plan's solve and path (icam_strategy)

@@ -1,18 +1,40 @@
 # Roughing Feasibility - field-based roughing as a replacement for offset roughing
 
-Status: feasibility assessment, 2026-09-28. No code yet.
-Scope: 2.5D and 3-axis roughing only. Finishing and 5-axis are covered in
-`ARCHITECTURE_AND_ROADMAP.md` (the "arch doc").
+**Sections 1 to 11 are historical** (Derek, 2026-11-07): the feasibility study as written on
+2026-09-28, kept as the record of how the first roughing spike was reasoned and of what it got
+wrong. **Sections 12 and 13 are current:** the measured spike findings, the field-native test
+and the ranked open work that CONTRIBUTING.md points at. What sections 1 to 11 recommend and
+what reversed it:
+
+- a load-tracking controller that steers the path step by step (4.6, 7, 9) and a feed servo:
+  reversed by decision 8 (2026-10-23); feed still follows the load, the path never does;
+- the field as a plan "tracked under load feedback, not as the path itself" (4.5): paths are
+  read off solved fields (roadmap section 8);
+- a tessellated part rasterized to a height grid with a winding-number sign (4.2), sampled
+  stock and clearance grids (4.3, 4.7), "exactness as a per-consumer setting" (4.1): reversed
+  by decisions 3, 4 and 5 and by "no voxel, dexel or height-map stock" (2026-10-24); section
+  12 itself superseded the raster on 2026-09-28; grids now only solve plan fields;
+- a gouge check on the tool's enclosing cylinder (4.2): the tool is its own exact solid;
+- a 2.5D spike first, then a 3-axis slab stack and a separate shallow-area pass (9): reversed
+  by the one planner (decision 11, 2026-11-07);
+- scoring against the host's program and FreeCAD Adaptive (9): scores are absolute (section
+  13.2); a single-threaded runtime budget as a gate (5): reversed by decision 9;
+- the six "deltas" to the roadmap (10): none applied; the roadmap went the other way on 1, 2, 4,
+  5 and 6, and 3's objective (time under a load limit) is the roadmap's functional;
+- the "open decisions" (11) are settled: Rust; the plan field stays internal for now.
+
+Status when written: feasibility assessment, 2026-09-28, before any code. Scope then: 2.5D and
+3-axis roughing. `ARCHITECTURE_AND_ROADMAP.md` is "the arch doc" below; its section numbers,
+phases and appendices cited in sections 1 to 11 are those of its 2026-09-29 version.
 
 The arch doc asks "what does a field-native CAM kernel look like, up to simultaneous 5-axis?"
-This doc asks a narrower, practical question: **can a field-based toolpath generator replace
+This doc asked a narrower, practical question: **can a field-based toolpath generator replace
 brittle offset-based roughing on real production parts, and what would it take?**
 
-**Stance:** the goal is to beat the incumbents, not to match them. FreeCAD Adaptive,
-ModuleWorks, and the other commercial adaptive-clearing engines are benchmarks to measure
-against, not designs to copy. Section 4.4 names what they leave on the table. Sections
-4.5-4.6 describe the design that is meant to take it. Section 10 lists where this changes
-arch-doc decisions.
+**Stance:** the goal is to beat the incumbents, not to match them. The commercial
+adaptive-clearing engines are the bar, not designs to copy. Section 4.4 names what they leave
+on the table. Sections 4.5-4.6 describe the design that was meant to take it. Section 10 lists
+where this would have changed arch-doc decisions.
 
 ---
 
@@ -368,7 +390,7 @@ These are benchmarks to beat and a record of what is known. They are not templat
   searches heading to match the cut area to a target. **It is the open baseline**, runnable
   on the same parts, and useful as a measured reference for everything in section 4.4.
 - **ModuleWorks** and the other commercial adaptive / HEM engines (Freesteel-derived
-  adaptive clearing in the HSMWorks / Fusion lineage, VoluMill, iMachining, and others).
+  adaptive clearing as the commercial engines do it).
   Internals are proprietary. Benchmark on output (cycle time, load, links, residue), never
   on assumed internals. See arch doc section 10 for the patent posture.
 - **Field and PDE pocketing.** Bieterman and Sandstrom (2003) take toolpaths as level curves
@@ -390,7 +412,7 @@ existing workflow.
 | Option | How | Keeps host sim / post / setup sheets | Risk |
 |---|---|---|---|
 | A. Standalone G-code | Read the exported part, stock, and tool; emit G-code through our own post | No | Needs a per-machine post; splicing into host programs by hand |
-| B. CL-record injection | Create a placeholder rough op in the host (tool, feeds, setup), then replace its toolpath through the host's API (delete the op's CL records, create new ones, append them; **not yet verified live**) | Yes | A host regenerate or rebuild probably overwrites injected records; out-of-process COM costs about 5-15 ms per call, so a 20k-record path must be written in-process (add-in) |
+| B. CL-record injection | Create a placeholder rough op in the host (tool, feeds, setup), then replace its toolpath through the host's API (delete the op's CL records, create new ones, append them; **not yet verified live**) | Yes | A host regenerate or rebuild probably overwrites injected records; out-of-process API calls carry a per-call overhead, so a 20k-record path must be written in-process (add-in) |
 | C. Steer the host rougher | Use fields only to compute clean contain/avoid boundaries, or to flag regions where the host rougher will fail | Yes | Lowest value; does not fix engagement spikes (class 4) and cannot beat the incumbent |
 
 Recommendation: probe Option B early (about 1 week, alongside the spike). If injected
@@ -450,7 +472,7 @@ the project exists.
 
 ---
 
-## 10. Deltas this suggests to ARCHITECTURE_AND_ROADMAP.md (not yet applied)
+## 10. Deltas this suggested to ARCHITECTURE_AND_ROADMAP.md (none applied; see the header)
 
 1. **Section 2 ("Not a voxel/mesh CAM")**: add a roughing exception. At roughing tolerance,
    sampled fields derived exactly and conservatively from the part (z-buffer, distance
@@ -474,7 +496,7 @@ the project exists.
 
 ---
 
-## 11. Open decisions (for the project owner)
+## 11. Open decisions as of 2026-09-28 (settled; see the header)
 
 - **Spike language/runtime.** The arch doc picks Rust. The roughing path does not depend on
   Fidget, and the existing viewer and stock evaluator are in C#. Recommendation: write the
@@ -670,7 +692,7 @@ but a reorganized order is not). The first physics-stepover version failed it
 alone was survivable: feeding the plan's own front curvature (a second
 derivative of the field being solved) back into its speed, iterated; and a
 greedy "nearest ready piece" order over hundreds of thin arcs, where near-ties
-are everywhere. The fixes, now defaults: the stepover field comes from fixed
+are everywhere. The fixes, the defaults at the time (13.4 item 1 later replaced the pointwise curvature guess): the stepover field comes from fixed
 geometry only (the curvature of fronts from a round entry, 1 / (T_0 + rho)),
 smoothed over half a tool diameter and capped at the stable value; the level
 unit is fixed; the open-phase order is read from the field (depth first over
@@ -762,7 +784,7 @@ with the stepover or conductivity field as the design variable.
 
 **Status 2026-09-29.** Item 1 done: curvature read from the smoothed plan;
 the path's engagement then tracks the plan within about 10% (median 0.84-0.98
-of the prediction), so the plan targets 88% of the stable angle, and the share
+of the prediction), so the plan held the cut 12% inside the stability limit (as built then; by decision 8 chip thickness is the load measure and the stability limit is a constraint on the plan, never an angle to target), and the share
 of the cut past the stable depth fell from 5-35% to 2-9%. Item 2 working: the
 walls-together plan with the physics stepover passes the gouge check on all
 five pockets (every point held on the exact clearance, every feed move checked),
@@ -788,7 +810,7 @@ case for item 3: design the conductivity against the time objective.
   Computing, 2012.
 - OpenCAMLib (drop-cutter, waterline): github.com/aewallin/opencamlib
 - Clipper2 polygon clipping and offsetting: github.com/AngusJohnson/Clipper2
-- See also the arch doc's Appendix C (Fidget, libfive, OpenVoronoi, OpenVDB, patents).
+- See also the arch doc's section 10 (patent posture) and Appendix C (references).
 - The full reference set, with verified citations and one line on why each paper matters
   here, is `whitepaper-references/MANIFEST.md` (entries 42-60 and 67-68 are the pocketing
   and engagement papers this document leans on).

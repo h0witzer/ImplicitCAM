@@ -40,8 +40,8 @@
 //!
 //! The evaluation is a fixed polynomial in three variables: a straight-line kernel
 //! of C(k + 3, 3) terms per point (35 at degree 4, 165 at degree 8), with no edge,
-//! trim or neighbor data. F is a sign and a zero set, not a distance; the distance
-//! away from the surface comes from the field solve (docs/EXACT_FIELD.md).
+//! trim or neighbor data. F is a sign and a zero set, not a distance; the distance is
+//! the exact evaluator's (`solid3::Exact`, docs/EXACT_FIELD.md).
 
 use crate::curve3::V3;
 use crate::mrep::hestenes;

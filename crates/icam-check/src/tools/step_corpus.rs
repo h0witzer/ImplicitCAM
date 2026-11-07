@@ -1,5 +1,6 @@
-//! Reads every STEP file in a folder through the importer and the exact signed distance
-//! (`icam_core::solid3`), and checks each one: the file reads, every solid imports, and on
+//! Reads every STEP file in a folder through the importer and the retired path-walking
+//! distance (`Solid3::sdf`, kept for comparison; the field is `solid3::Exact`, checked by
+//! `icam-check exact`), and checks each one: the file reads, every solid imports, and on
 //! point pairs (half over the padded box, half near edges) the distance is 1-Lipschitz (to
 //! twice the file's tolerance) and no point outside every solid's box reads inside. A time
 //! budget per file bounds the pairs. One line per file, then the tally.

@@ -7,9 +7,13 @@
 //! when the foot is in the face; otherwise its nearest point is on its edges,
 //! which are candidates of their own.
 //!
-//! Trims. Whether a surface point q lies in its face is decided on the surface
-//! itself, with no parameter-space curves (the STEP files carry none): walk from
-//! q along a path on the surface made of exact planar sections (a ray on a
+//! Trims. Whether a surface point lies in its face is decided by the trim loops certified
+//! at import in the surface's parameter domain (`trim2`; the STEP files carry no
+//! parameter-space curves, so they are built), read by exact crossing parity inside
+//! [`Exact`]. The older path-walking test below (`classify`, used by `sdf`) is retired
+//! (decision 3): it still runs inside `Exact` only for a face whose loops were refused, a
+//! hole closed in milestone 0, and in `icam-check` comparisons. It decides on the surface
+//! itself: walk from q along a path on the surface made of exact planar sections (a ray on a
 //! plane, a generator of a cylinder or cone, a meridian or latitude circle, a
 //! great circle), find where the face's edges cross the path's cutting plane
 //! (closed form, or Bernstein root isolation for B-splines), and look at the

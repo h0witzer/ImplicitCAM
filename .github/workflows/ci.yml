@@ -14,11 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      # Decisions 1-7 in CONTRIBUTING.md, checked by pattern over every Rust file in crates/
-      # against tools/frep-guard/baseline.json. Decisions 8 (no incumbent toolpath
-      # constructions) and 9 (GPU first) are about method, which no pattern sees; Claude Code's
-      # edit check enforces 8, and review enforces both.
+      # The decisions in CONTRIBUTING.md that a pattern can see (1-6 and 10), checked over
+      # every Rust file in crates/ against tools/frep-guard/baseline.json. Decisions 8 (no
+      # incumbent toolpath constructions), 9 (GPU first) and 11 (one planner) are about method,
+      # which no pattern sees; Claude Code's edit check covers 8 and 11, and review covers all.
       - run: node tools/frep-guard/check.mjs
+      # The guard's session-start text and the edit-check prompts are copies of CONTRIBUTING.md.
+      - run: node tools/frep-guard/sync-decisions.mjs --check
 
   test:
     name: Build and test

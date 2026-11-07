@@ -7,9 +7,19 @@ distance method is judged by before it is offered for approval.
 
 **Rewritten 2026-10-27 (Derek): the distance is the exact evaluator's.** The route below this
 page first planned (an eikonal redistance from F) is replaced by `solid3::Exact`, the signed
-distance through trim loops certified at import, sampled into the brick cache for the global
-field ("What aligns"). CONTRIBUTING.md decisions 2, 3 and 10 were rewritten to match, with the
-evaluator's verdict against the four guarantees.
+distance through trim loops certified at import ("What aligns"). CONTRIBUTING.md decisions 2, 3
+and 10 were rewritten to match, with the evaluator's verdict against the four guarantees.
+
+**Restated 2026-11-07 (Derek): the goal was pure implicit CSG; it is blocked; the evaluator is
+the compromise; and holes are impossible.** The goal was never to rebadge B-rep logic as an
+F-rep planner but to turn B-rep constructs into pure F-rep ones through an implicit CSG, with no
+trims and no intersection tests, because trims and intersections are what make B-rep brittle and
+an implicit CSG has no holes or seams by construction. That is blocked for fitted B-spline faces
+(no exact implicit, no separators at tangent edges; sections 3 to 5 of `SPAN_IMPLICIT.md`), so
+the certified loops are the compromise, and a rigorous global route would still be preferred.
+Every "unsure" answer is a hole: the import never refuses a face, cusp edges get a sign rule, the
+search is bounded by construction, and the flag goes (milestone 0 of the roadmap). CONTRIBUTING
+decisions 3, 4, 7 and 10 carry the record; this page is the reasoning.
 
 ## The four guarantees
 
@@ -23,17 +33,22 @@ approval, with or without conditions:
 3. **No holes.** No unresolved cells, no refused parts hidden behind fallbacks, no threshold
    that decides structure (an epsilon step that says whether a point is on the boundary is a
    hole waiting to open).
-4. **No brittle intersection or B-rep logic.** No solving where surfaces meet, no trim tests,
-   no stored edge curves or vertices deciding anything, at compile time or at a query.
-   **Read by Derek, 2026-10-26:** nothing in the architecture may open holes or failures in the
-   exact inside/outside test everything downstream relies on, and no edge finding whose search
-   time explodes. Under that reading (2026-10-27), trim loops built at import and certified
-   within the file's tolerance, read by exact crossing parity, are allowed: they always answer,
-   with no retry and no threshold. Edges and vertices are read at a query for their own
-   distance and sign.
+4. **No brittle intersection or B-rep logic.** Nothing in the architecture may open a hole, a
+   seam or a failure in the exact inside/outside test everything downstream relies on, and no
+   edge finding whose search time explodes (Derek, 2026-10-26). That rules out solving where
+   two model surfaces meet, a trim decided by walking a surface, an on-the-boundary test by a
+   threshold of our own, and any per-point search over intersection curves. It allows what
+   cannot open a hole: trim loops built at import, certified to the larger of the file's
+   tolerance and the measured deviation, read by exact crossing parity (always an answer, no
+   retry, no threshold), and edges and vertices read at a query for their own distance and
+   sign. The earlier wording of this guarantee ("no trim tests, no stored edge curves or
+   vertices deciding anything") was the pure-CSG goal stated as a rule; the goal is blocked
+   (above), and the rule is this one (Derek, 2026-11-07).
 
-The roughing plan fields read the distance to build the path plan, so the distance away from
-the surface has to meet the guarantees too, not only the sign and the zero set.
+The plan fields read the distance to build the path plan, so the distance away from the
+surface has to meet the guarantees too, not only the sign and the zero set. Planning reads it
+exactly, through the evaluator's GPU kernel; the brick cache (values clamped to a cell's
+diagonal) is for drawing and for coarse entries far from the surface (Derek, 2026-11-07).
 
 ## The verdict on the pure field
 
@@ -69,22 +84,30 @@ the project exists to replace.
 
 ## What aligns
 
-**Rewritten 2026-10-27 (Derek).**
+**Rewritten 2026-10-27 (Derek); restated 2026-11-07.**
 
 - **The field** is the exact signed distance, evaluated by `solid3::Exact`: a face's nearest
   critical point when its certified loops (`trim2`) put it in the face, otherwise its edges and
-  vertices, signed by outward normals and pseudo-normals. The file's declared tolerance is the
-  accuracy line at edges (2026-10-26); answers it cannot decide are marked unsure. Measured
-  (`icam-check exact`, docs/SPAN_IMPLICIT.md section 15): every check
-  clean on THE PART at 2,030 to 2,850 queries a second on all threads, no unflagged failure in
-  393,200 suite queries.
-- **The global field** for planning and viewing is that evaluation sampled into the sparse
-  brick cache, read as a straight-line kernel. Near the surface, finishing reads the exact
-  value.
-- **Guarantee 1** is met by the cache reads now and by the step-5 GPU kernel for exact queries
-  (fixed Newton steps per brick from per-span seeds, with a certificate; measured 99.997% exact
-  in 0.5 mm bricks before the certificate). The CPU evaluator is the reference it is tested
-  against. Until the kernel exists, exact queries are the CPU's per-point search.
+  vertices, signed by outward normals and pseudo-normals. The accuracy line at an edge is the
+  larger of the file's declared tolerance and the measured deviation (2026-10-26, 2026-11-07).
+  Measured (`icam-check exact`, docs/SPAN_IMPLICIT.md section 15): every check clean on THE
+  PART at 2,030 to 2,850 queries a second on all threads; the suite has 3 Lipschitz breaks and
+  1 sign failure in one inconsistent solid (`rear`), unflagged, on the retirement list.
+- **Holes, closed in milestone 0** (Derek, 2026-11-07: holes are impossible). Today the
+  evaluator marks three cases "unsure": a face whose loops were refused (26 suite faces at the
+  1e-6 tolerance floor, one sphere face on THE PART whose loop end lies past a knot line), a
+  cusp edge, and a search at its step cap; for a refused face it still runs the retired
+  path-walking test. Each is a hole. The import will certify every edge to the deviation it
+  achieves and report it, cusp edges get a sign rule, the search is bounded by construction, the
+  flag and the old test are deleted. One wrong sign carried through the brick cache (piece
+  27829, `PROOFS.md` claim 4) is open.
+- **Planning reads the exact value** through the GPU kernel (`solid3/gpu.wgsl`, run by
+  `icam-sim`'s `partgpu.rs`: fixed Newton steps per brick from per-span seeds, with a
+  certificate; THE PART in 1 mm bricks in 2.3 s). The CPU evaluator is the reference it is
+  tested against (`icam-sim part-bench --gpu`). The sparse brick cache samples the evaluation
+  for drawing and for coarse entries far from the surface.
+- **Guarantee 1** is met by that kernel. Guarantee 2 is met on THE PART. Guarantee 3 is not
+  yet met (the holes above). Guarantee 4 is met as read on 2026-10-26.
 - **F** and the eikonal redistance planned here on 2026-10-25 are no longer the route: no CSG
   formula is compiled (decision 2).
 
@@ -96,15 +119,17 @@ Recorded here so the same thing is not built a second time:
   intersecting, meeting, projecting onto surface pairs, bisecting, exposure, sliding.
 - `brep-geometry-in-compiler` (the compiler): the trim test `face_distance`, `edge_frame`,
   `use_of`, stored curve geometry (`.curve.at`, `.curve.closest`, ...), vertex positions.
-- The session-start text, the edit checks and the doc checks carry the four guarantees and the
-  verdict above, so a new session cannot reach the same construction by a different name.
+- The session-start text, the edit checks and the doc checks carry the decisions, copied
+  verbatim from CONTRIBUTING.md by `tools/frep-guard/sync-decisions.mjs`, so a new session
+  cannot reach the same construction by a different name.
 - **2026-10-27 (Derek):** runtime code may build and query the exact evaluator
   (`step::read`, `Solid3::from_step`, `solid3::Exact`); B-rep internals stay out of it, and the
   rules' reasons now name the certified loops as the only trim test and drop the eikonal route.
   `trim2.rs` is import code.
 - **No allowances.** The guard's baseline grandfathers nothing (Derek, 2026-10-25): code that
-  breaks a rule is reported until it is replaced, a commit that touches it is refused, and an
-  edit may only lower its count. Grandfathered code reads as precedent to the next agent and
+  breaks a rule is reported until it is replaced, a commit that touches it must lower every
+  count it is over on, and an edit may only lower its count. Grandfathered code reads as
+  precedent to the next agent and
   means the project is not building toward its own plan.
 
 ## Slated for replacement
@@ -114,14 +139,15 @@ precedent for anything.
 
 | Where | What | Count | Replacement |
 | --- | --- | --- | --- |
-| `frep.rs` | the prismatic compiler's section leaves are the STEP edge curves, trimmed to their vertices, picked by edge-to-face topology and a wall-depth test; exact to the curves, which sit off the solid's surfaces by the file tolerance (fails guarantee 4; Derek, 2026-10-25) | 1 | the exact evaluator and the brick cache (2026-10-27); the planner reads the prismatic field until the cache exists |
+| `frep.rs` | the prismatic compiler's section leaves are the STEP edge curves, trimmed to their vertices, picked by edge-to-face topology and a wall-depth test; exact to the curves, which sit off the solid's surfaces by the file tolerance (fails guarantee 4; Derek, 2026-10-25) | 1 | the pose-general core queries against the exact evaluator (roadmap Part II and Part III, milestone 0; Derek, 2026-11-07), which retire the whole prismatic part model, not only this line; the planner reads the prismatic field until they land |
+| `solid3.rs` (`Exact::face`) | the retired path-walking trim test (`nurbs_face_closest`, `classify`) still runs for a face whose loops were refused, and three cases answer "unsure" (no pattern sees this; a hole by decision 3 as restated 2026-11-07) | 0 | no refusals, a cusp sign rule, a cap-free search; the fallback and the flag deleted (milestone 0) |
 
-The tree reports these at every session start and stop until they are gone.
+The tree reports the first at every session start and stop until it is gone; the second is
+listed here because the guard cannot see it.
 
 Done: `frep3.rs` (probe-chosen formulas, the B-rep `sdf` in the compiler, trim loops, the trim
 test and stored curves, the sampled exposure test: 47 hits) was deleted on 2026-10-30 with the
-`icam-check` commands built on it (`frep3`, `primtime`, `slice`, `surfcheck --field`). Git
-history keeps it.
+`icam-check` commands built on it (`frep3`, `primtime`, `slice`, `surfcheck --field`).
 
 ## How this happened, for the record
 

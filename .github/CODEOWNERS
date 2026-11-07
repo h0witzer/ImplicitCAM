@@ -6,6 +6,7 @@
 /tools/frep-guard/                  @h0witzer
 /.githooks/                         @h0witzer
 /.claude/settings.json              @h0witzer
+/CONTRIBUTING.md                    @h0witzer
 /docs/ARCHITECTURE_AND_ROADMAP.md   @h0witzer
 /CLA.md                             @h0witzer
 /.github/                           @h0witzer

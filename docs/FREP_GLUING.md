@@ -9,7 +9,14 @@ one global F-rep.*
 
 **Decision, 2026-10-02 (Derek):** the glued and one-cell fields are dropped as planning
 fields. Seen in slices, they carry nothing like the medial-axis information roughing needs.
-The exact field section below remains a proposal for Derek's review.
+
+**Decision, 2026-10-25 (Derek): the exact field section below (the "pure field") is rejected**
+against the four guarantees (`EXACT_FIELD.md`, CONTRIBUTING.md decisions 7 and 10). Nothing on
+this page is a plan; the "next steps" at its end were not taken. The roadmap sections, phases
+and the "2026-09-29 amendment" it cites are those of the roadmap as it stood on 2026-10-02; the
+roadmap was rewritten on 2026-11-07, and the global-CSG goal this page served is recorded there
+as blocked, not as the route. The harness commands it names (`icam-check frep3`, `slice`,
+`volume`) no longer exist.
 
 ## The problem
 

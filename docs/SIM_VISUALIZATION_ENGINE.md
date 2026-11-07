@@ -8,8 +8,8 @@ a visualization engine"). This replaces the move-by-move skin (`icam_sweep::skin
 `icam_sweep::envelope`) and the meshing prototype (`icam_sweep::bake`). Both stay in the tree until
 the engine below replaces them, as references and as tests of the fields.
 
-See also: `ARCHITECTURE_AND_ROADMAP.md` (sections 4 to 6 on discretized stock; see Open questions
-for a correction to sections 3 and 4), `CONTRIBUTING.md` decision 9 (GPU first).
+See also: `ARCHITECTURE_AND_ROADMAP.md` (sections 4 to 6 on the stock and the part),
+`CONTRIBUTING.md` decision 9 (GPU first).
 
 ---
 
@@ -103,7 +103,7 @@ flowchart LR
   Part[Part: exact F-rep] --> A[Comparison on the part surface<br/>exact fields only]
   M --> A
   A --> Rec[(Analysis record<br/>KB on disk)]
-  Part --> H[Heat bands baked beside F<br/>certified per brick]
+  Part --> H[Heat bands baked beside F<br/>(certification per brick designed, not built)]
   H --> C
 ```
 
@@ -206,7 +206,7 @@ Values are clamped to plus or minus c (a cell's diagonal). Adding or removing mo
 `F` only where `s_k < c`, inside move k's box grown by c. Moving the playhead from one move to
 another therefore re-bakes exactly the bricks meeting those grown boxes for the moves passed over.
 That holds in both directions, so scrubbing needs no checkpoints. The test: a re-baked cache
-equals a from-scratch bake at the new playhead, value for value.
+is within the field's tolerance of a from-scratch bake at the new playhead (section 4.6).
 
 As built (`icam_sweep::cache::rebake`): every decision the coarse-to-fine search makes about a box
 (air, material, box faces, split, or the brick's values) depends only on the moves in the cube about
@@ -252,7 +252,7 @@ fits both: 145 mm/s^2 gives 13 h 0 min and 1 h 35 min, and fitted to the nest al
 the relief. It stands for everything that slows the router below its feeds (corners, short
 blocks, its servo), not a measured acceleration; `--accel` and `--blocks` (a ceiling on blocks a
 second, not needed for these two) set the machine, and `icam-sim clock` prints a program's time.
-The planner scores its paths with 2,500 mm/s^2 (docs/ROUGHING_FEASIBILITY.md section 12), which
+The planner scores its paths with 2,500 mm/s^2 (`icam-rough`'s `Job::new`), which
 these run times say is far too fast for this router.
 
 **Partway along a move.** The playhead is (moves done, how far along the next). The stock's
@@ -446,10 +446,10 @@ As built (`icam_sim::compare`, `icam-sim compare ... [--at n] [--record file] [-
 
 | Guarantee | How |
 |---|---|
-| No holes | One field. The drawn surface is the zero set of the interpolated cache. Bricks are allocated by a sound test, the face test closes slivers between cells, and thin features are marked and refined (4.8). |
-| Exact updates | Clamped values make each move's effect local (4.6). A re-bake equals a from-scratch bake. |
+| No holes | One field. The drawn surface is the zero set of the interpolated cache. Bricks are allocated by a sound test, the face test closes slivers between cells, and thin features are marked and refined (4.8; designed, not built). |
+| Exact updates | Clamped values make each move's effect local (4.6). A re-bake is within the field's tolerance of a from-scratch bake (4.6). |
 | Exact comparison | From the fields only (4.10). Nothing reads the cache for a number. |
-| Certified bands | Lipschitz margins per brick, finer bricks at band edges (4.9). |
+| Certified bands | Lipschitz margins per brick, finer bricks at band edges (4.9); the design, not yet built. |
 | Lean disk | Only the analysis record (KB). |
 | Any machine | Fields from `pose(t)`; closed forms only accelerate common 3-axis moves. |
 
@@ -474,7 +474,7 @@ As built (`icam_sim::compare`, `icam-sim compare ... [--at n] [--record file] [-
 | step 5 | Comparison on the part, whole nest (`compare --step 0.5 --check --record`) | 24.0 M points on the part's surface in 31.5 s, the stock's field at them in 4.7 s, 11.5 M of them read again along their normals in 4.9 s: 45.6 s in all. Part 6.196 m^2: on size 2.878, stock left 3.319, gouged 0. Record: 1,016 bytes, 0.0015 % of the 68 MB part file. |
 | step 6 | Scrubbing the whole nest (`play --bake 0.01 --scrub 50 --shot`), tool and path in view | The whole program in 49 steps of 2,102 moves: each settled in 0.035 s on average, 0.195 s at most, 1.7 s in all; the window's uploads 0.03 s of it. 2.8 ms a frame with the 106,492-segment path and the tool. |
 | step 6 | The same zoomed on the counterbores (6 levels, 0.0625 to 2 mm) | 49 steps: 0.25 s each on average, 1.07 s at most, 12.2 s in all; uploads 0.57 s of it. 9.8 ms a frame. The ray check is unchanged with the tool drawn: 0 rays pass cached material. |
-| step 6 | Live play (`play --play <moves a second> --shot`), the counterbore 90 mm away being cut | 50 moves a second: the stock drawn anew 20 times a second, 4 moves behind the playhead on average (8 at most). 200 a second: 9.8 times a second, 73 behind (251 at most). 60 frames a second throughout. Before the forward path and rounds: 0.3 to 1.9 times a second, 200 to 700 behind, the finer levels starved. |
+| step 6 | Live play (`play --play <moves a second> --shot`, an earlier meaning of `--play`), the counterbore 90 mm away being cut | 50 moves a second: the stock drawn anew 20 times a second, 4 moves behind the playhead on average (8 at most). 200 a second: 9.8 times a second, 73 behind (251 at most). 60 frames a second throughout. Before the forward path and rounds: 0.3 to 1.9 times a second, 200 to 700 behind, the finer levels starved. |
 | step 6 | Playhead gate with the forward path (`--at 60000 --check`) | Backward re-bakes the same as from nothing word for word (14); forward re-bakes within 0.0004 mm of it, no brick drawn otherwise (17); 0 rays pass cached material. |
 | step 5 | Streamed (`compare --step 0.5 --check --record`, whole nest) | 23.4 s (was 45.6): the part's columns on the grid 4.4 to 6.5 s, finding the points 10 to 12 s beside the GPU's 13 to 14 s of reading the stock. Peak working set 690 MB for the whole run, the stock's 105,067 moves and the 64-bit check's own stock included (the points alone took over 1.7 GB before). Bands, checks and record unchanged. |
 | step 5 | Its checks | The GPU's field at 20,017 points against double precision on the CPU: p99 0.00008 mm, max 0.00014, none in another band. All 7,468,783 points on faces up in the same band as the 64-bit top-down check (on size 1.0106 m^2 both, stock left 0.8566 both, gouged 0 both). |
@@ -522,9 +522,9 @@ Test machine: Quadro T1000 Max-Q (4 GB), Vulkan through wgpu 30.
   bytes and every 32,768 points wait on their own dispatch): a mode that reads a tile's points
   from one list of moves without the per-point lists, and queues its dispatches, would cut it.
 - How gouge regions are segmented on the part surface (connected points within the band).
-- `ARCHITECTURE_AND_ROADMAP.md` sections 3 and 4 assess a video of this title (attributed there
-  to holger-kibur) and conclude it meshes for rendering. This video's transcript says rendering
+- Resolved: the first version of `ARCHITECTURE_AND_ROADMAP.md` (sections 3 and 4) credited a
+  video of this title to holger-kibur and concluded it meshes for rendering. This video's transcript says rendering
   is from the cache and meshes are only for physics. Section 4's three warnings do not apply
   here: edit-history growth is handled by the move index and per-brick move lists, blending does
-  not occur because we use only sharp min and max, and there is no mesh to facet. Correcting
-  those sections is Derek's call.
+  not occur because we use only sharp min and max, and there is no mesh to facet. The roadmap's
+  sections 3 and 4 were corrected to match when it was rewritten on 2026-11-07.

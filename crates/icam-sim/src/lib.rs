@@ -1,5 +1,8 @@
-//! icam-sim: the machined stock and the part as fields on one grid, built once on the
-//! GPU, for looking at a program.
+//! icam-sim: the viewer. With `--bake` the machined stock and the part are drawn from a
+//! sparse brick cache of their exact fields, ray-cast every frame (docs/SIM_VISUALIZATION_ENGINE.md;
+//! `icam_sweep` for the stock, `solid3::Exact` for the part). `StockField` below is the
+//! earlier one-grid height field (`icam-sim field`), 3-axis only: prismatic-era code kept as a
+//! check until milestone 0 of the roadmap retires it.
 //!
 //! With a vertical tool (3-axis) the stock a program leaves is a height field,
 //! H(x, y) = min over sweeps of the lowest tool-bottom height each one reaches (see
