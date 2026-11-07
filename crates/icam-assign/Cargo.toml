@@ -1,0 +1,12 @@
+[package]
+name = "icam-assign"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Assigning material to tools: the cost of every point for every tool, and rest roughing against the cheapest tool per point"
+
+[dependencies]
+icam-motion = { path = "../icam-motion" }
+icam-post = { path = "../icam-post" }
+icam-query = { path = "../icam-query" }
+rayon = "1"

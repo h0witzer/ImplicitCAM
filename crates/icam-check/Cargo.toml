@@ -1,0 +1,20 @@
+[package]
+name = "icam-check"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Checks the GPU contact query against the exact CPU reference"
+default-run = "icam-check"
+
+[dependencies]
+icam-core = { path = "../icam-core" }
+icam-gpu = { path = "../icam-gpu" }
+rayon = "1"
+
+[[bin]]
+name = "step_corpus"
+path = "src/tools/step_corpus.rs"
+
+[[bin]]
+name = "step_probe"
+path = "src/tools/step_probe.rs"

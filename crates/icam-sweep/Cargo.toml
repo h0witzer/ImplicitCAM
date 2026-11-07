@@ -1,0 +1,17 @@
+[package]
+name = "icam-sweep"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "The stock as the box less every tool sweep, for any machine that places a tool in 3 space: poses, moves, machine chains and the fields they sweep"
+
+[dependencies]
+bytemuck = { version = "1.25.2", features = ["derive"] }
+icam-core = { path = "../icam-core" }
+icam-post = { path = "../icam-post" }
+pollster = "1.0.1"
+rayon = "1.12.0"
+wgpu = "30.0.1"
+
+[dev-dependencies]
+icam-stock = { path = "../icam-stock" }

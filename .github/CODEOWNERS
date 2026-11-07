@@ -1,0 +1,11 @@
+# Every change needs the maintainer's review.
+*                                   @h0witzer
+
+# The design decisions, their guard and the contributor terms stay with Derek Van Allen,
+# even if more owners are added to the line above.
+/tools/frep-guard/                  @h0witzer
+/.githooks/                         @h0witzer
+/.claude/settings.json              @h0witzer
+/docs/ARCHITECTURE_AND_ROADMAP.md   @h0witzer
+/CLA.md                             @h0witzer
+/.github/                           @h0witzer

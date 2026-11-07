@@ -1,0 +1,17 @@
+[package]
+name = "icam-rough"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Field-based roughing end to end: a prismatic part in, a posted, measured and checked program out"
+
+[dependencies]
+icam-assign = { path = "../icam-assign" }
+icam-core = { path = "../icam-core" }
+icam-finish = { path = "../icam-finish" }
+icam-motion = { path = "../icam-motion" }
+icam-post = { path = "../icam-post" }
+icam-query = { path = "../icam-query" }
+icam-stock = { path = "../icam-stock" }
+icam-strategy = { path = "../icam-strategy" }
+rayon = "1"

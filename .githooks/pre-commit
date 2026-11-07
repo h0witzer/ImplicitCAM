@@ -1,0 +1,8 @@
+#!/bin/sh
+# frep-guard: refuse commits that add B-rep constructions where the F-rep is required.
+# Rules: tools/frep-guard/rules.mjs. Installed by: git config core.hooksPath .githooks
+if ! command -v node >/dev/null 2>&1; then
+  echo "frep-guard: node is not on PATH, so the F-rep check did not run." >&2
+  exit 0
+fi
+exec node "$(git rev-parse --show-toplevel)/tools/frep-guard/check.mjs" --staged

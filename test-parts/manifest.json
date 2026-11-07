@@ -1,0 +1,540 @@
+{
+  "suites": [
+    {
+      "dir": "steptools",
+      "name": "STEP Tools AP203 sample files",
+      "page": "https://www.steptools.com/docs/stpfiles/ap203/index.html",
+      "license": "none stated; page reads \"Copyright (c) 2026 STEP Tools Inc. All Rights Reserved\"; several files are from STEP Tools customers. Not redistributed here.",
+      "why": "hand-picked topological cases an importer has to cover: assemblies, faceted solids, AP203 short names (CATIA version 4), swept surfaces, every B-spline and conic form; B-spline degrees up to (5,11), rational spans, base points",
+      "files": [
+        {
+          "file": "1797609in.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/1797609in.stp",
+          "bytes": 166214,
+          "sha256": "420076d7edd3f626f9b49c5eb126e93245dfdb07e572b771c3bbb84dbd852ae9",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "2827056.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/2827056.stp",
+          "bytes": 392749,
+          "sha256": "3c3ac37f4146e26cad5779e074d54eb46f7f32f424803de8da711155892f1f03",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "4pinplug.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/4pinplug.stp",
+          "bytes": 58246,
+          "sha256": "b4b5c4aa0760377b89bef6b092d4a4fddb30a15c584ff90185f82a71a46ce8ac",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "53711_74563f01_na.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/53711_74563f01_na.stp",
+          "bytes": 54587,
+          "sha256": "412b8f0b3451d3b214f87c616d595c94fd84fb333a5d3bdece087f3395a99e77",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "angle1.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/angle1.stp",
+          "bytes": 21581,
+          "sha256": "41a24b80801ebce7921437d370766f7f33501326baf25b0b49c8c70d40f3775e",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "as1_pe.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/as1_pe.stp",
+          "bytes": 78666,
+          "sha256": "34139ba9867e56cfeef1d128231ddda076218f5e0f1c09830b7dd66a6e0dd35e",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "bernetl.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/bernetl.stp",
+          "bytes": 244441,
+          "sha256": "a9f0397120b08851210b003e42ad5f447fe63ff4a7716499e18e6346923e4025",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "block.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/block.stp",
+          "bytes": 10339,
+          "sha256": "b28fd918992b03d8cb905e178633d082e6e97738bcc8ceb32c7f910d61ab6ce8",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "boeing_part.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/boeing_part.stp",
+          "bytes": 186304,
+          "sha256": "366fe4e166a6af7020a84f9fac5cd703d14efcc31e0b6590915b3b050f486c58",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "boeing_part_simple.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/boeing_part_simple.stp",
+          "bytes": 167378,
+          "sha256": "b5ad7c769401b4b7cfe58a56e86f0ed12f58d09ddb04e1a66e83f5f255ecb941",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "bracket1-part.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/bracket1-part.stp",
+          "bytes": 76201,
+          "sha256": "e17a7657b0f251e93713a201bd3dc393a9f905ae477e43952bd9170d17f1a7ff",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "bull.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/bull.stp",
+          "bytes": 112667,
+          "sha256": "c41e1910de882ddbac51c648098411d4a7c680bf369b988bca9877f0f11c4ce4",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 36,
+            "spans": 69,
+            "rational_spans": 50,
+            "degrees": {
+              "(1,1)": 19,
+              "(1,2)": 12,
+              "(2,1)": 24,
+              "(2,2)": 14
+            }
+          }
+        },
+        {
+          "file": "calo.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/calo.stp",
+          "bytes": 848801,
+          "sha256": "4d7f5a0ccd9e291501129b31632df54a5f357cdede273682d7d03e84f4b45a64",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "calosoe.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/calosoe.stp",
+          "bytes": 547766,
+          "sha256": "3ea31b7ba545c95c30360e4bb92c0f10d0c8e11727298b8383eeac27fe0630a9",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "chair.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/chair.stp",
+          "bytes": 85597,
+          "sha256": "669c1f0fc181a9210e57d007dc87b6f1b47f2a3cd0861e50dd4f12f8dd61cc61",
+          "importer_2026_10_25": "FAIL",
+          "importer_note": "1 of 8 solids refused, first: #354 edge #465 is used by 1 faces (not a closed manifold shell)"
+        },
+        {
+          "file": "clevis21.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/clevis21.stp",
+          "bytes": 59320,
+          "sha256": "4fff420338c430410ff289fef8e9b90c182aea18b7ae38817670262a846ee55e",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "clevis22.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/clevis22.stp",
+          "bytes": 86931,
+          "sha256": "38e4b710044de8f636be08b418d3cfd4ca3a50762e870f2af4c19fbd6bc9a132",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "clevis23.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/clevis23.stp",
+          "bytes": 68850,
+          "sha256": "faaa45803bb8dba4a7ea2ea2042616686dfa42dde51167521520f479261cea86",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "clip.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/clip.stp",
+          "bytes": 99367,
+          "sha256": "c0bb848bcfb791cd2637be722bcc1cd496e29cb3e73aeee644d5e7cd79a73a2c",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "cubcylso.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/cubcylso.stp",
+          "bytes": 14279,
+          "sha256": "79726e643b3bf4fa7aca12ceb00e869195152ca8d7e91d0614fe9dd19f1bb72e",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "cubsomcy.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/cubsomcy.stp",
+          "bytes": 9336,
+          "sha256": "eb8fb40f56523fb154b435066f7b2719a88e15e30d0b8d8e6d01dd99339ddcf1",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "cylcub.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/cylcub.stp",
+          "bytes": 14877,
+          "sha256": "32a8fd292c8fbf619abee7726691ae8701e1324a8a5a1a7cff246894b50ab67e",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "daratech.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/daratech.stp",
+          "bytes": 333219,
+          "sha256": "d2e228d7f95df221d7b4b7e31d31daac0d8c6e1014c97d209b305bda12aebb2a",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "doghouse.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/doghouse.stp",
+          "bytes": 58484,
+          "sha256": "2f3792c8481de20dcae1aad2cdabdc044046b5ea45417ab54995b496bcfb8e58",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "filler.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/filler.stp",
+          "bytes": 84093,
+          "sha256": "7997a16e88f7d4eed52b8e972e8d1932c1f086d37a5c03e96af545d8b1a334b9",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 19,
+            "spans": 33,
+            "rational_spans": 24,
+            "degrees": {
+              "(1,1)": 9,
+              "(1,2)": 12,
+              "(2,2)": 12
+            }
+          }
+        },
+        {
+          "file": "gear.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/gear.stp",
+          "bytes": 52600,
+          "sha256": "9d0b24cb65eed5d829b734deec08a1233b204d9d7e2f7e3445432695b74fa41d",
+          "importer_2026_10_25": "EMPTY",
+          "importer_note": "no solid in the file"
+        },
+        {
+          "file": "gehaeuse.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/gehaeuse.stp",
+          "bytes": 125414,
+          "sha256": "be121d0a87c6762ca876af9d19ea97de92112960b5211c55d5487d806e355c1c",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "hose-fitting.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/hose-fitting.stp",
+          "bytes": 132726,
+          "sha256": "a21175e83b924d396e6a457957aedccac231ce72905a818dcb93580fc66577d8",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "interacting_pockets.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/interacting_pockets.stp",
+          "bytes": 66665,
+          "sha256": "472b123bb6a1231821f0415239a87d6802eeb4f006332ec02202f3ef8dc43fbf",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "iso14649-demo.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/iso14649-demo.stp",
+          "bytes": 193581,
+          "sha256": "fe13f675e2300013705a8e104f63ce5e48a0b062406a425aa451fad1be483da7",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "jack_in_the_box.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/jack_in_the_box.stp",
+          "bytes": 709439,
+          "sha256": "29ed76d1e72d30509b8227c889a122502ab628fe3b34baec78e5f7ca5777019e",
+          "importer_2026_10_25": "FAIL",
+          "importer_note": "56 solid(s),   337 faces, import      55 ms, 36/60 pairs at     2.5/s; Lipschitz 5 (worst 4.32e1), inside out of the box 9, unsure 24",
+          "bspline_2026_10_25": {
+            "bspline_faces": 19,
+            "spans": 520,
+            "rational_spans": 40,
+            "degrees": {
+              "(2,1)": 32,
+              "(2,2)": 8,
+              "(3,3)": 480
+            }
+          }
+        },
+        {
+          "file": "lower_carriage.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/lower_carriage.stp",
+          "bytes": 76898,
+          "sha256": "0ada45513cee1809113034f1298b0acf584df5b205b54d25e906d572e25a73da",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "mohne.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/mohne.stp",
+          "bytes": 263831,
+          "sha256": "6055a001a96b0c7c180d3f0f504aadef67d829557b158d5ce338c18c6f13e804",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "monster4.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/monster4.stp",
+          "bytes": 359878,
+          "sha256": "2cdca71548bcea1989a07325781b3bc595be5395d3e4543da31edc0b78b8bd3a",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "moon_buggy.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/moon_buggy.stp",
+          "bytes": 485835,
+          "sha256": "e9ef18158a0319a9160d633066a1aad0dc89ca21b1ca6d5fe54d5ee3c1dfc8ba",
+          "importer_2026_10_25": "FAIL",
+          "importer_note": "1 solid(s),    77 faces, import     151 ms, 60/60 pairs at    10.4/s; Lipschitz 4 (worst 1.05e3), inside out of the box 0, unsure 0",
+          "bspline_2026_10_25": {
+            "bspline_faces": 77,
+            "spans": 346,
+            "rational_spans": 293,
+            "degrees": {
+              "(1,1)": 28,
+              "(1,2)": 42,
+              "(2,1)": 10,
+              "(2,2)": 240,
+              "(3,3)": 24,
+              "(7,2)": 2
+            }
+          }
+        },
+        {
+          "file": "moon_buggy_asm.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/moon_buggy_asm.stp",
+          "bytes": 322217,
+          "sha256": "2afaaf50cd7ec15e36367be0a1e41730e7af5440ed974b62a0a21cf6346289dd",
+          "importer_2026_10_25": "FAIL",
+          "importer_note": "19 solid(s),    59 faces, import      21 ms, 60/60 pairs at     6.8/s; Lipschitz 6 (worst 5.02e3), inside out of the box 32, unsure 60",
+          "bspline_2026_10_25": {
+            "bspline_faces": 6,
+            "spans": 16,
+            "rational_spans": 7,
+            "degrees": {
+              "(2,1)": 6,
+              "(3,3)": 10
+            }
+          }
+        },
+        {
+          "file": "mycami2.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/mycami2.stp",
+          "bytes": 66639,
+          "sha256": "5fd162346fbef7943b376706c1be95ef1eb1507981f6b855656d48d22271d8ab",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "nasty_cheese.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/nasty_cheese.stp",
+          "bytes": 665903,
+          "sha256": "5e40c28be5568c126cf21d2a1ae805e61f101df76814c839add9b1b3bec9a1bf",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "ph4m3-st.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/ph4m3-st.stp",
+          "bytes": 477152,
+          "sha256": "50d84c0bc4e1450a2b7b7991588084ac9df448a34a4f7fc43914bc89d3fe7c67",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 15,
+            "spans": 611,
+            "rational_spans": 207,
+            "degrees": {
+              "(1,3)": 2,
+              "(2,3)": 205,
+              "(3,2)": 2,
+              "(3,3)": 402
+            }
+          }
+        },
+        {
+          "file": "piston.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/piston.stp",
+          "bytes": 370111,
+          "sha256": "42deeaedbca753fa20d1f611e7687c4c039ee25c6c3904ed048f15baf8aedd36",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 66,
+            "spans": 348,
+            "rational_spans": 333,
+            "degrees": {
+              "(1,1)": 15,
+              "(1,2)": 29,
+              "(2,1)": 58,
+              "(2,2)": 246
+            }
+          }
+        },
+        {
+          "file": "rear.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/rear.stp",
+          "bytes": 5787011,
+          "sha256": "1f67f4320773aff0f4e63b8ad8b4af195417337a89b10c6d8f80ae9b4e17fc90",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 105,
+            "spans": 7600,
+            "rational_spans": 437,
+            "degrees": {
+              "(3,1)": 62,
+              "(3,3)": 7538
+            }
+          }
+        },
+        {
+          "file": "snet.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/snet.stp",
+          "bytes": 35626,
+          "sha256": "1fdad18b99b302f770324043b3789071cb39c164379c852e1ce7c1e5e5989791",
+          "importer_2026_10_25": "EMPTY",
+          "importer_note": "no solid in the file"
+        },
+        {
+          "file": "socket.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/socket.stp",
+          "bytes": 52753,
+          "sha256": "aa17cfe0a63bf996fc18eef2d3e015e699c6b79d9c7c75190568bcabf010c2e4",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "socks.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/socks.stp",
+          "bytes": 465161,
+          "sha256": "ec374ebc79b58a28b5a577ca02e30f1d603dcf7ac66760f7431e8844106a0aa4",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "st203-bapl.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/st203-bapl.stp",
+          "bytes": 2936588,
+          "sha256": "047a1a68ca65d03cee230a6e5a9d4477899be9302bb5c467c0967debb65d9d80",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 104,
+            "spans": 1155,
+            "rational_spans": 32,
+            "degrees": {
+              "(1,5)": 8,
+              "(1,8)": 24,
+              "(2,11)": 32,
+              "(5,1)": 450,
+              "(5,5)": 50,
+              "(5,11)": 591
+            }
+          }
+        },
+        {
+          "file": "team.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/team.stp",
+          "bytes": 104972,
+          "sha256": "42871eb5406fe2e254f398b388703602a14e691d36eda7fa9c1ff468e1b3ce94",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "teampart.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/teampart.stp",
+          "bytes": 815236,
+          "sha256": "669621408ab08e57066e67daf5048208e1354c82a0ae52b1a3c0144c1ae0362b",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "tork.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/tork.stp",
+          "bytes": 2773982,
+          "sha256": "65b8f71c0c6e4c2fa43698f95c535dcb1357baad6687ef43f2084ce4bdf4d277",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 529,
+            "spans": 1955,
+            "rational_spans": 1713,
+            "degrees": {
+              "(1,1)": 132,
+              "(1,2)": 366,
+              "(2,1)": 268,
+              "(2,2)": 558,
+              "(3,2)": 491,
+              "(3,3)": 30,
+              "(3,4)": 12,
+              "(5,5)": 98
+            }
+          }
+        },
+        {
+          "file": "turbine.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/turbine.stp",
+          "bytes": 2319467,
+          "sha256": "8d99c90c451645cdbc50c157d55f6ecb3981e65a87313886071fb3208bb5c9c1",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "unterlaf.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/unterlaf.stp",
+          "bytes": 732327,
+          "sha256": "f8b32c0230335fbec629638003f995e015d5134e8eef147ed12f0f1cdc734d7d",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "upper_carriage.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/upper_carriage.stp",
+          "bytes": 90860,
+          "sha256": "5d4d3c33aa3be30a71e7ba6a0f6ad3f18703b574b67bd74a83ce4936e45f39d2",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "vaccase_asm_solid.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/vaccase_asm_solid.stp",
+          "bytes": 435145,
+          "sha256": "a2127a07f6bb2e03b02f1a42134360549dfdaf08381fe08095781b15e103c5dc",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "valve.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/valve.stp",
+          "bytes": 43678,
+          "sha256": "b97a2f11a27bf1672dc63299fb48b5f74b4fe9fe934c87578e3fcfca9d93eeb7",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "vs_training.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/vs_training.stp",
+          "bytes": 119998,
+          "sha256": "2927dc5bb3aa1a548cbc8a55a145c621039895307ba71b6199494f1ac3382bca",
+          "importer_2026_10_25": "PASS"
+        },
+        {
+          "file": "weldment_asm_solid.stp",
+          "url": "https://www.steptools.com/docs/stpfiles/ap203/weldment_asm_solid.stp",
+          "bytes": 1737838,
+          "sha256": "a99e0cac838b2b6699094921965c9b430b05e8d073ed0438de325cb16fb5b8d4",
+          "importer_2026_10_25": "PASS"
+        }
+      ]
+    },
+    {
+      "dir": "the-part",
+      "name": "THE PART",
+      "page": "posted by @emm0sh; copied from Derek's Downloads folder (\"The Part - @emm0sh.step\"), 2026-10-25",
+      "license": "none stated. Not redistributed here.",
+      "why": "5/7-axis mill-turn torture test: one solid, 2,595 faces (776 B-spline, 36,856 spans), degenerate tori, degree angle units",
+      "files": [
+        {
+          "file": "the-part-emm0sh.step",
+          "bytes": 23398378,
+          "sha256": "71264bd94565f0a9864a5c123fd20023474575781cb061e66e7bbd0de00162ae",
+          "importer_2026_10_25": "PASS",
+          "bspline_2026_10_25": {
+            "bspline_faces": 776,
+            "spans": 36856,
+            "degrees": {
+              "(1,3)": 8310,
+              "(3,1)": 24,
+              "(3,3)": 28522
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

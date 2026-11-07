@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finish Allowance Field</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --ring: rgba(11,11,11,0.10); --wash: #f0efec;
+  --s1: #2a78d6; --s2: #eb6834; --crit: #d03b3b; --good: #006300;
+  --r0: #86b6ef; --r1: #6da7ec; --r2: #5598e7; --r3: #3987e5; --r4: #2a78d6; --r5: #256abf; --r6: #1c5cab; --r7: #184f95; --r8: #104281; --r9: #0d366b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10); --wash: #262624;
+    --s1: #3987e5; --s2: #d95926; --crit: #e66767; --good: #0ca30c;
+    --r0: #184f95; --r1: #1c5cab; --r2: #256abf; --r3: #2a78d6; --r4: #3987e5; --r5: #5598e7; --r6: #6da7ec; --r7: #86b6ef; --r8: #9ec5f4; --r9: #cde2fb;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --ring: rgba(255,255,255,0.10); --wash: #262624;
+  --s1: #3987e5; --s2: #d95926; --crit: #e66767; --good: #0ca30c;
+  --r0: #184f95; --r1: #1c5cab; --r2: #256abf; --r3: #2a78d6; --r4: #3987e5; --r5: #5598e7; --r6: #6da7ec; --r7: #86b6ef; --r8: #9ec5f4; --r9: #cde2fb;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 24px; margin: 0 0 4px; font-weight: 650; }
+h2 { font-size: 18px; margin: 32px 0 8px; font-weight: 650; }
+h3 { font-size: 15px; margin: 18px 0 6px; font-weight: 600; }
+p { margin: 6px 0; max-width: 80ch; }
+.sub { color: var(--ink2); }
+.muted { color: var(--muted); font-size: 12px; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 10px; padding: 16px; margin: 12px 0; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--ink2); font-weight: 600; font-size: 12px; }
+.scroll { overflow-x: auto; }
+.win { color: var(--good); font-weight: 600; }
+.bar { position: sticky; top: 0; z-index: 5; background: var(--page); padding: 8px 0; border-bottom: 1px solid var(--grid); display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--axis); border-radius: 8px; overflow: hidden; }
+.seg button { background: var(--surface); color: var(--ink2); border: 0; padding: 5px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--axis); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.lbl { font-size: 12px; color: var(--ink2); margin-right: 6px; }
+.maps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 760px) { .maps { grid-template-columns: 1fr; } }
+.mapbox { position: relative; }
+.mapbox canvas, .chart canvas { width: 100%; display: block; touch-action: none; }
+.mapttl { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; font-size: 12px; color: var(--ink2); margin: 6px 0; }
+.key { display: inline-block; width: 16px; height: 2px; vertical-align: middle; margin-right: 6px; border-radius: 1px; }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.grad { display: inline-block; width: 140px; height: 8px; border-radius: 2px; vertical-align: middle; margin: 0 6px; }
+.chart { position: relative; margin: 4px 0 10px; }
+.tip { position: fixed; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--ring); border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 20; display: none; min-width: 150px; }
+.tip b { font-size: 13px; }
+.tip .row { display: flex; align-items: center; gap: 6px; }
+.tip .row span.v { margin-left: auto; font-weight: 600; padding-left: 12px; }
+.two { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .two { grid-template-columns: 1fr; } }
+ul { margin: 6px 0; padding-left: 20px; max-width: 90ch; }
+li { margin: 3px 0; }
+details summary { cursor: pointer; color: var(--ink2); font-size: 13px; }
+.theme { margin-left: auto; }
+</style>
+</head>
+<body>
+<main>
+<h1>Finish allowance field</h1>
+<p class="sub" id="subtitle"></p>
+<div class="card" id="summary"></div>
+<div class="card" id="findings"></div>
+<h2>Pockets</h2>
+<div class="bar" role="toolbar" aria-label="Views">
+  <span><span class="lbl">Feed program</span><span class="seg" id="progSeg"><button data-v="sched" aria-pressed="true">Per-sample feed</button><button data-v="wall" aria-pressed="false">Wall feed + corner slowdown</button></span></span>
+  <span><span class="lbl">Wall color</span><span class="seg" id="modeSeg"><button data-v="stock" aria-pressed="true">Stock</button><button data-v="defl" aria-pressed="false">Deflection</button><button data-v="aAtB" aria-pressed="false">(a) at (b)'s feed</button><button data-v="feed" aria-pressed="false">Feed</button></span></span>
+  <span class="theme"><span class="seg" id="themeSeg"><button data-v="auto" aria-pressed="true">Auto</button><button data-v="light" aria-pressed="false">Light</button><button data-v="dark" aria-pressed="false">Dark</button></span></span>
+</div>
+<div id="pockets"></div>
+<h2>Model, sources and assumptions</h2>
+<div class="card" id="model"></div>
+</main>
+<div class="tip" id="tip"></div>
+<script type="application/json" id="data">__DATA__</script>
+<script>
+"use strict";
+const D = JSON.parse(document.getElementById("data").textContent);
+const M = D.meta, P = D.pockets;
+const state = { prog: "sched", mode: "stock" };
+const redraws = [];
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (v, d) => (v == null || !isFinite(v)) ? "-" : Number(v).toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const pct = (a, b) => b > 0 ? Math.round(100 * (a - b) / b) : 0;
+function el(tag, attrs, text) { const e = document.createElement(tag); if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; return e; }
+function hex2rgb(h) { h = h.replace("#", ""); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+function ramp(t) {
+  t = Math.max(0, Math.min(1, t));
+  const st = []; for (let k = 0; k < 10; k++) st.push(hex2rgb(css("--r" + k)));
+  const f = t * 9, i = Math.min(8, Math.floor(f)), u = f - i, a = st[i], b = st[i + 1];
+  return "rgb(" + [0, 1, 2].map(c => Math.round(a[c] + (b[c] - a[c]) * u)).join(",") + ")";
+}
+function gradCss() { const s = []; for (let k = 0; k < 10; k++) s.push(css("--r" + k)); return "linear-gradient(90deg," + s.join(",") + ")"; }
+
+// ---------- header, summary, findings ----------
+document.getElementById("subtitle").textContent =
+  M.part + ", 6061-T6: the finisher's wall pass over constant-allowance rough stock (a) versus an allowance field (b), " +
+  "scored by the same physical model at the same deflection tolerance (" + M.tolIn.toFixed(4) + " in). The pockets are found from the part's field, " +
+  "and the stock before each is what the roughing program leaves. Studied in " + M.seconds + " s, offline.";
+
+function summary() {
+  const c = document.getElementById("summary"); c.textContent = "";
+  c.appendChild(el("h3", null, "Finishing time of the wall pass at the same tolerance (s)"));
+  const wrap = el("div", { class: "scroll" }), t = el("table");
+  const hd = ["Pocket", "Tool", "Wall mm", "ap mm", "Per-sample (a)", "(b)", "Change", "Wall feed (a)", "(b)", "Change", "One feed (a)", "Stock (b)/(a)", "Rougher +mm3", "+s"];
+  const tr0 = el("tr"); hd.forEach(h => tr0.appendChild(el("th", null, h))); t.appendChild(tr0);
+  let sa = 0, sb = 0, wa = 0, wb = 0, oa = 0, dv = 0, dt = 0, va = 0, vb = 0;
+  for (const p of P) {
+    const tr = el("tr");
+    const cells = [short(p), p.tool, fmt(p.wall, 0), fmt(p.ap, 1), fmt(p.t.aSched, 2), fmt(p.t.fast, 2), pct(p.t.fast, p.t.aSched) + "%",
+      fmt(p.t.aWall, 2), fmt(p.t.wall, 2), pct(p.t.wall, p.t.aWall) + "%", fmt(p.t.aOne, 1), Math.round(100 * p.vol.fast / p.vol.a) + "%", fmt(p.rough.fast[0], 0), fmt(p.rough.fast[1], 2)];
+    cells.forEach((v, i) => { const td = el("td", null, v); if ((i === 6 || i === 9) && parseInt(v) <= -10) td.className = "win"; tr.appendChild(td); });
+    t.appendChild(tr);
+    sa += p.t.aSched; sb += p.t.fast; wa += p.t.aWall; wb += p.t.wall; oa += p.t.aOne; dv += p.rough.fast[0]; dt += p.rough.fast[1]; va += p.vol.a; vb += p.vol.fast;
+  }
+  const tr = el("tr"); ["All", "", "", "", fmt(sa, 2), fmt(sb, 2), pct(sb, sa) + "%", fmt(wa, 2), fmt(wb, 2), pct(wb, wa) + "%", fmt(oa, 1), Math.round(100 * vb / va) + "%", fmt(dv, 0), fmt(dt, 2)]
+    .forEach(v => { const td = el("td", null, v); td.style.fontWeight = "600"; tr.appendChild(td); });
+  t.appendChild(tr); wrap.appendChild(t); c.appendChild(wrap);
+  c.appendChild(el("p", { class: "muted" }, "Each pocket is studied at the floor where it ends. (a): constant " + M.allowance.toFixed(3) + " mm wall allowance left by an ideal " + M.rougher.d + " mm rougher (inside corners keep the rougher's radius). " +
+    "(b): the allowance field. Per-sample: a feed per block, (b) = the fastest profile any field allows, carrying the most stock it can at that profile. Wall feed: one F on the wall, the corner zones (rougher leftovers) at their own safe feed; (b) = the field that holds the best wall F. " +
+    "One feed: one F for the whole pass, set by its worst spot, the corner leftovers - no allowance field moves it. Rougher: extra volume the rougher must remove for (b) per-sample, and its time at the rougher's steady removal rate. Times are cutting time on the wall loops only (no lead-in, no links)."));
+  if (M.skipped.length) {
+    c.appendChild(el("h3", null, "Not studied"));
+    const ul = el("ul"); M.skipped.forEach(k => ul.appendChild(el("li", null, k.op + ": " + k.why))); c.appendChild(ul);
+  }
+  // Grouped bars: (a) vs (b) for the selected program.
+  const box = el("div", { class: "chart" }); const cv = el("canvas", { role: "img", "aria-label": "Finishing time per pocket, (a) versus (b)" }); box.appendChild(cv); c.appendChild(box);
+  const lg = el("div", { class: "legend" });
+  const k1 = el("span"); k1.appendChild(el("span", { class: "sw", style: "background:var(--s1)" })); k1.appendChild(document.createTextNode("(a) constant allowance")); lg.appendChild(k1);
+  const k2 = el("span"); k2.appendChild(el("span", { class: "sw", style: "background:var(--s2)" })); k2.appendChild(document.createTextNode("(b) allowance field")); lg.appendChild(k2);
+  const k3 = el("span", { id: "barsProg" }); lg.appendChild(k3);
+  c.insertBefore(lg, box);
+  redraws.push(() => bars(cv, k3));
+}
+
+function bars(cv, cap) {
+  const wall = state.prog === "wall";
+  cap.textContent = wall ? "Program: wall feed + corner slowdown" : "Program: per-sample feed";
+  const rows = P.map(p => ({ n: short(p), a: wall ? p.t.aWall : p.t.aSched, b: wall ? p.t.wall : p.t.fast }));
+  const W = cv.parentElement.clientWidth, rowH = 44, H = rows.length * rowH + 30, dpr = window.devicePixelRatio || 1;
+  cv.width = W * dpr; cv.height = H * dpr; cv.style.height = H + "px";
+  const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+  const left = 150, right = 60, max = Math.max(...rows.map(r => Math.max(r.a, r.b))) * 1.05, sx = v => left + (W - left - right) * v / max;
+  g.font = "12px system-ui, sans-serif"; g.textBaseline = "middle";
+  g.strokeStyle = css("--grid"); g.lineWidth = 1;
+  const step = niceStep(max, 5);
+  for (let v = 0; v <= max; v += step) { const x = Math.round(sx(v)) + 0.5; g.beginPath(); g.moveTo(x, 4); g.lineTo(x, H - 22); g.stroke(); g.fillStyle = css("--muted"); g.textAlign = "center"; g.fillText(fmt(v, step < 1 ? 1 : 0) + " s", x, H - 10); }
+  rows.forEach((r, i) => {
+    const y = 8 + i * rowH;
+    g.fillStyle = css("--ink2"); g.textAlign = "left"; g.fillText(r.n, 0, y + 17);
+    [["a", "--s1", 0], ["b", "--s2", 18]].forEach(([k, col, dy]) => {
+      const v = r[k], x1 = sx(v), yy = y + dy + 2, h = 14;
+      g.fillStyle = css(col); roundBar(g, left, yy, Math.max(1, x1 - left), h, 4);
+      g.fillStyle = css("--ink"); g.textAlign = "left"; g.fillText(fmt(v, 2), x1 + 6, yy + h / 2);
+    });
+  });
+}
+function short(p) { return p.name; }
+function roundBar(g, x, y, w, h, r) { r = Math.min(r, w, h / 2); g.beginPath(); g.moveTo(x, y); g.lineTo(x + w - r, y); g.arcTo(x + w, y, x + w, y + r, r); g.lineTo(x + w, y + h - r); g.arcTo(x + w, y + h, x + w - r, y + h, r); g.lineTo(x, y + h); g.closePath(); g.fill(); }
+function niceStep(max, n) { const raw = max / n, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p; return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * p; }
+
+function findings() {
+  const c = document.getElementById("findings"); c.textContent = "";
+  c.appendChild(el("h3", null, "What the numbers say"));
+  if (!P.length) { c.appendChild(el("p", null, "No pocket was studied (see Not studied above).")); return; }
+  const sum = (a, f) => a.reduce((s, p) => s + f(p), 0);
+  const ul = el("ul"), items = [];
+  const a = sum(P, p => p.t.aSched), b = sum(P, p => p.t.fast), aw = sum(P, p => p.t.aWall), bw = sum(P, p => p.t.wall);
+  const aMed = P.map(p => p.runs.find(r => r.label === "(a) per-sample feed").feedMed);
+  items.push("Held to " + M.tolIn.toFixed(4) + " in, the finisher runs a median " + fmt(Math.min(...aMed), 0) + "-" + fmt(Math.max(...aMed), 0) + " ipm at " + M.allowance.toFixed(3) + " mm stock. " +
+    "The field takes the walls toward the " + M.dmin.toFixed(3) + " mm floor and keeps extra stock where the tool is slowed anyway: " +
+    fmt(a, 1) + " s to " + fmt(b, 1) + " s per-sample (" + pct(b, a) + "%), " + fmt(aw, 1) + " s to " + fmt(bw, 1) + " s with one wall feed (" + pct(bw, aw) + "%).");
+  const eqb = sum(P, p => p.t.eq);
+  items.push("Redistributing (a)'s own stock " + (eqb < a ? "pays" : "does not pay") + " here: the minimum-time field at (a)'s stock volume runs " + fmt(eqb, 1) + " s against " + fmt(a, 1) +
+    " s (" + (pct(eqb, a) >= 0 ? "+" : "") + pct(eqb, a) + "%). Its time model leaves out the acceleration cost of changing feed, so the gain to look for is thinning, not redistribution.");
+  const ct = sum(P, p => p.t.fastCorner), cl = sum(P, p => p.cornerLen), wl = sum(P, p => p.wall);
+  if (cl > 0) items.push("Corner leftovers: inside corners tighter than the rougher are " + fmt(cl, 0) + " mm of " + fmt(wl, 0) + " mm of wall but " +
+    fmt(ct, 1) + " of " + fmt(b, 1) + " s of the field's per-sample time. No allowance moves them (it is the rougher's radius); a rest pass or a corner strategy is the next lever.");
+  else items.push("No corner zones: every inside corner is at least as open as the rougher, so the field alone sets the finishing time.");
+  const dv = sum(P, p => p.rough.fast[0]), dt = sum(P, p => p.rough.fast[1]);
+  items.push("Roughing impact of the per-sample field: the rougher removes " + (dv >= 0 ? "+" : "") + fmt(dv, 0) + " mm3 in all, about " + (dt >= 0 ? "+" : "") + fmt(dt, 2) +
+    " s at its steady removal rate, against " + fmt(a - b, 1) + " s saved in finishing. It needs a rougher that leaves a variable allowance: a generated wall pass on the level set clearance - delta(x) = r.");
+  items.push("(a) run at (b)'s feed would deflect up to " + fmt(Math.max(...P.map(p => p.aAtFastMax)), 1) + "x the tolerance: the speed comes from the stock, not from a looser limit. Every schedule shown holds the tolerance at every " + M.ds + " mm sample by construction.");
+  items.forEach(s => ul.appendChild(el("li", null, s)));
+  c.appendChild(ul);
+}
+
+// ---------- per pocket ----------
+function pocketSection(p, idx) {
+  const sec = el("section", { class: "card", id: "p" + idx });
+  sec.appendChild(el("h3", null, p.name + "  -  " + p.tool + ", wall " + fmt(p.wall, 0) + " mm, " + fmt(p.ap, 1) + " mm deep, floor z " + fmt(p.zcut, 3)));
+  sec.appendChild(el("p", { class: "muted" }, p.model + "; compliance " + p.compliance + " um/N at the engaged band; " + p.loops.length + " wall loop(s)" +
+    (p.loops.some(l => l.island) ? " incl. " + p.loops.filter(l => l.island).length + " island(s)" : "") + "; corner zones " + p.cornerLen + " mm; " + p.sims + " simulations, " + fmt(p.ms / 1000, 1) + " s."));
+  const cur = { i: -1 };
+  // Maps.
+  const maps = el("div", { class: "maps" });
+  const mA = el("div", { class: "mapbox" }), mB = el("div", { class: "mapbox" });
+  const tA = el("div", { class: "mapttl" }), tB = el("div", { class: "mapttl" });
+  const cA = el("canvas", { role: "img", "aria-label": "Wall of " + p.name + " for (a)" }), cB = el("canvas", { role: "img", "aria-label": "Wall of " + p.name + " for (b)" });
+  mA.append(tA, cA); mB.append(tB, cB); maps.append(mA, mB); sec.appendChild(maps);
+  const leg = el("div", { class: "legend" }); sec.appendChild(leg);
+  // Line charts along the wall.
+  const charts = [
+    { key: "feed", title: "Feed along the wall (ipm)" },
+    { key: "defl", title: "Tool deflection / tolerance" },
+    { key: "stock", title: "Stock the finisher meets, normal to the wall (mm)" },
+  ];
+  const cl = el("div", { class: "legend" });
+  const ka = el("span"); ka.appendChild(el("span", { class: "key", style: "background:var(--s1)" })); ka.appendChild(document.createTextNode("(a) constant allowance")); cl.appendChild(ka);
+  const kb = el("span"); kb.appendChild(el("span", { class: "key", style: "background:var(--s2)" })); kb.appendChild(document.createTextNode("(b) allowance field")); cl.appendChild(kb);
+  const kc = el("span"); kc.appendChild(el("span", { class: "sw", style: "background:var(--wash);border:1px solid var(--axis)" })); kc.appendChild(document.createTextNode("corner zone (rougher leftovers)")); cl.appendChild(kc);
+  sec.appendChild(cl);
+  const cvs = charts.map(ch => { const b = el("div", { class: "chart" }); const t = el("div", { class: "mapttl" }, ch.title); const cv = el("canvas", { role: "img", "aria-label": ch.title }); b.append(t, cv); sec.appendChild(b); return cv; });
+  // Trade curve + runs table.
+  const two = el("div", { class: "two" });
+  const tc = el("div"); tc.appendChild(el("div", { class: "mapttl" }, "Finishing time against the stock it removes (per-sample feed)"));
+  const tcv = el("canvas", { role: "img", "aria-label": "Time against stock" }); const tbox = el("div", { class: "chart" }); tbox.appendChild(tcv); tc.appendChild(tbox);
+  const tl = el("div", { class: "legend" });
+  const u1 = el("span"); u1.appendChild(el("span", { class: "key", style: "background:var(--s1)" })); u1.appendChild(document.createTextNode("uniform allowance")); tl.appendChild(u1);
+  const u2 = el("span"); u2.appendChild(el("span", { class: "key", style: "background:var(--s2)" })); u2.appendChild(document.createTextNode("allowance field (minimum time per stock)")); tl.appendChild(u2);
+  tc.appendChild(tl);
+  tc.appendChild(el("p", { class: "muted" }, "Volume = removed area at the floor x wall stock height. Left end of both curves: the " + M.dmin.toFixed(3) + " mm floor. Labeled points: (a), (b) fastest, (b) at (a)'s stock."));
+  two.appendChild(tc);
+  const rt = el("div", { class: "scroll" }); const tbl = el("table");
+  const h = el("tr"); ["Run", "Time s", "Corners s", "F ipm", "Feed med", "Defl max in", "Rub mm"].forEach(x => h.appendChild(el("th", null, x))); tbl.appendChild(h);
+  for (const r of p.runs) { const tr = el("tr"); [r.label, fmt(r.time, 2), fmt(r.corner, 2), r.F == null ? "-" : fmt(r.F, 0), fmt(r.feedMed, 0), fmt(r.deflMax, 5), fmt(r.rub, 0)].forEach(x => tr.appendChild(el("td", null, x))); tbl.appendChild(tr); }
+  rt.appendChild(tbl);
+  const info = el("div"); info.appendChild(el("div", { class: "mapttl" }, "Every run, same instrument and tolerance")); info.appendChild(rt);
+  info.appendChild(el("p", { class: "muted" }, "Field (mm, min / median / max): per-sample " + p.field.fast.join(" / ") + "; wall feed " + p.field.wall.join(" / ") + "; equal stock " + p.field.eq.join(" / ") +
+    ". Stock removed by the finisher (mm3): (a) " + fmt(p.vol.a, 0) + ", thinnest uniform " + fmt(p.vol.thin, 0) + ", (b) per-sample " + fmt(p.vol.fast, 0) + ", (b) wall feed " + fmt(p.vol.wall, 0) + ". Rubbing: length run below the chip floor."));
+  const dl = el("button", { type: "button" }, "Download the samples (CSV)"); dl.style.marginTop = "6px"; dl.onclick = () => csv(p); info.appendChild(dl);
+  two.appendChild(info); sec.appendChild(two);
+  if (p.notes.length) { const d = el("details"); d.appendChild(el("summary", null, "Solver trace and notes")); const u = el("ul"); p.notes.forEach(n => u.appendChild(el("li", null, n))); d.appendChild(u); sec.appendChild(d); }
+  document.getElementById("pockets").appendChild(sec);
+
+  const draw = () => {
+    drawMap(cA, p, "a", cur); drawMap(cB, p, "b", cur);
+    const wall = state.prog === "wall";
+    tA.textContent = "(a) constant " + M.allowance.toFixed(3) + " mm - " + (wall ? p.t.aWall : p.t.aSched).toFixed(2) + " s";
+    tB.textContent = "(b) allowance field - " + (wall ? p.t.wall : p.t.fast).toFixed(2) + " s";
+    mapLegend(leg, p);
+    charts.forEach((ch, k) => lineChart(cvs[k], p, ch.key, cur));
+    trade(tcv, p);
+  };
+  const hoverMap = cv => ev => { const i = nearestSample(cv, p, ev); cur.i = i; draw(); if (i >= 0) showTip(ev, sampleTip(p, i)); };
+  [cA, cB].forEach(cv => { cv.addEventListener("pointermove", hoverMap(cv)); cv.addEventListener("pointerleave", () => { cur.i = -1; hideTip(); draw(); }); });
+  cvs.forEach(cv => {
+    cv.addEventListener("pointermove", ev => { const i = chartIndex(cv, p, ev); cur.i = i; draw(); if (i >= 0) showTip(ev, sampleTip(p, i)); });
+    cv.addEventListener("pointerleave", () => { cur.i = -1; hideTip(); draw(); });
+  });
+  tcv.addEventListener("pointermove", ev => { const t = tradeHit(tcv, p, ev); if (t) showTip(ev, t); else hideTip(); });
+  tcv.addEventListener("pointerleave", hideTip);
+  redraws.push(draw);
+}
+
+function series(p, key) {
+  const wall = state.prog === "wall";
+  if (key === "feed") return [wall ? p.feed.aWall : p.feed.aSched, wall ? p.feed.wall : p.feed.fast];
+  if (key === "defl") return [wall ? p.defl.aWall : p.defl.aSched, wall ? p.defl.wall : p.defl.fast];
+  return [p.thickA, wall ? p.thickWall : p.thickFast];
+}
+
+function mapValues(p, side) {
+  const wall = state.prog === "wall", m = state.mode;
+  if (m === "stock") return { v: side === "a" ? p.thickA : (wall ? p.thickWall : p.thickFast), lo: 0, hi: 1.0, unit: "mm", over: null };
+  if (m === "feed") { const hi = Math.max(...p.feed.fast, ...p.feed.wall); return { v: side === "a" ? (wall ? p.feed.aWall : p.feed.aSched) : (wall ? p.feed.wall : p.feed.fast), lo: 0, hi: hi, unit: "ipm", over: null }; }
+  if (m === "aAtB") return { v: side === "a" ? p.defl.aAtFast : p.defl.fast, lo: 0, hi: 1, unit: "x tol", over: 1 };
+  return { v: side === "a" ? (wall ? p.defl.aWall : p.defl.aSched) : (wall ? p.defl.wall : p.defl.fast), lo: 0, hi: 1, unit: "x tol", over: 1 };
+}
+
+function mapFrame(cv, p) {
+  const W = cv.parentElement.clientWidth, b = p.box, aspect = (b[3] - b[1]) / (b[2] - b[0]);
+  const H = Math.min(480, Math.max(220, W * aspect)), sc = Math.min(W / (b[2] - b[0]), H / (b[3] - b[1]));
+  const ox = (W - sc * (b[2] - b[0])) / 2, oy = (H - sc * (b[3] - b[1])) / 2;
+  return { W, H, sc, X: x => ox + (x - b[0]) * sc, Y: y => H - oy - (y - b[1]) * sc, iX: px => b[0] + (px - ox) / sc, iY: py => b[1] + (H - oy - py) / sc };
+}
+
+function drawMap(cv, p, side, cur) {
+  const f = mapFrame(cv, p), dpr = window.devicePixelRatio || 1;
+  cv.width = f.W * dpr; cv.height = f.H * dpr; cv.style.height = f.H + "px";
+  const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  g.fillStyle = css("--surface"); g.fillRect(0, 0, f.W, f.H);
+  g.fillStyle = css("--wash"); g.strokeStyle = css("--axis"); g.lineWidth = 1;
+  for (const o of p.outline) { g.beginPath(); for (let k = 0; k < o.length; k += 2) { const x = f.X(o[k]), y = f.Y(o[k + 1]); if (k === 0) g.moveTo(x, y); else g.lineTo(x, y); } g.closePath(); g.fill(); g.stroke(); }
+  const mv = mapValues(p, side), crit = css("--crit");
+  g.lineWidth = 4; g.lineCap = "round";
+  for (const l of p.loops) for (let k = 0; k < l.count; k++) {
+    const i = l.start + k, j = l.start + (k + 1) % l.count, v = mv.v[i];
+    g.strokeStyle = mv.over != null && v > mv.over * 1.001 ? crit : ramp((v - mv.lo) / (mv.hi - mv.lo));
+    g.beginPath(); g.moveTo(f.X(p.x[i]), f.Y(p.y[i])); g.lineTo(f.X(p.x[j]), f.Y(p.y[j])); g.stroke();
+  }
+  if (cur.i >= 0) { const x = f.X(p.x[cur.i]), y = f.Y(p.y[cur.i]); g.lineWidth = 2; g.strokeStyle = css("--surface"); g.beginPath(); g.arc(x, y, 7, 0, 2 * Math.PI); g.stroke(); g.strokeStyle = css("--ink"); g.beginPath(); g.arc(x, y, 5, 0, 2 * Math.PI); g.stroke(); }
+}
+
+function mapLegend(leg, p) {
+  leg.textContent = "";
+  const mv = mapValues(p, "a");
+  const names = { stock: "Stock normal to the wall", defl: "Deflection / tolerance at the run feed", aAtB: "Deflection / tolerance, (a) at (b)'s per-sample feed (left) vs (b) (right)", feed: "Feed run" };
+  leg.appendChild(el("span", null, names[state.mode] + ":"));
+  const s = el("span"); s.appendChild(document.createTextNode(fmt(mv.lo, 0) + " ")); const gr = el("span", { class: "grad" }); gr.style.background = gradCss(); s.appendChild(gr);
+  s.appendChild(document.createTextNode(" " + (state.mode === "feed" ? fmt(mv.hi, 0) : fmt(mv.hi, 1)) + " " + mv.unit + (state.mode === "stock" ? " and over (corner leftovers)" : ""))); leg.appendChild(s);
+  if (mv.over != null) { const o = el("span"); o.appendChild(el("span", { class: "sw", style: "background:var(--crit)" })); o.appendChild(document.createTextNode("over tolerance")); leg.appendChild(o); }
+}
+
+function nearestSample(cv, p, ev) {
+  const f = mapFrame(cv, p), r = cv.getBoundingClientRect(), mx = f.iX(ev.clientX - r.left), my = f.iY(ev.clientY - r.top);
+  let best = -1, bd = Infinity;
+  for (let i = 0; i < p.x.length; i++) { const d = (p.x[i] - mx) ** 2 + (p.y[i] - my) ** 2; if (d < bd) { bd = d; best = i; } }
+  return Math.sqrt(bd) * f.sc < 24 ? best : -1;
+}
+
+function sampleTip(p, i) {
+  const wall = state.prog === "wall";
+  const rows = [
+    ["s along the wall", fmt(p.s[i], 1) + " mm" + (p.corner[i] ? " (corner zone)" : ""), null],
+    ["(a) stock", fmt(p.thickA[i], 3) + " mm", "--s1"], ["(b) stock", fmt((wall ? p.thickWall : p.thickFast)[i], 3) + " mm", "--s2"],
+    ["(a) feed", fmt((wall ? p.feed.aWall : p.feed.aSched)[i], 0) + " ipm", "--s1"], ["(b) feed", fmt((wall ? p.feed.wall : p.feed.fast)[i], 0) + " ipm", "--s2"],
+    ["(a) deflection", fmt((wall ? p.defl.aWall : p.defl.aSched)[i], 2) + " x tol", "--s1"], ["(b) deflection", fmt((wall ? p.defl.wall : p.defl.fast)[i], 2) + " x tol", "--s2"],
+  ];
+  return rows;
+}
+
+function showTip(ev, rows) {
+  const t = document.getElementById("tip"); t.textContent = "";
+  rows.forEach(([n, v, col], k) => {
+    const r = el("div", { class: "row" });
+    if (col) { const kk = el("span", { class: "key" }); kk.style.background = css(col); r.appendChild(kk); }
+    r.appendChild(el("span", null, n)); const vv = el("span", { class: "v" }, v); r.appendChild(vv);
+    if (k === 0) r.style.color = css("--ink2");
+    t.appendChild(r);
+  });
+  t.style.display = "block";
+  const w = t.offsetWidth, h = t.offsetHeight;
+  let x = ev.clientX + 14, y = ev.clientY + 14;
+  if (x + w > window.innerWidth - 8) x = ev.clientX - w - 14;
+  if (y + h > window.innerHeight - 8) y = ev.clientY - h - 14;
+  t.style.left = x + "px"; t.style.top = y + "px";
+}
+function hideTip() { document.getElementById("tip").style.display = "none"; }
+
+function chartFrame(cv) { const W = cv.parentElement.clientWidth, H = 170; return { W, H, l: 52, r: 12, t: 8, b: 24 }; }
+function chartIndex(cv, p, ev) {
+  const f = chartFrame(cv), r = cv.getBoundingClientRect(), px = ev.clientX - r.left, smax = p.s[p.s.length - 1];
+  if (px < f.l || px > f.W - f.r) return -1;
+  const s = (px - f.l) / (f.W - f.l - f.r) * smax;
+  let lo = 0, hi = p.s.length - 1; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (p.s[m] < s) lo = m; else hi = m; }
+  return Math.abs(p.s[lo] - s) < Math.abs(p.s[hi] - s) ? lo : hi;
+}
+
+function lineChart(cv, p, key, cur) {
+  const f = chartFrame(cv), dpr = window.devicePixelRatio || 1;
+  cv.width = f.W * dpr; cv.height = f.H * dpr; cv.style.height = f.H + "px";
+  const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, f.W, f.H);
+  const [ya, yb] = series(p, key), smax = p.s[p.s.length - 1];
+  let ymax = key === "defl" ? 1.2 : key === "stock" ? 1.2 : Math.max(...ya, ...yb) * 1.08;
+  const X = s => f.l + (f.W - f.l - f.r) * s / smax, Y = v => f.t + (f.H - f.t - f.b) * (1 - Math.min(v, ymax) / ymax);
+  // Corner zones as a wash.
+  g.fillStyle = css("--wash");
+  for (let i = 0; i < p.s.length; i++) if (p.corner[i]) { const x0 = X(p.s[i]) - 1, x1 = X(p.s[Math.min(p.s.length - 1, i + 1)]) + 1; g.fillRect(x0, f.t, Math.max(1, x1 - x0), f.H - f.t - f.b); }
+  // Grid and ticks.
+  g.strokeStyle = css("--grid"); g.lineWidth = 1; g.font = "11px system-ui, sans-serif"; g.fillStyle = css("--muted"); g.textAlign = "right"; g.textBaseline = "middle";
+  const st = niceStep(ymax, 4);
+  for (let v = 0; v <= ymax + 1e-9; v += st) { const y = Math.round(Y(v)) + 0.5; g.beginPath(); g.moveTo(f.l, y); g.lineTo(f.W - f.r, y); g.stroke(); g.fillText(fmt(v, st < 1 ? 1 : 0), f.l - 6, y); }
+  g.textAlign = "center"; g.textBaseline = "top";
+  const sx = niceStep(smax, 8);
+  for (let s = 0; s <= smax; s += sx) g.fillText(fmt(s, 0) + (s === 0 ? " mm" : ""), X(s), f.H - f.b + 6);
+  // Loop breaks.
+  g.strokeStyle = css("--axis");
+  for (let k = 1; k < p.loops.length; k++) { const x = Math.round(X(p.s[p.loops[k].start])) + 0.5; g.beginPath(); g.moveTo(x, f.t); g.lineTo(x, f.H - f.b); g.stroke(); }
+  if (key === "defl") { g.strokeStyle = css("--ink2"); const y = Math.round(Y(1)) + 0.5; g.beginPath(); g.moveTo(f.l, y); g.lineTo(f.W - f.r, y); g.stroke(); g.fillStyle = css("--ink2"); g.textAlign = "left"; g.textBaseline = "bottom"; g.fillText("tolerance", f.l + 4, y - 2); }
+  // Lines, broken at loop boundaries.
+  for (const [ys, col] of [[ya, "--s1"], [yb, "--s2"]]) {
+    g.strokeStyle = css(col); g.lineWidth = 2; g.lineJoin = "round"; g.lineCap = "round";
+    for (const l of p.loops) { g.beginPath(); for (let k = 0; k < l.count; k++) { const i = l.start + k; const x = X(p.s[i]), y = Y(ys[i]); if (k === 0) g.moveTo(x, y); else g.lineTo(x, y); } g.stroke(); }
+  }
+  if (key === "stock") { const over = Math.max(...ya, ...yb), t = cv.previousElementSibling; if (t) t.textContent = "Stock the finisher meets, normal to the wall (mm)" + (over > ymax ? " - corner leftovers run off the top, up to " + fmt(over, 1) + " mm" : ""); }
+  if (cur.i >= 0) {
+    const x = Math.round(X(p.s[cur.i])) + 0.5; g.strokeStyle = css("--ink2"); g.lineWidth = 1; g.beginPath(); g.moveTo(x, f.t); g.lineTo(x, f.H - f.b); g.stroke();
+    for (const [ys, col] of [[ya, "--s1"], [yb, "--s2"]]) { const y = Y(ys[cur.i]); g.fillStyle = css(col); g.strokeStyle = css("--surface"); g.lineWidth = 2; g.beginPath(); g.arc(x, y, 4, 0, 2 * Math.PI); g.fill(); g.stroke(); }
+  }
+}
+
+function tradeFrame(cv) { const W = cv.parentElement.clientWidth, H = 240; return { W, H, l: 52, r: 16, t: 12, b: 30 }; }
+function tradeGeom(cv, p) {
+  const f = tradeFrame(cv);
+  const pts = p.uniform.concat(p.budget);
+  const xmax = Math.max(...pts.map(q => q[0])) * 1.05, ymax = Math.max(...pts.map(q => q[1])) * 1.1;
+  return { f, xmax, ymax, X: v => f.l + (f.W - f.l - f.r) * v / xmax, Y: v => f.t + (f.H - f.t - f.b) * (1 - v / ymax) };
+}
+function tradeMarks(p) {
+  return [
+    { x: p.vol.a, y: p.t.aSched, n: "(a)", col: "--s1" },
+    { x: p.vol.fast, y: p.t.fast, n: "(b) fastest", col: "--s2" },
+    { x: p.vol.eq, y: p.t.eq, n: "(b) at (a)'s stock", col: "--s2" },
+  ];
+}
+function trade(cv, p) {
+  const G = tradeGeom(cv, p), f = G.f, dpr = window.devicePixelRatio || 1;
+  cv.width = f.W * dpr; cv.height = f.H * dpr; cv.style.height = f.H + "px";
+  const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, f.W, f.H);
+  g.strokeStyle = css("--grid"); g.lineWidth = 1; g.font = "11px system-ui, sans-serif"; g.fillStyle = css("--muted");
+  const sy = niceStep(G.ymax, 4); g.textAlign = "right"; g.textBaseline = "middle";
+  for (let v = 0; v <= G.ymax; v += sy) { const y = Math.round(G.Y(v)) + 0.5; g.beginPath(); g.moveTo(f.l, y); g.lineTo(f.W - f.r, y); g.stroke(); g.fillText(fmt(v, sy < 1 ? 1 : 0) + " s", f.l - 6, y); }
+  const sx = niceStep(G.xmax, 5); g.textAlign = "center"; g.textBaseline = "top";
+  for (let v = 0; v <= G.xmax; v += sx) g.fillText(fmt(v, 0), G.X(v), f.H - f.b + 6);
+  g.fillText("mm3 removed by the finisher", (f.l + f.W - f.r) / 2, f.H - 12);
+  for (const [pts, col] of [[p.uniform, "--s1"], [p.budget, "--s2"]]) {
+    g.strokeStyle = css(col); g.lineWidth = 2; g.beginPath(); pts.forEach((q, k) => { const x = G.X(q[0]), y = G.Y(q[1]); if (k === 0) g.moveTo(x, y); else g.lineTo(x, y); }); g.stroke();
+    g.fillStyle = css(col); g.strokeStyle = css("--surface");
+    pts.forEach(q => { g.beginPath(); g.arc(G.X(q[0]), G.Y(q[1]), 3.5, 0, 2 * Math.PI); g.fill(); g.lineWidth = 2; g.stroke(); });
+  }
+  g.font = "11px system-ui, sans-serif"; g.fillStyle = css("--ink"); g.textBaseline = "bottom";
+  const placed = [];
+  tradeMarks(p).forEach(m => {
+    const x = G.X(m.x), y = G.Y(m.y);
+    g.strokeStyle = css("--ink"); g.lineWidth = 1.5; g.beginPath(); g.arc(x, y, 6, 0, 2 * Math.PI); g.stroke();
+    const w = g.measureText(m.n).width;
+    let lx = x - 10 - w, ly = y - 10;                 // label to the upper left of its point
+    if (lx < f.l + 2) lx = x + 10;
+    for (let k = 0; k < 8 && placed.some(q => lx < q.x + q.w + 4 && lx + w + 4 > q.x && Math.abs(ly - q.y) < 14); k++) ly -= 14;
+    placed.push({ x: lx, y: ly, w });
+    g.textAlign = "left"; g.textBaseline = "middle"; g.fillStyle = css("--ink"); g.fillText(m.n, lx, ly);
+    if (Math.abs(ly - (y - 10)) > 1) { g.strokeStyle = css("--muted"); g.lineWidth = 1; g.beginPath(); g.moveTo(lx < x ? lx + w + 2 : lx - 2, ly); g.lineTo(lx < x ? x - 5 : x + 5, y - 4); g.stroke(); }
+  });
+}
+function tradeHit(cv, p, ev) {
+  const G = tradeGeom(cv, p), r = cv.getBoundingClientRect(), px = ev.clientX - r.left, py = ev.clientY - r.top;
+  let best = null, bd = 24 * 24;
+  p.uniform.forEach(q => { const d = (G.X(q[0]) - px) ** 2 + (G.Y(q[1]) - py) ** 2; if (d < bd) { bd = d; best = [["uniform " + fmt(q[2], 3) + " mm", "", null], ["time", fmt(q[1], 2) + " s", "--s1"], ["stock", fmt(q[0], 0) + " mm3", "--s1"]]; } });
+  p.budget.forEach(q => { const d = (G.X(q[0]) - px) ** 2 + (G.Y(q[1]) - py) ** 2; if (d < bd) { bd = d; best = [["allowance field", "", null], ["time", fmt(q[1], 2) + " s", "--s2"], ["stock", fmt(q[0], 0) + " mm3", "--s2"]]; } });
+  return best;
+}
+
+function csv(p) {
+  const hd = ["s_mm", "x", "y", "corner", "stock_a_mm", "stock_b_mm", "delta_b_mm", "feed_a_ipm", "feed_b_ipm", "defl_a_tol", "defl_b_tol", "feed_a_wall_ipm", "feed_b_wall_ipm", "defl_a_wall_tol", "defl_b_wall_tol", "stock_b_wall_mm", "delta_b_wall_mm"];
+  const lines = [hd.join(",")];
+  for (let i = 0; i < p.s.length; i++) lines.push([p.s[i], p.x[i], p.y[i], p.corner[i], p.thickA[i], p.thickFast[i], p.deltaFast[i], p.feed.aSched[i], p.feed.fast[i], p.defl.aSched[i], p.defl.fast[i], p.feed.aWall[i], p.feed.wall[i], p.defl.aWall[i], p.defl.wall[i], p.thickWall[i], p.deltaWall[i]].join(","));
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/csv" })); a.download = p.name.replace(/\s+/g, "") + "-samples.csv"; a.click();
+}
+
+function model() {
+  const c = document.getElementById("model"); c.textContent = "";
+  const ul = el("ul");
+  [
+    "Pockets: found from the compiled part's field (the clearance at each slab), each studied at the floor where it ends; the finisher's wall loops are the clearance = r_finish level set around the region its center reaches. The stock before the pocket is what the roughing program leaves (its earlier ops, as posted and read back).",
+    "Rough stock: an ideal rougher whose last wall pass is the level set clearance - delta(x) = r_R (the " + M.rougher.d + " mm roughing tool), inside its own region from the pocket; its interior is cleared and its wall pass swept at r_R. Constant delta gives (a); inside corners tighter than r_R keep the rougher's radius.",
+    "Finisher: one full-depth climb pass on each wall loop; engagement measured every " + M.ds + " mm on the leading half-circle against the stock as it stands (rough stock minus the finisher's own sweep).",
+    "Limits (the cut model): chip ceiling with radial thinning, Kienzle power, deflection from force integrated along helical flutes on a two-section cantilever (limit = the finishing tolerance, " + M.tolIn.toFixed(4) + " in), machine feed; then the path's curvature limit sqrt(A R) and acceleration passes (A = " + M.accel + " m/s2); the rubbing floor is reported, not enforced.",
+    "Field: delta per sample in [" + M.dmin.toFixed(3) + ", " + M.dmax.toFixed(3) + "] mm, slope-limited to " + M.slope + " mm/mm; solved on engagement tables at uniform allowances plus a correction from true 2D simulations (a few rounds). Schedules are always recomputed on the true engagement, so the tolerance holds at every sample.",
+    "Roughing impact: (a)'s minus (b)'s finisher-removed volume is what the rougher must remove extra; time at the rougher's steady removal at its knee (" + (P.length ? P[0].rough.mrr + " in3/min at " + fmt(P[0].ap, 1) + " mm for the first pocket" : "-") + "). A rough estimate: it ignores the rougher's links and its own path change.",
+  ].forEach(s => ul.appendChild(el("li", null, s)));
+  c.appendChild(ul);
+  const t = el("table"); const h = el("tr"); ["Tool model", "rpm", "Flutes", "D in", "LOC in", "Hangout in", "Helix", "Chip in", "Floor in", "Spindle kW", "Feed ipm", "Tol in"].forEach(x => h.appendChild(el("th", null, x))); t.appendChild(h);
+  M.models.forEach(m => { const tr = el("tr"); [m.name, m.rpm, m.flutes, m.d, m.loc, m.hangout, m.helix, m.hceil, m.hfloor, m.kw, m.vmax, m.tol].forEach(x => tr.appendChild(el("td", null, String(x)))); t.appendChild(tr); });
+  const w = el("div", { class: "scroll" }); w.appendChild(t); c.appendChild(w);
+  M.models.forEach(m => c.appendChild(el("p", { class: "muted" }, m.name + " - sources: " + m.sources)));
+  c.appendChild(el("p", { class: "muted" }, "Rougher: " + M.rougher.name + ", hangout " + M.rougher.hangout + " in - sources: " + M.rougher.sources));
+}
+
+// ---------- controls ----------
+function seg(id, fn) {
+  const s = document.getElementById(id);
+  s.querySelectorAll("button").forEach(b => b.addEventListener("click", () => { s.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); fn(b.dataset.v); }));
+}
+const all = () => redraws.forEach(f => f());
+seg("progSeg", v => { state.prog = v; all(); });
+seg("modeSeg", v => { state.mode = v; all(); });
+seg("themeSeg", v => { if (v === "auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", v); try { localStorage.setItem("icam-theme", v); } catch (e) {} all(); });
+try { const t = localStorage.getItem("icam-theme"); if (t && t !== "auto") { document.documentElement.setAttribute("data-theme", t); document.querySelectorAll("#themeSeg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === t ? "true" : "false")); } } catch (e) {}
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", all);
+let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(all, 120); });
+
+summary(); findings(); P.forEach(pocketSection); model(); all();
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tool Assignment</title>
+<style>
+:root{--page:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;--ring:rgba(11,11,11,0.10);--wash:#f0efec;
+--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--part:#c3c2b7;--out:#f0efec;--clear:#ffffff;--uncut:#0b0b0b;--one:#e1e0d9;
+--q0:#0d366b;--q1:#184f95;--q2:#256abf;--q3:#2a78d6;--q4:#5598e7;--q5:#6da7ec;--q6:#86b6ef;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:where(:not([data-theme="light"])){--page:#0d0d0d;--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;--ring:rgba(255,255,255,0.10);--wash:#262624;
+--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--part:#4a4a46;--out:#262624;--clear:#121211;--uncut:#f0efec;--one:#2c2c2a;
+--q0:#cde2fb;--q1:#9ec5f4;--q2:#86b6ef;--q3:#5598e7;--q4:#3987e5;--q5:#256abf;--q6:#184f95;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#0d0d0d;--surface:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--muted:#898781;--grid:#2c2c2a;--axis:#383835;--ring:rgba(255,255,255,0.10);--wash:#262624;
+--s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--part:#4a4a46;--out:#262624;--clear:#121211;--uncut:#f0efec;--one:#2c2c2a;
+--q0:#cde2fb;--q1:#9ec5f4;--q2:#86b6ef;--q3:#5598e7;--q4:#3987e5;--q5:#256abf;--q6:#184f95;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1200px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:28px;margin:0 0 4px}h2{font-size:19px;margin:36px 0 8px}h3{font-size:16px;margin:0 0 8px}
+.sub{color:var(--ink2);max-width:880px;margin:0 0 16px}.note{color:var(--ink2);font-size:13px;max-width:980px}
+.muted{color:var(--muted);font-weight:400;font-size:13px}
+.lead{background:var(--surface);border:1px solid var(--ring);border-radius:8px;padding:4px 18px 10px;max-width:980px}
+.lead h2{margin-top:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:18px 0}
+.tile{background:var(--surface);border:1px solid var(--ring);border-radius:8px;padding:12px 14px}
+.tl{color:var(--ink2);font-size:13px}.tv{font-size:26px;font-weight:600;margin:2px 0}.ts{color:var(--muted);font-size:12px}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;font-size:13px;background:var(--surface);font-variant-numeric:tabular-nums}
+th,td{border-bottom:1px solid var(--grid);padding:5px 8px;text-align:right;white-space:nowrap}
+th{color:var(--ink2);font-weight:600;vertical-align:bottom}td:first-child,th:first-child{text-align:left}
+td.src{white-space:normal;text-align:left;min-width:320px;color:var(--ink2);font-size:12px}
+tr.sum td{font-weight:600;border-top:1px solid var(--axis)}
+a{color:var(--s1)}
+.sw{display:inline-block;width:11px;height:11px;border-radius:2px;margin:0 5px 0 8px;vertical-align:-1px;box-shadow:0 0 0 1px var(--axis)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:13px;color:var(--ink2);margin:6px 0}
+.pocket{margin:26px 0;padding-top:8px;border-top:1px solid var(--grid)}
+.notes{color:var(--ink2);font-size:13px;margin:4px 0 8px}
+.maps{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;align-items:start}
+figure{margin:0;background:var(--surface);border:1px solid var(--ring);border-radius:6px;padding:6px;position:relative}
+figure canvas{display:block;width:auto;height:auto;max-width:100%;max-height:340px;margin:0 auto;image-rendering:pixelated;touch-action:none}
+figcaption{font-size:12px;color:var(--ink2);text-align:center;margin-top:4px}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.filters button,.seg button{font:inherit;font-size:13px;padding:4px 10px;border-radius:14px;border:1px solid var(--axis);background:var(--surface);color:var(--ink2);cursor:pointer}
+.filters button[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.seg{display:inline-flex;gap:4px;float:right;margin-top:6px}
+.chart{position:relative;background:var(--surface);border:1px solid var(--ring);border-radius:8px;max-width:900px}
+.chart svg{display:block;width:100%;height:auto}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--axis);border-radius:6px;padding:6px 8px;font-size:12px;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.15);display:none;white-space:nowrap;z-index:5}
+.ftip{position:fixed}
+details{margin:10px 0}summary{cursor:pointer;color:var(--ink2);font-size:14px}
+pre{white-space:pre-wrap;font-size:12px;color:var(--ink2);background:var(--surface);padding:10px;border-radius:6px;border:1px solid var(--ring)}
+.assume li{margin:6px 0;max-width:980px}
+@media (max-width:600px){.tv{font-size:22px}.seg{float:none}}
+</style>
+</head>
+<body>
+<main>
+<div class="seg" role="group" aria-label="theme"><button type="button" data-v="auto" aria-pressed="true">Auto</button><button type="button" data-v="light" aria-pressed="false">Light</button><button type="button" data-v="dark" aria-pressed="false">Dark</button></div>
+__BODY__
+</main>
+<div class="tip ftip" id="ftip"></div>
+<script type="application/json" id="data">__DATA__</script>
+<script>
+"use strict";
+const DATA = JSON.parse(document.getElementById("data").textContent);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function rgb(h) { h = h.replace("#", ""); if (h.length === 3) h = h.split("").map(c => c + c).join(""); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+function mix(a, b, f) { return [0, 1, 2].map(i => Math.round(a[i] * (1 - f) + b[i] * f)); }
+
+// ---------- removal rate by channel width ----------
+(function () {
+  const el = document.getElementById("curve"); if (!el) return;
+  const W = 860, H = 380, m = { l: 62, r: 150, t: 16, b: 44 };
+  const pw = W - m.l - m.r, ph = H - m.t - m.b, x0 = Math.log(1.5), x1 = Math.log(100);
+  const tip = document.createElement("div"); tip.className = "tip"; el.appendChild(tip);
+  const C = DATA.curve; let cur = C.h.length - 1;
+  function draw() {
+    const d = C.h[cur]; let ymin = Infinity, ymax = 0;
+    d.rates.forEach(r => r.forEach(v => { if (v != null && v > 0) { ymin = Math.min(ymin, v); ymax = Math.max(ymax, v); } }));
+    if (!isFinite(ymin)) { ymin = 0.01; ymax = 1; }
+    ymin = Math.pow(10, Math.floor(Math.log10(Math.max(ymin, 1e-4)))); ymax = Math.pow(10, Math.ceil(Math.log10(ymax)));
+    const ly0 = Math.log10(ymin), ly1 = Math.log10(ymax);
+    const X = w => m.l + (Math.log(w) - x0) / (x1 - x0) * pw, Y = v => m.t + ph - (Math.log10(v) - ly0) / (ly1 - ly0) * ph;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Removal rate by channel width at H ${d.h} mm">`;
+    for (let e = Math.round(ly0); e <= Math.round(ly1); e++) { const y = Y(Math.pow(10, e)); s += `<line x1="${m.l}" x2="${m.l + pw}" y1="${y}" y2="${y}" stroke="var(--grid)"/><text x="${m.l - 8}" y="${y + 4}" text-anchor="end" font-size="12" fill="var(--muted)">${Math.pow(10, e) >= 1 ? Math.pow(10, e) : Math.pow(10, e).toPrecision(1)}</text>`; }
+    [2, 3, 5, 10, 20, 30, 50, 100].forEach(w => { const x = X(w); s += `<line x1="${x}" x2="${x}" y1="${m.t}" y2="${m.t + ph}" stroke="var(--grid)"/><text x="${x}" y="${m.t + ph + 18}" text-anchor="middle" font-size="12" fill="var(--muted)">${w}</text>`; });
+    s += `<line x1="${m.l}" x2="${m.l + pw}" y1="${m.t + ph}" y2="${m.t + ph}" stroke="var(--axis)"/>`;
+    s += `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle" font-size="12" fill="var(--ink2)">channel width W, mm (log)</text>`;
+    s += `<text transform="translate(14 ${m.t + ph / 2}) rotate(-90)" text-anchor="middle" font-size="12" fill="var(--ink2)">removal rate, in3/min (log)</text>`;
+    const labels = [];
+    d.rates.forEach((r, i) => {
+      let p = "", last = null;
+      r.forEach((v, k) => { if (v == null || v <= 0) return; const x = X(C.w[k]), y = Y(Math.max(v, ymin)); p += (p ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1); last = [x, y]; });
+      if (p) { s += `<path d="${p}" fill="none" stroke="var(--s${C.tools[i].slot})" stroke-width="2" stroke-linejoin="round"/>`; labels.push({ y: last[1], i }); }
+    });
+    labels.sort((a, b) => a.y - b.y); for (let k = 1; k < labels.length; k++) if (labels[k].y - labels[k - 1].y < 14) labels[k].y = labels[k - 1].y + 14;
+    labels.forEach(o => { s += `<text x="${m.l + pw + 8}" y="${o.y + 4}" font-size="12" fill="var(--ink2)">${C.tools[o.i].label}</text>`; });
+    s += `<line id="xh" y1="${m.t}" y2="${m.t + ph}" stroke="var(--axis)" visibility="hidden"/><rect x="${m.l}" y="${m.t}" width="${pw}" height="${ph}" fill="transparent" id="hit"/></svg>`;
+    el.querySelectorAll("svg").forEach(n => n.remove()); el.insertAdjacentHTML("afterbegin", s);
+    const svg = el.querySelector("svg"), hit = svg.querySelector("#hit"), xh = svg.querySelector("#xh");
+    hit.addEventListener("pointermove", ev => {
+      const bb = svg.getBoundingClientRect(), sx = (ev.clientX - bb.left) * W / bb.width;
+      const lw = x0 + (sx - m.l) / pw * (x1 - x0); let k = 0, bd = 1e9; C.w.forEach((w, j) => { const dd = Math.abs(Math.log(w) - lw); if (dd < bd) { bd = dd; k = j; } });
+      const x = X(C.w[k]); xh.setAttribute("x1", x); xh.setAttribute("x2", x); xh.setAttribute("visibility", "visible");
+      let h = `<b>W ${C.w[k].toFixed(1)} mm</b>, H ${d.h} mm`;
+      d.rates.forEach((r, i) => { const v = r[k]; h += `<br><span class="sw" style="background:var(--s${C.tools[i].slot})"></span>${C.tools[i].label}: ${v == null ? "does not fit" : Number(v).toPrecision(3) + " in3/min"}`; });
+      tip.innerHTML = h; tip.style.display = "block"; const px = (x / W) * bb.width; tip.style.left = Math.min(px + 12, bb.width - 260) + "px"; tip.style.top = "12px";
+    });
+    hit.addEventListener("pointerleave", () => { tip.style.display = "none"; xh.setAttribute("visibility", "hidden"); });
+  }
+  document.querySelectorAll("#hfilter button").forEach(b => b.addEventListener("click", () => { cur = +b.dataset.h; document.querySelectorAll("#hfilter button").forEach(o => o.setAttribute("aria-pressed", o === b ? "true" : "false")); draw(); }));
+  draw();
+})();
+
+// ---------- assignment maps ----------
+// Layers per pocket, run-length coded row by row from the grid's bottom row:
+//   base   0 material, 1 pocket already at the floor, 2 part above the floor, 3 outside the pocket
+//   rest, cheap, paid   tool slot 0..3, 4 = no tool reaches
+//   margin  0..6 how many times cheaper than the next tool (bucket), 7 = one tool reaches
+//   width   0..6 channel width / D of the roughing tool (bucket), 7 = it does not reach
+//   hgt     material height, 0.1 mm
+function rld(r, n) { const a = new Uint8Array(n); let k = 0; for (let i = 0; i < r.length; i += 2) { a.fill(r[i], k, k + r[i + 1]); k += r[i + 1]; } return a; }
+function rld16(r, n) { const a = new Uint16Array(n); let k = 0; for (let i = 0; i < r.length; i += 2) { a.fill(r[i], k, k + r[i + 1]); k += r[i + 1]; } return a; }
+const MARGIN = ["at most 1.25x", "1.25-1.5x", "1.5-2x", "2-3x", "3-5x", "5-10x", "over 10x", "one tool reaches"];
+const WIDTH = ["at most 1.1 D", "1.1-1.25 D", "1.25-1.5 D", "1.5-2 D", "2-3 D", "3-5 D", "over 5 D", "it does not reach"];
+const decoded = DATA.pockets.map(p => {
+  const n = p.nx * p.ny, L = {};
+  for (const k of ["base", "rest", "cheap", "paid", "margin", "width"]) L[k] = rld(p.layers[k], n);
+  L.hgt = rld16(p.layers.hgt, n);
+  return L;
+});
+function palette() {
+  const s = [1, 2, 3, 4].map(k => rgb(css("--s" + k))), surf = rgb(css("--surface"));
+  return { tool: s, pale: s.map(c => mix(c, surf, 0.78)), q: [0, 1, 2, 3, 4, 5, 6].map(k => rgb(css("--q" + k))), part: rgb(css("--part")), out: rgb(css("--out")), clear: rgb(css("--clear")), uncut: rgb(css("--uncut")), one: rgb(css("--one")) };
+}
+function cellColor(P, L, kind, k) {
+  const b = L.base[k];
+  if (b === 1) return P.clear; if (b === 2) return P.part; if (b === 3) return P.out;
+  if (kind === "rest" || kind === "cheap" || kind === "paid") { const t = L[kind][k]; return t < 4 ? P.tool[t] : P.uncut; }
+  if (kind === "differ") { const r = L.rest[k], q = L.paid[k]; if (q >= 4) return P.uncut; return r === q ? P.pale[q] : P.tool[q]; }
+  if (kind === "margin") { const m = L.margin[k]; if (L.paid[k] >= 4) return P.uncut; return m < 7 ? P.q[m] : P.one; }
+  const w = L.width[k]; return w < 7 ? P.q[w] : P.one;
+}
+function drawMaps() {
+  const P = palette();
+  document.querySelectorAll("canvas.map").forEach(cv => {
+    const pi = +cv.dataset.p, p = DATA.pockets[pi], L = decoded[pi], kind = cv.dataset.kind;
+    cv.width = p.nx; cv.height = p.ny;
+    const g = cv.getContext("2d"), img = g.createImageData(p.nx, p.ny);
+    for (let j = 0; j < p.ny; j++) for (let i = 0; i < p.nx; i++) {
+      const c = cellColor(P, L, kind, j * p.nx + i), o = 4 * ((p.ny - 1 - j) * p.nx + i);
+      img.data[o] = c[0]; img.data[o + 1] = c[1]; img.data[o + 2] = c[2]; img.data[o + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+  });
+}
+const ftip = document.getElementById("ftip");
+document.querySelectorAll("canvas.map").forEach(cv => {
+  cv.addEventListener("pointermove", ev => {
+    const pi = +cv.dataset.p, p = DATA.pockets[pi], L = decoded[pi], r = cv.getBoundingClientRect();
+    const i = Math.floor((ev.clientX - r.left) / r.width * p.nx), jj = Math.floor((ev.clientY - r.top) / r.height * p.ny), j = p.ny - 1 - jj;
+    if (i < 0 || j < 0 || i >= p.nx || j >= p.ny) { ftip.style.display = "none"; return; }
+    const k = j * p.nx + i, b = L.base[k], T = DATA.tools;
+    const x = (p.x0 + i * p.h).toFixed(2), y = (p.y0 + j * p.h).toFixed(2);
+    let h = `<b>x ${x}, y ${y}</b>`;
+    if (b === 1) h += "<br>pocket, already at the floor"; else if (b === 2) h += "<br>part above the floor"; else if (b === 3) h += "<br>outside the pocket";
+    else {
+      const tn = t => t < 4 ? `<span class="sw" style="background:var(--s${t + 1})"></span>${T[t]}` : "no tool reaches";
+      h += `<br>material ${(L.hgt[k] / 10).toFixed(1)} mm high<br>rest roughing: ${tn(L.rest[k])}<br>cheapest: ${tn(L.cheap[k])}<br>changes paid: ${tn(L.paid[k])}`;
+      if (L.paid[k] < 4) h += `<br>margin to the next tool: ${MARGIN[L.margin[k]]}`;
+      h += `<br>channel width: ${WIDTH[L.width[k]]}`;
+    }
+    ftip.innerHTML = h; ftip.style.display = "block";
+    const w = ftip.offsetWidth, hh = ftip.offsetHeight; let px = ev.clientX + 14, py = ev.clientY + 14;
+    if (px + w > innerWidth - 8) px = ev.clientX - w - 14; if (py + hh > innerHeight - 8) py = ev.clientY - hh - 14;
+    ftip.style.left = px + "px"; ftip.style.top = py + "px";
+  });
+  cv.addEventListener("pointerleave", () => { ftip.style.display = "none"; });
+});
+drawMaps();
+
+// ---------- theme ----------
+const segs = document.querySelectorAll(".seg button");
+function theme(v) { if (v === "auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", v); segs.forEach(b => b.setAttribute("aria-pressed", b.dataset.v === v ? "true" : "false")); drawMaps(); }
+segs.forEach(b => b.addEventListener("click", () => { theme(b.dataset.v); try { localStorage.setItem("icam-theme", b.dataset.v); } catch (e) {} }));
+try { const t = localStorage.getItem("icam-theme"); if (t) theme(t); } catch (e) {}
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawMaps);
+</script>
+</body>
+</html>

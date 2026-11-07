@@ -1,0 +1,24 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/icam-core",
+    "crates/icam-gpu",
+    "crates/icam-check",
+    "crates/icam-post",
+    "crates/icam-stock",
+    "crates/icam-query",
+    "crates/icam-motion",
+    "crates/icam-strategy",
+    "crates/icam-rough",
+    "crates/icam-finish",
+    "crates/icam-assign",
+    "crates/icam-sim",
+    "crates/icam-sweep",
+]
+
+[workspace.package]
+edition = "2021"
+license = "AGPL-3.0-only"
+
+[profile.release]
+debug = 1

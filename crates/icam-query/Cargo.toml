@@ -1,0 +1,10 @@
+[package]
+name = "icam-query"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+description = "Queries against the part field for planning: the clearance a vertical tool sees at a slab"
+
+[dependencies]
+icam-core = { path = "../icam-core" }
+icam-post = { path = "../icam-post" }

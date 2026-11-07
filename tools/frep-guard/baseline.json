@@ -1,0 +1,16 @@
+{
+  "note": "Per-file allowances for frep-guard rules (tools/frep-guard/rules.mjs). There are none (Derek, 2026-10-25): code over a rule is slated for replacement, not grandfathered, so the tree reports it until it is replaced, a commit that touches it is refused, and an edit may only lower its count. The replacement list is in docs/EXACT_FIELD.md.",
+  "allow": {},
+  "log": [
+    {
+      "date": "2026-10-02",
+      "change": "accept",
+      "reason": "Initial baseline. frep3.rs is the per-cell compiler reversed on 2026-10-02; its existing probe selection and B-rep sdf calls are grandfathered so the gluing harness keeps building."
+    },
+    {
+      "date": "2026-10-25",
+      "change": "revoke",
+      "reason": "All allowances removed (Derek): grandfathering code that breaks the rules means not building toward the plan, and it reads as precedent to the next agent. frep3.rs (probe-chosen formulas, B-rep sdf in the compiler, trim loops, the trim test, edge frames and stored curves, the sampled exposure test) is slated for replacement; the prismatic compiler's two curve reads in frep.rs await Derek's call (its section leaves are curve distances by design)."
+    }
+  ]
+}

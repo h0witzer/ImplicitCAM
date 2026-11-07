@@ -1,0 +1,1774 @@
+{
+  "about": "Source of truth for whitepaper-references/. Edit this, then run node tools/fetch-references.mjs, which fetches, hashes and regenerates MANIFEST.md.",
+  "resolved": "2026-09-29",
+  "skills": [
+    {
+      "name": "implicit-field-evaluation",
+      "built": "2026-09-29",
+      "entries": [
+        2,
+        3,
+        6,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "name": "sdf-exactness-and-import",
+      "built": "2026-09-29",
+      "entries": [
+        15,
+        17,
+        22,
+        23,
+        24,
+        25,
+        29
+      ]
+    },
+    {
+      "name": "distance-field-storage-and-stock",
+      "built": "2026-09-29",
+      "entries": [
+        1,
+        18,
+        19,
+        20,
+        26,
+        27,
+        39,
+        40
+      ]
+    },
+    {
+      "name": "field-pde-solvers",
+      "built": "2026-09-29",
+      "entries": [
+        31,
+        32,
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "name": "field-toolpath-planning",
+      "built": "2026-09-29",
+      "entries": [
+        49,
+        51,
+        52,
+        53,
+        54,
+        60,
+        66
+      ]
+    }
+  ],
+  "references": [
+    {
+      "n": 1,
+      "id": "koschier-2017-hp-adaptive-sdf",
+      "group": "dist",
+      "priority": "core",
+      "year": 2017,
+      "citation": "Koschier, D., Deul, C., Brand, M., Bender, J. \"An hp-adaptive discretization algorithm for signed distance field generation.\" IEEE Transactions on Visualization and Computer Graphics 23(10):2208-2221, 2017.",
+      "doi": "10.1109/tvcg.2017.2730202",
+      "arxiv": "",
+      "why": "Downloaded 2026-09-29. Piecewise high-order polynomial SDF on an octree; fast, smooth, differentiable lookups of a mesh's distance field.",
+      "access": {
+        "kind": "http",
+        "url": "https://discovery.ucl.ac.uk/10056695/1/Koschier_An%20hp-Adaptive%20Discretization%20Algorithm%20for%20Signed%20Distance%20Field%20Generation_AAM.pdf",
+        "note": "UCL Discovery, author accepted manuscript. Byte-identical to the copy Derek downloaded 2026-09-29."
+      },
+      "file": "2017-koschier-hp-adaptive-sdf.pdf",
+      "got": {
+        "sha256": "6a91be854ee9b21675f068e1093b8212a7ef77a99ef5cb0c031af550dc5ea396",
+        "bytes": 4118253,
+        "pages": 15,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 2,
+      "id": "keeter-2020-mpr",
+      "group": "eval",
+      "priority": "core",
+      "year": 2020,
+      "citation": "Keeter, M. J. \"Massively parallel rendering of complex closed-form implicit surfaces.\" ACM Transactions on Graphics 39(4), 2020.",
+      "doi": "10.1145/3386569.3392429",
+      "arxiv": "",
+      "why": "Interval arithmetic + tape pruning on the GPU. The algorithm Fidget descends from.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.mattkeeter.com/research/mpr/keeter_mpr20.pdf",
+        "note": "Author copy on Matt Keeter's site."
+      },
+      "file": "2020-keeter-mpr.pdf",
+      "got": {
+        "sha256": "72a55ede59f5b300696cd2cb71c31d846acd450f176feef04f5a20e50ce67f36",
+        "bytes": 4605267,
+        "pages": 10,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 3,
+      "id": "duff-1992-interval-csg",
+      "group": "eval",
+      "priority": "core",
+      "year": 1992,
+      "citation": "Duff, T. \"Interval arithmetic recursive subdivision for implicit functions and constructive solid geometry.\" Proceedings of the 19th annual conference on Computer graphics and interactive techniques, 131-138, 1992.",
+      "doi": "10.1145/133994.134027",
+      "arxiv": "",
+      "why": "Interval arithmetic and recursive subdivision for implicit CSG; origin of branch pruning.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/133994.134027",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser. Saved copy (2026-09-29) is a 1997 Acrobat PDFWriter scan of the SIGGRAPH 92 pages with a poor OCR layer (\"Luboru!orie.s\" for Laboratories): render the page and read the image before copying any formula."
+      },
+      "file": "1992-duff-interval-csg.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "1ae8404082e7bf9f68d2bb2f1a6cc62d4cd2c5a1e99dbd407322439d728631b4",
+        "bytes": 2447764,
+        "pages": 8,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 4,
+      "id": "snyder-1992-interval-analysis",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 1992,
+      "citation": "Snyder, J. M. \"Interval analysis for computer graphics.\" Proceedings of the 19th annual conference on Computer graphics and interactive techniques, 121-130, 1992.",
+      "doi": "10.1145/133994.134024",
+      "arxiv": "",
+      "why": "Interval analysis for graphics: inclusion functions for guaranteed queries.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/133994.134024",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "1992-snyder-interval-analysis.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 5,
+      "id": "kalra-barr-1989-guaranteed-ray",
+      "group": "eval",
+      "priority": "background",
+      "year": 1989,
+      "citation": "Kalra, D., Barr, A. H. \"Guaranteed ray intersections with implicit surfaces.\" ACM SIGGRAPH Computer Graphics 23(3):297-306, 1989. SIGGRAPH 89. Proceedings DOI 10.1145/74333.74364.",
+      "doi": "10.1145/74334.74364",
+      "arxiv": "",
+      "why": "Lipschitz-guaranteed ray intersection with implicits; the bound Hart later reuses.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/74333.74364",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "1989-kalra-barr-guaranteed-ray.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 6,
+      "id": "hart-1996-sphere-tracing",
+      "group": "eval",
+      "priority": "core",
+      "year": 1996,
+      "citation": "Hart, J. C. \"Sphere tracing: a geometric method for the antialiased ray tracing of implicit surfaces.\" The Visual Computer 12(10):527-545, 1996.",
+      "doi": "10.1007/s003710050084",
+      "arxiv": "",
+      "why": "Sphere tracing and Lipschitz step bounds; defines what a distance bound buys you.",
+      "access": {
+        "kind": "http",
+        "url": "https://graphics.stanford.edu/courses/cs348b-20-spring-content/uploads/hart.pdf",
+        "note": "Copy posted on the Stanford CS348B course page. It is a 51-page double-spaced preprint (a CiteSeer/ResearchGate download with a cover sheet), not the Visual Computer typesetting: cite section numbers, not page numbers. The text is the July 1994 manuscript (its cover sheet says June 1995; Keeter 2020 cites it as Hart 1995)."
+      },
+      "file": "1996-hart-sphere-tracing.pdf",
+      "got": {
+        "sha256": "6b0ef82dc1d7988aee35452bc4cb1f0e2dd2dc4361b28f1078bf5a7f79f7dc59",
+        "bytes": 372466,
+        "pages": 51,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 7,
+      "id": "knoll-2009-interval-affine-ray",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 2009,
+      "citation": "Knoll, A., Hijazi, Y., Kensler, A., Schott, M., Hansen, C., Hagen, H. \"Fast Ray Tracing of Arbitrary Implicit Surfaces with Interval and Affine Arithmetic.\" Computer Graphics Forum 28(1):26-40, 2009.",
+      "doi": "10.1111/j.1467-8659.2008.01189.x",
+      "arxiv": "",
+      "why": "Interval vs affine arithmetic for arbitrary implicits; affine gives tighter bounds.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2009-knoll-interval-affine-ray.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 8,
+      "id": "galin-2020-segment-tracing",
+      "group": "eval",
+      "priority": "core",
+      "year": 2020,
+      "citation": "Galin, E., Guerin, E., Paris, A., Peytavie, A. \"Segment Tracing Using Local Lipschitz Bounds.\" Computer Graphics Forum 39(2):545-554, 2020.",
+      "doi": "10.1111/cgf.13951",
+      "arxiv": "",
+      "why": "Local Lipschitz bounds over a segment; far fewer steps than global-bound sphere tracing.",
+      "access": {
+        "kind": "browser",
+        "url": "https://hal.science/hal-02507361/document",
+        "note": "HAL open archive. HAL answers scripted clients with an Anubis proof-of-work page, so save it from a browser. Saved copy (2026-09-29) is the HAL author version with a HAL cover page, so page 1 of the PDF is not page 1 of the paper."
+      },
+      "file": "2020-galin-segment-tracing.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "b68d9a4a3b45d24bffd0fb2e15e93bfaa885f31ad0cefcb6f8f2eff68b52ed9b",
+        "bytes": 3450162,
+        "pages": 11,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 9,
+      "id": "aydinlilar-zanni-2023-forward-inclusion",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 2023,
+      "citation": "Aydinlilar, M., Zanni, C. \"Forward inclusion functions for ray-tracing implicit surfaces.\" Computers & Graphics 114:190-200, 2023.",
+      "doi": "10.1016/j.cag.2023.05.026",
+      "arxiv": "",
+      "why": "Forward-mode inclusion functions: bounds on value and gradient in one pass.",
+      "access": {
+        "kind": "browser",
+        "url": "https://inria.hal.science/hal-04129922v2/document",
+        "note": "HAL open archive. HAL answers scripted clients with an Anubis proof-of-work page, so save it from a browser."
+      },
+      "file": "2023-aydinlilar-zanni-forward-inclusion.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 10,
+      "id": "ban-valasek-2025-generalized-lipschitz",
+      "group": "eval",
+      "priority": "core",
+      "year": 2025,
+      "citation": "Ban, R., Valasek, G. \"Generalized Lipschitz Tracing of Implicit Surfaces.\" Computer Graphics Forum 44(1):e15202, 2025. Online first 2024.",
+      "doi": "10.1111/cgf.15202",
+      "arxiv": "",
+      "why": "GPU Lipschitz fields from Bernstein polynomial fits; traces fields that are not SDFs.",
+      "access": {
+        "kind": "browser",
+        "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/cgf.15202",
+        "note": "Wiley open access (hybrid). Wiley answers scripted clients with a bot challenge, so save it from a browser. Saved copy (2026-09-29) is the Wiley open-access publisher version."
+      },
+      "file": "2025-ban-valasek-generalized-lipschitz.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "81f399b6b45db96888b1276d3ea3058d3b973c8cdeeb67bc175e86cd7e587a1c",
+        "bytes": 2440055,
+        "pages": 17,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 11,
+      "id": "barbier-2025-lipschitz-pruning",
+      "group": "eval",
+      "priority": "core",
+      "year": 2025,
+      "citation": "Barbier, W., Sanchez, M., Paris, A., Michel, E., Lambert, T., Boubekeur, T., et al. \"Lipschitz Pruning: Hierarchical Simplification of Primitive-Based SDFs.\" Computer Graphics Forum 44(2):e70057, 2025.",
+      "doi": "10.1111/cgf.70057",
+      "arxiv": "",
+      "why": "Hierarchical pruning of SDF CSG trees by Lipschitz bounds; up to 100x over plain sphere tracing.",
+      "access": {
+        "kind": "browser",
+        "url": "https://hal.science/hal-05050831v1/document",
+        "note": "HAL open archive. HAL answers scripted clients with an Anubis proof-of-work page, so save it from a browser. Saved copy (2026-09-29) is the HAL deposit with a HAL cover page."
+      },
+      "file": "2025-barbier-lipschitz-pruning.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "36529438251246165471677bcf16e4327e1ac8caba3ee3264cf266e5105c7a51",
+        "bytes": 9554274,
+        "pages": 13,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 12,
+      "id": "sharp-jacobson-2022-spelunking",
+      "group": "eval",
+      "priority": "core",
+      "year": 2022,
+      "citation": "Sharp, N., Jacobson, A. \"Spelunking the deep: guaranteed queries on general neural implicit surfaces via range analysis.\" ACM Transactions on Graphics 41(4):1-16, 2022.",
+      "doi": "10.1145/3528223.3530155",
+      "arxiv": "2202.02444",
+      "why": "Range analysis (affine arithmetic) for guaranteed queries on any implicit, incl. neural.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2202.02444",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2022-sharp-jacobson-spelunking.pdf",
+      "got": {
+        "sha256": "aa72478bcb58ee2c30ec0826e4da34d90d65aa8f82ac47f32f88cedba96f880a",
+        "bytes": 29073895,
+        "pages": 16,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 13,
+      "id": "zanni-2023-synchronized-tracing",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 2023,
+      "citation": "Zanni, C. \"Synchronized-tracing of implicit surfaces.\" arXiv preprint, 2023.",
+      "doi": "",
+      "arxiv": "2304.09673",
+      "why": "Synchronized tracing of implicit surfaces; coherent batches of rays.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2304.09673",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2023-zanni-synchronized-tracing.pdf",
+      "got": {
+        "sha256": "9dd5b2427bdcd9a93429661623b0024c2a07c01ad34092e07a263e296fd7cbe7",
+        "bytes": 8771895,
+        "pages": 16,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 14,
+      "id": "hansson-soderlund-2022-sdf-grids",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 2022,
+      "citation": "Hansson-Soderlund, H., Evans, A., Akenine-Moller, T. \"Ray Tracing of Signed Distance Function Grids.\" Journal of Computer Graphics Techniques 11(3):94-113, 2022. JCGT has no DOI; checked against jcgt.org/published/0011/03/06/ 2026-09-29.",
+      "doi": "",
+      "arxiv": "",
+      "why": "Exact ray/trilinear-cell intersection for grid SDFs; the discrete counterpart to analytic eval.",
+      "access": {
+        "kind": "http",
+        "url": "https://jcgt.org/published/0011/03/06/paper.pdf",
+        "note": "JCGT is an open-access journal."
+      },
+      "file": "2022-hansson-soderlund-sdf-grids.pdf",
+      "got": {
+        "sha256": "6252d8db9035a4103fe4f4618a262de8bc19ee459251018f1cbbaf8e3f521b38",
+        "bytes": 49723521,
+        "pages": 20,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 15,
+      "id": "pasko-1995-frep",
+      "group": "dist",
+      "priority": "core",
+      "year": 1995,
+      "citation": "Pasko, A., Adzhiev, V., Sourin, A., Savchenko, V. \"Function representation in geometric modeling: concepts, implementation and applications.\" The Visual Computer 11(8):429-446, 1995.",
+      "doi": "10.1007/bf02464333",
+      "arxiv": "",
+      "why": "The F-rep founding paper; the representation ImplicitCAM is named for.",
+      "access": {
+        "kind": "http",
+        "url": "https://papers.cumincad.org/data/works/att/d935.content.pdf",
+        "note": "CumInCAD open index copy. It is the 37-page author manuscript, not the Visual Computer typesetting: cite section numbers, not page numbers. The manuscript contradicts itself in two places: eq. (3) swaps min and max under its own positive-inside convention, and eq. (8) uses +sqrt where eq. (4) and the program on PDF page 20 use -sqrt. Not checked against the journal version."
+      },
+      "file": "1995-pasko-frep.pdf",
+      "got": {
+        "sha256": "0da0c4bb63ca4486b22a09fd31b09a8d5092b83b3e760b91a86dfd00a1a8c96c",
+        "bytes": 106571,
+        "pages": 37,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 16,
+      "id": "shapiro-2007-rfunctions",
+      "group": "dist",
+      "priority": "core",
+      "year": 2007,
+      "citation": "Shapiro, V. \"Semi-analytic geometry with R-functions.\" Acta Numerica 16:239-303, 2007.",
+      "doi": "10.1017/s096249290631001x",
+      "arxiv": "",
+      "why": "R-functions: smooth CSG with controlled normalization; the math behind better-than-min/max booleans.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2007-shapiro-rfunctions.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 17,
+      "id": "balint-valasek-2019-operations-on-sdf",
+      "group": "dist",
+      "priority": "core",
+      "year": 2019,
+      "citation": "Balint, C., Valasek, G., Gergo, L. \"Operations on Signed Distance Functions.\" Acta Cybernetica 24(1):17-28, 2019.",
+      "doi": "10.14232/actacyb.24.1.2019.3",
+      "arxiv": "",
+      "why": "Proves distance fields are 1-Lipschitz and that subtracting a constant is an exact offset on the far side; the formal footing for offsets. It does not tabulate every CSG operation.",
+      "access": {
+        "kind": "http",
+        "url": "https://cyber.bibl.u-szeged.hu/index.php/actcybern/article/download/4004/3973",
+        "note": "Acta Cybernetica is diamond open access."
+      },
+      "file": "2019-balint-valasek-operations-on-sdf.pdf",
+      "got": {
+        "sha256": "7235eaffff79c1c8a1dc9a3c732e82307c851ea7ba51f97c3f4140fca504594f",
+        "bytes": 870500,
+        "pages": 12,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 18,
+      "id": "frisken-2000-adf",
+      "group": "dist",
+      "priority": "core",
+      "year": 2000,
+      "citation": "Frisken, S. F., Perry, R. N., Rockwood, A. P., Jones, T. R. \"Adaptively sampled distance fields: a general representation of shape for computer graphics.\" Proceedings of the 27th annual conference on Computer graphics and interactive techniques  - SIGGRAPH '00, 249-254, 2000.",
+      "doi": "10.1145/344779.344899",
+      "arxiv": "",
+      "why": "Adaptively sampled distance fields; MERL's representation, later used for milling sim.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.merl.com/publications/docs/TR2000-15.pdf",
+        "note": "MERL technical report TR2000-15, the version the authors lab posts. PDF pages 1-2 are MERL cover pages. Its Table 1 prints a tolerance of 1.56e-6 that is probably a typo for 1.56e-5."
+      },
+      "file": "2000-frisken-adf.pdf",
+      "got": {
+        "sha256": "1376a01b922e51a2d4e52d61f7d97fad166dea619ba5dc14303c48bb152e17b0",
+        "bytes": 197034,
+        "pages": 8,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 19,
+      "id": "jones-2006-distance-field-survey",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2006,
+      "citation": "Jones, M., Baerentzen, J., Sramek, M. \"3D distance fields: a survey of techniques and applications.\" IEEE Transactions on Visualization and Computer Graphics 12(4):581-599, 2006.",
+      "doi": "10.1109/tvcg.2006.56",
+      "arxiv": "",
+      "why": "Survey of distance-field construction and applications.",
+      "access": {
+        "kind": "http",
+        "url": "https://www2.imm.dtu.dk/pubdb/edoc/imm4145.pdf",
+        "note": "DTU publication database copy."
+      },
+      "file": "2006-jones-distance-field-survey.pdf",
+      "got": {
+        "sha256": "5aeddeb45b634a0d8c959d04b041999a99b682be4bd90a6ae1cb3e7a31cbe286",
+        "bytes": 444814,
+        "pages": 20,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 20,
+      "id": "museth-2013-vdb",
+      "group": "dist",
+      "priority": "core",
+      "year": 2013,
+      "citation": "Museth, K. \"VDB: High-resolution sparse volumes with dynamic topology.\" ACM Transactions on Graphics 32(3):1-22, 2013.",
+      "doi": "10.1145/2487228.2487235",
+      "arxiv": "",
+      "why": "VDB sparse narrow band; the planned 5-axis stock structure.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.museth.org/Ken/Publications_files/Museth_TOG13.pdf",
+        "note": "Author copy on Ken Museth's site."
+      },
+      "file": "2013-museth-vdb.pdf",
+      "got": {
+        "sha256": "583421cbbf6aff73873f3b84670ac88a04c82094fddf7b8eda8472564db7a252",
+        "bytes": 1499244,
+        "pages": 22,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 21,
+      "id": "museth-2021-nanovdb",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2021,
+      "citation": "Museth, K. \"NanoVDB: A GPU-Friendly and Portable VDB Data Structure For Real-Time Rendering And Simulation.\" ACM SIGGRAPH 2021 Talks, 1-2, 2021.",
+      "doi": "10.1145/3450623.3464653",
+      "arxiv": "",
+      "why": "GPU-resident read-only VDB.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/3450623.3464653",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "2021-museth-nanovdb.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 22,
+      "id": "jacobson-2013-gwn",
+      "group": "dist",
+      "priority": "core",
+      "year": 2013,
+      "citation": "Jacobson, A., Kavan, L., Sorkine-Hornung, O. \"Robust inside-outside segmentation using generalized winding numbers.\" ACM Transactions on Graphics 32(4):1-12, 2013.",
+      "doi": "10.1145/2461912.2461916",
+      "arxiv": "",
+      "why": "Generalized winding numbers; robust inside/outside for imported meshes (already cited).",
+      "access": {
+        "kind": "http",
+        "url": "https://igl.ethz.ch/projects/winding-number/robust-inside-outside-segmentation-using-generalized-winding-numbers-siggraph-2013-jacobson-et-al.pdf",
+        "note": "ETH Interactive Geometry Lab project page."
+      },
+      "file": "2013-jacobson-gwn.pdf",
+      "got": {
+        "sha256": "68ba85e93fc5030e52574c9a6c548aaa9f39313cf63d09bc8a95cc06f1c82b73",
+        "bytes": 31397053,
+        "pages": 12,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 23,
+      "id": "barill-2018-fast-winding",
+      "group": "dist",
+      "priority": "core",
+      "year": 2018,
+      "citation": "Barill, G., Dickson, N. G., Schmidt, R., Levin, D. I. W., Jacobson, A. \"Fast winding numbers for soups and clouds.\" ACM Transactions on Graphics 37(4):1-12, 2018.",
+      "doi": "10.1145/3197517.3201337",
+      "arxiv": "",
+      "why": "Fast winding numbers via tree + far-field expansion; makes GWN usable at CAM query volumes.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.dgp.toronto.edu/projects/fast-winding-numbers/fast-winding-numbers-for-soups-and-clouds-siggraph-2018-barill-et-al.pdf",
+        "note": "University of Toronto DGP project page."
+      },
+      "file": "2018-barill-fast-winding.pdf",
+      "got": {
+        "sha256": "2fea37374064397e716cdbb4e4f7893952155ac87de17ef300721252574c09d7",
+        "bytes": 28323250,
+        "pages": 12,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 24,
+      "id": "feng-crane-2024-heat-gsd",
+      "group": "dist",
+      "priority": "core",
+      "year": 2024,
+      "citation": "Feng, N., Crane, K. \"A Heat Method for Generalized Signed Distance.\" ACM Transactions on Graphics 43(4):1-19, 2024.",
+      "doi": "10.1145/3658220",
+      "arxiv": "",
+      "why": "Heat method for generalized signed distance on broken meshes.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/3658220",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser. Saved copy (2026-09-29) is the ACM publisher version, 225 MB because of its figures."
+      },
+      "file": "2024-feng-crane-heat-gsd.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "ee53613c310582748cecf51f771cb885b7fbe6c4f6873c6d1c944d4de2bf3f53",
+        "bytes": 224736677,
+        "pages": 19,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 25,
+      "id": "marschner-2023-csg-neural-sdf",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2023,
+      "citation": "Marschner, Z., Sellan, S., Liu, H. T. D., Jacobson, A. \"Constructive Solid Geometry on Neural Signed Distance Fields.\" SIGGRAPH Asia 2023 Conference Papers, 1-12, 2023.",
+      "doi": "10.1145/3610548.3618170",
+      "arxiv": "",
+      "why": "Trains CSG results back toward exact SDFs; a learned fix for the min/max bound problem.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.dgp.toronto.edu/~hsuehtil/pdf/csg_on_neural_sdfs.pdf",
+        "note": "Author copy (Hsueh-Ti Derek Liu, University of Toronto DGP)."
+      },
+      "file": "2023-marschner-csg-neural-sdf.pdf",
+      "got": {
+        "sha256": "7158a620ff5984811f01b7afa9fc149e8d10eccca6b899e1ff837ac254a542a3",
+        "bytes": 50606570,
+        "pages": 12,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 26,
+      "id": "takikawa-2021-nglod",
+      "group": "dist",
+      "priority": "background",
+      "year": 2021,
+      "citation": "Takikawa, T., Litalien, J., Yin, K., Kreis, K., Loop, C., Nowrouzezahrai, D., et al. \"Neural Geometric Level of Detail: Real-time Rendering with Implicit 3D Shapes.\" 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 11353-11362, 2021.",
+      "doi": "10.1109/cvpr46437.2021.01120",
+      "arxiv": "",
+      "why": "Sparse-octree neural SDF; the neural evaluation speed reference.",
+      "access": {
+        "kind": "http",
+        "url": "https://openaccess.thecvf.com/content/CVPR2021/papers/Takikawa_Neural_Geometric_Level_of_Detail_Real-Time_Rendering_With_Implicit_3D_CVPR_2021_paper.pdf",
+        "note": "CVF open access (the conference version). The supplementary material (training details, GPU used) is a separate file and is not on disk."
+      },
+      "file": "2021-takikawa-nglod.pdf",
+      "got": {
+        "sha256": "3bdf881a3d5e18b71e989533b64b7a5e6a424f331fa7fed7bb1489eff664bd5c",
+        "bytes": 4982932,
+        "pages": 10,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 27,
+      "id": "muller-2022-instant-ngp",
+      "group": "dist",
+      "priority": "background",
+      "year": 2022,
+      "citation": "Muller, T., Evans, A., Schied, C., Keller, A. \"Instant neural graphics primitives with a multiresolution hash encoding.\" ACM Transactions on Graphics 41(4):1-15, 2022.",
+      "doi": "10.1145/3528223.3530127",
+      "arxiv": "2201.05989",
+      "why": "Hash-grid encoding; fastest neural field eval baseline.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2201.05989",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2022-muller-instant-ngp.pdf",
+      "got": {
+        "sha256": "8e1950c40dbee009b37349c77a8858fbfb6a8e9dbf135b5ce2c986b7dac76790",
+        "bytes": 17821526,
+        "pages": 15,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 28,
+      "id": "song-juttler-poteaux-2010-hierarchical-spline-sdf",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2010,
+      "citation": "Song, X., Juttler, B., Poteaux, A. \"Hierarchical Spline Approximation of the Signed Distance Function.\" 2010 Shape Modeling International Conference, 241-245, 2010.",
+      "doi": "10.1109/smi.2010.18",
+      "arxiv": "",
+      "why": "Hierarchical spline fit of an SDF; spline sibling of the hp-adaptive paper.",
+      "access": {
+        "kind": "browser",
+        "url": "https://inria.hal.science/inria-00506000/document",
+        "note": "HAL open archive. HAL answers scripted clients with an Anubis proof-of-work page, so save it from a browser."
+      },
+      "file": "2010-song-juttler-poteaux-hierarchical-spline-sdf.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 29,
+      "id": "feng-crane-2026-points-as-tori",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2026,
+      "citation": "Feng, N., Gkioulekas, I., Crane, K. \"Points as Tori: Fast Pointwise Signed Distance for Point Clouds.\" ACM Transactions on Graphics 45(4):53, 2026. The file on disk is the arXiv version (arXiv:2607.16946), which prints the TOG reference itself.",
+      "doi": "10.1145/3811385",
+      "arxiv": "2607.16946",
+      "why": "2026: fast pointwise signed distance for point clouds.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2607.16946",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29). Published in ACM TOG 45(4), Article 53, July 2026 (checked on Crossref 2026-09-29)."
+      },
+      "file": "2026-feng-crane-points-as-tori.pdf",
+      "got": {
+        "sha256": "71617832e182b93e7a055ebd0e202d2a1244d83a1740617512a7ed074854e506",
+        "bytes": 42455647,
+        "pages": 24,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 30,
+      "id": "sethian-1996-fmm",
+      "group": "pde",
+      "priority": "core",
+      "year": 1996,
+      "citation": "Sethian, J. A. \"A fast marching level set method for monotonically advancing fronts..\" Proceedings of the National Academy of Sciences 93(4):1591-1595, 1996.",
+      "doi": "10.1073/pnas.93.4.1591",
+      "arxiv": "",
+      "why": "Fast marching; the geodesic-front engine behind the max-cut plan.",
+      "access": {
+        "kind": "browser",
+        "url": "https://www.pnas.org/doi/pdf/10.1073/pnas.93.4.1591",
+        "note": "Free on PNAS and PubMed Central (PMC39986). Both answer scripted clients with a bot challenge, so save it from a browser."
+      },
+      "file": "1996-sethian-fmm.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 31,
+      "id": "zhao-2005-fast-sweeping",
+      "group": "pde",
+      "priority": "core",
+      "year": 2005,
+      "citation": "Zhao, H. \"A fast sweeping method for Eikonal equations.\" Mathematics of Computation 74(250):603-627, 2005. Online first 2004.",
+      "doi": "10.1090/s0025-5718-04-01678-3",
+      "arxiv": "",
+      "why": "Fast sweeping for Eikonal; OpenVDB redistancing uses it.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.math.uci.edu/~zhao/homepage/research_files/FSM.pdf",
+        "note": "Hosted on Hongkai Zhao's UCI page. It is the Mathematics of Computation journal typesetting (pages 603-627 = PDF pages 1-25). Also free at ams.org, which blocks scripts."
+      },
+      "file": "2005-zhao-fast-sweeping.pdf",
+      "got": {
+        "sha256": "52cdbf6f599ea0cd64242847b542f79d726b76a03bb53d1c64eecf54d84200ad",
+        "bytes": 1751703,
+        "pages": 25,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 32,
+      "id": "crane-2013-geodesics-heat",
+      "group": "pde",
+      "priority": "supporting",
+      "year": 2013,
+      "citation": "Crane, K., Weischedel, C., Wardetzky, M. \"Geodesics in heat: A new approach to computing distance based on heat flow.\" ACM Transactions on Graphics 32(5):1-11, 2013.",
+      "doi": "10.1145/2516971.2516977",
+      "arxiv": "1204.6216",
+      "why": "Heat-method geodesics; smooth distance fields from one linear solve.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/1204.6216",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2013-crane-geodesics-heat.pdf",
+      "got": {
+        "sha256": "31e64a0deb0fe856f28d78891d7df92f635b0f9a6a9d74e61261bb7a50f1fd80",
+        "bytes": 4093521,
+        "pages": 10,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 33,
+      "id": "felzenszwalb-2012-distance-transforms",
+      "group": "pde",
+      "priority": "supporting",
+      "year": 2012,
+      "citation": "Felzenszwalb, P. F., Huttenlocher, D. P. \"Distance Transforms of Sampled Functions.\" Theory of Computing 8(1):415-428, 2012.",
+      "doi": "10.4086/toc.2012.v008a019",
+      "arxiv": "",
+      "why": "Linear-time exact distance transforms on grids (already cited).",
+      "access": {
+        "kind": "http",
+        "url": "https://theoryofcomputing.org/articles/v008a019/v008a019.pdf",
+        "note": "Theory of Computing is diamond open access."
+      },
+      "file": "2012-felzenszwalb-distance-transforms.pdf",
+      "got": {
+        "sha256": "5c86137f39f0a4cfd38fdbd4aa2bd7058dc0d5e924991589fc1bc054393f1b13",
+        "bytes": 239915,
+        "pages": 14,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 34,
+      "id": "sawhney-crane-2020-mc-geometry",
+      "group": "pde",
+      "priority": "core",
+      "year": 2020,
+      "citation": "Sawhney, R., Crane, K. \"Monte Carlo geometry processing: a grid-free approach to PDE-based methods on volumetric domains.\" ACM Transactions on Graphics 39(4), 2020.",
+      "doi": "10.1145/3386569.3392374",
+      "arxiv": "",
+      "why": "Walk-on-spheres: solves Laplace/Poisson on an SDF domain with no mesh or grid. Direct fit for field plans.",
+      "access": {
+        "kind": "http",
+        "url": "https://www.cs.cmu.edu/~kmcrane/Projects/MonteCarloGeometryProcessing/paper.pdf",
+        "note": "Author copy on Keenan Crane's CMU project page."
+      },
+      "file": "2020-sawhney-crane-mc-geometry.pdf",
+      "got": {
+        "sha256": "4af197bbfb44ca5c9401e48fb8c368a6442d3ed234a93bad3a8f62e673427f29",
+        "bytes": 15322653,
+        "pages": 18,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 35,
+      "id": "sawhney-2022-variable-coefficient",
+      "group": "pde",
+      "priority": "core",
+      "year": 2022,
+      "citation": "Sawhney, R., Seyb, D., Jarosz, W., Crane, K. \"Grid-free Monte Carlo for PDEs with spatially varying coefficients.\" ACM Transactions on Graphics 41(4):1-17, 2022.",
+      "doi": "10.1145/3528223.3530134",
+      "arxiv": "2201.13240",
+      "why": "Grid-free Monte Carlo with spatially varying coefficients; the conductive-k plan without a grid.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2201.13240",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2022-sawhney-variable-coefficient.pdf",
+      "got": {
+        "sha256": "8a72e8a2ca94ed5bcb3a7313569dfd81cc373bba04fd79d54d8f34d9d8446ad6",
+        "bytes": 38111450,
+        "pages": 22,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 36,
+      "id": "van-hook-1986-nc-milling-display",
+      "group": "sim",
+      "priority": "core",
+      "year": 1986,
+      "citation": "Van Hook, T. \"Real-time shaded NC milling display.\" ACM SIGGRAPH Computer Graphics 20(4):15-20, 1986. SIGGRAPH 86. Proceedings DOI 10.1145/15922.15887.",
+      "doi": "10.1145/15886.15887",
+      "arxiv": "",
+      "why": "Origin of dexels for NC milling display.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/15922.15887",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "1986-van-hook-nc-milling-display.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 37,
+      "id": "benouamer-michelucci-1997-triple-ray",
+      "group": "sim",
+      "priority": "supporting",
+      "year": 1997,
+      "citation": "Benouamer, M. O., Michelucci, D. \"Bridging the gap between CSG and Brep via a triple ray representation.\" Proceedings of the fourth ACM symposium on Solid modeling and applications  - SMA '97, 68-79, 1997.",
+      "doi": "10.1145/267734.267755",
+      "arxiv": "",
+      "why": "Tri-dexel (triple ray) representation.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/267734.267755",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "1997-benouamer-michelucci-triple-ray.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 38,
+      "id": "muller-2003-multi-dexel",
+      "group": "sim",
+      "priority": "supporting",
+      "year": 2003,
+      "citation": "Muller, H., Surmann, T., Stautner, M., Albersmann, F., Weinert, K. \"Online sculpting and visualization of multi-dexel volumes.\" Proceedings of the eighth ACM symposium on Solid modeling and applications  - SM '03, 2003.",
+      "doi": "10.1145/781606.781646",
+      "arxiv": "",
+      "why": "Multi-dexel stock with surface reconstruction; Dortmund milling-sim line.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/781606.781646",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "2003-muller-multi-dexel.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 39,
+      "id": "sullivan-2012-adf-milling",
+      "group": "sim",
+      "priority": "core",
+      "year": 2012,
+      "citation": "Sullivan, A., Erdim, H., Perry, R. N., Frisken, S. F. \"High accuracy NC milling simulation using composite adaptively sampled distance fields.\" Computer-Aided Design 44(6):522-536, 2012.",
+      "doi": "10.1016/j.cad.2012.02.002",
+      "arxiv": "",
+      "why": "High-accuracy NC milling sim with composite ADFs; the closest prior art to analytic part + distance-field stock.",
+      "access": {
+        "kind": "none",
+        "note": "Elsevier, paywalled; OpenAlex lists no open copy. Derek supplied the publisher PDF 2026-09-29; the tool hashes it but cannot re-acquire it. Internal inconsistency: the minimum cell size is 333 um in the text but 0.4894 mm in Table 3; there is also a \"greater than max depth\" typo."
+      },
+      "file": "2012-sullivan-adf-milling.pdf",
+      "status": "supplied by hand",
+      "got": {
+        "sha256": "e5b51e28a985cf60689c28b33bd913976bfc2e6df192502b5b4cb9fcf30b5231",
+        "bytes": 2049212,
+        "pages": 15,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 40,
+      "id": "kito-2026-hybrid-voxel-polygon",
+      "group": "sim",
+      "priority": "supporting",
+      "year": 2026,
+      "citation": "Kito, R., Takasugi, K., Mizutani, T., Okada, M. \"A hybrid voxel-polygon framework for high-speed, high-accuracy five-axis machining simulations.\" The International Journal of Advanced Manufacturing Technology 145(3-4):2815-2827, 2026.",
+      "doi": "10.1007/s00170-026-18457-z",
+      "arxiv": "",
+      "why": "2026 five-axis sim mixing voxels and polygons for speed and accuracy.",
+      "access": {
+        "kind": "http",
+        "url": "https://link.springer.com/content/pdf/10.1007/s00170-026-18457-z.pdf",
+        "note": "Springer open access under CC BY-NC-ND 4.0: sharing is allowed, adapted material may not be distributed. Skills distilled from it stay private."
+      },
+      "file": "2026-kito-hybrid-voxel-polygon.pdf",
+      "got": {
+        "sha256": "cd617a0388ffb5fb9e828f31ac75f3f9ef624ea050d5f916153b15ce5b4ad3a3",
+        "bytes": 2142458,
+        "pages": 13,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 41,
+      "id": "inui-2003-inverse-offset",
+      "group": "sim",
+      "priority": "supporting",
+      "year": 2003,
+      "citation": "Inui, M. \"Fast inverse offset computation using polygon rendering hardware.\" Computer-Aided Design 35(2):191-201, 2003.",
+      "doi": "10.1016/s0010-4485(02)00052-0",
+      "arxiv": "",
+      "why": "GPU inverse offset (tool-center space) computation; 3-axis gouge-free surfaces.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2003-inui-inverse-offset.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 42,
+      "id": "kimmel-bruckstein-1993-shape-offsets",
+      "group": "path",
+      "priority": "core",
+      "year": 1993,
+      "citation": "Kimmel, R., Bruckstein, A. \"Shape offsets via level sets.\" Computer-Aided Design 25(3):154-162, 1993.",
+      "doi": "10.1016/0010-4485(93)90040-u",
+      "arxiv": "",
+      "why": "Offsets as level sets of a distance front; earliest level-set CAM paper.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "1993-kimmel-bruckstein-shape-offsets.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 43,
+      "id": "bieterman-sandstrom-2003-curvilinear",
+      "group": "path",
+      "priority": "core",
+      "year": 2003,
+      "citation": "Bieterman, M. B., Sandstrom, D. R. \"A Curvilinear Tool-Path Method for Pocket Machining.\" Journal of Manufacturing Science and Engineering 125(4):709-715, 2003.",
+      "doi": "10.1115/1.1596579",
+      "arxiv": "",
+      "why": "Pocket paths as level curves of an elliptic PDE (already cited).",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2003-bieterman-sandstrom-curvilinear.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 44,
+      "id": "chuang-yang-2007-laplace-spiral",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2007,
+      "citation": "Chuang, J. J., Yang, D. C. H. \"A Laplace-based spiral contouring method for general pocket machining.\" The International Journal of Advanced Manufacturing Technology 34(7-8):714-723, 2007. Online 2006. Conference version IMECE2004-60138.",
+      "doi": "10.1007/s00170-006-0648-6",
+      "arxiv": "",
+      "why": "Laplace-based spiral pocketing.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2007-chuang-yang-laplace-spiral.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 45,
+      "id": "held-spielberger-2009-smooth-spiral",
+      "group": "path",
+      "priority": "core",
+      "year": 2009,
+      "citation": "Held, M., Spielberger, C. \"A smooth spiral tool path for high speed machining of 2D pockets.\" Computer-Aided Design 41(7):539-550, 2009.",
+      "doi": "10.1016/j.cad.2009.04.002",
+      "arxiv": "",
+      "why": "Smooth spirals from the medial axis (already cited).",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2009-held-spielberger-smooth-spiral.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 46,
+      "id": "held-spielberger-2014-multiply-connected",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2014,
+      "citation": "Held, M., Spielberger, C. \"Improved Spiral High-Speed Machining of Multiply-Connected Pockets.\" Computer-Aided Design and Applications 11(3):346-357, 2014. Online first 2013.",
+      "doi": "10.1080/16864360.2014.863508",
+      "arxiv": "",
+      "why": "Spirals for pockets with islands; the case Bieterman-Sandstrom finds hard.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2014-held-spielberger-multiply-connected.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 47,
+      "id": "elber-2005-mathsm",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2005,
+      "citation": "Elber, G., Cohen, E., Drake, S. \"MATHSM: medial axis transform toward high speed machining of pockets.\" Computer-Aided Design 37(2):241-250, 2005.",
+      "doi": "10.1016/j.cad.2004.05.008",
+      "arxiv": "",
+      "why": "Medial-axis HSM pocketing.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2005-elber-mathsm.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 48,
+      "id": "dhanik-xirouchakis-2010-fmm-pocket",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2010,
+      "citation": "Dhanik, S., Xirouchakis, P. \"Contour parallel milling tool path generation for arbitrary pocket shape using a fast marching method.\" The International Journal of Advanced Manufacturing Technology 50(9-12):1101-1111, 2010.",
+      "doi": "10.1007/s00170-010-2580-z",
+      "arxiv": "",
+      "why": "Fast-marching contour-parallel pocketing.",
+      "access": {
+        "kind": "browser",
+        "url": "http://doc.rero.ch/record/319070/files/170_2010_Article_2580.pdf",
+        "note": "RERO DOC repository copy (EPFL). The host serves an HTML page to scripted clients, so save it from a browser."
+      },
+      "file": "2010-dhanik-xirouchakis-fmm-pocket.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 49,
+      "id": "zou-2014-iso-level",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2014,
+      "citation": "Zou, Q., Zhang, J., Deng, B., Zhao, J. \"Iso-level tool path planning for free-form surfaces.\" Computer-Aided Design 53:117-125, 2014.",
+      "doi": "10.1016/j.cad.2014.04.006",
+      "arxiv": "1811.07580",
+      "why": "Iso-level toolpaths on freeform surfaces from a scalar field.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/1811.07580",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2014-zou-iso-level.pdf",
+      "got": {
+        "sha256": "2ff919f9310a856e975a6a57af219716cdbd42680484049961b4dc893d7c46e8",
+        "bytes": 5778952,
+        "pages": 24,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 50,
+      "id": "zhao-2016-fermat-spirals",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2016,
+      "citation": "Zhao, H., Gu, F., Huang, Q. X., Garcia, J., Chen, Y., Tu, C., et al. \"Connected fermat spirals for layered fabrication.\" ACM Transactions on Graphics 35(4):1-10, 2016.",
+      "doi": "10.1145/2897824.2925958",
+      "arxiv": "",
+      "why": "Connected Fermat spirals; one continuous path from a field decomposition.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/2897824.2925958",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "2016-zhao-fermat-spirals.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 51,
+      "id": "shen-2025-topology-preserving-spiral",
+      "group": "path",
+      "priority": "core",
+      "year": 2025,
+      "citation": "Shen, C., Xu, B., Qi, B., Zhang, X., Ding, H. \"Topology-Preserving Scalar Field Optimization for Boundary-Conforming Spiral Toolpaths on Multiply Connected Freeform Surfaces.\" arXiv preprint, 2025. Author list from the PDF author block and CRediT statement; the arXiv metadata lists a sixth author (Yan, S.) who is not in the PDF.",
+      "doi": "",
+      "arxiv": "2512.22502",
+      "why": "2025: topology-preserving scalar-field optimization for spirals on multiply connected surfaces.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2512.22502",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2025-shen-topology-preserving-spiral.pdf",
+      "got": {
+        "sha256": "2921fcc9aa6caf7a1b76ae864cfc82927ff2015e49e99eefae11ce1b47d51959",
+        "bytes": 13366281,
+        "pages": 17,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 52,
+      "id": "dutta-2025-implicit-field-process-planning",
+      "group": "path",
+      "priority": "core",
+      "year": 2025,
+      "citation": "Dutta, N., Zhang, T., Liu, T., Chen, Y., Wang, C. C. L. \"Implicit Neural Field-Based Process Planning for Multi-Axis Manufacturing: Direct Control over Collision Avoidance and Toolpath Geometry.\" arXiv preprint, 2025.",
+      "doi": "",
+      "arxiv": "2511.17578",
+      "why": "Implicit neural field process planning for multi-axis machining; collision + toolpath in one field (arch doc cites it).",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2511.17578",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2025-dutta-implicit-field-process-planning.pdf",
+      "got": {
+        "sha256": "ea748471700bc400c4d8623957b79fbc7d8a055bfe360211e9bbc43a115b9fbb",
+        "bytes": 30394543,
+        "pages": 76,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 53,
+      "id": "qu-2025-inf-3dp",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2025,
+      "citation": "Qu, J., Huang, Z., Guo, D., Sun, H., Lyu, A., Dai, C., et al. \"INF-3DP: Implicit Neural Fields for Collision-Free Multi-Axis 3D Printing.\" ACM Transactions on Graphics 44(6):1-18, 2025.",
+      "doi": "10.1145/3763354",
+      "arxiv": "2509.05345",
+      "why": "Implicit neural fields for collision-free multi-axis 3D printing; same field-first idea on the additive side.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2509.05345",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29)."
+      },
+      "file": "2025-qu-inf-3dp.pdf",
+      "got": {
+        "sha256": "6e775da452de4f14c242b344e9e7a1e2beb295056d576ab306aceda7271fa3fe",
+        "bytes": 45426307,
+        "pages": 18,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 54,
+      "id": "chen-2025-inverse-hybrid-planning",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2025,
+      "citation": "Chen, Y., Liu, T., Huang, Y., Wang, W., Zhang, T., Qian, K., et al. \"Can Any Model Be Fabricated? Inverse Operation Based Planning for Hybrid Additive-Subtractive Manufacturing.\" ACM Transactions on Graphics 44(6):1-14, 2025. The file on disk is the arXiv version (arXiv:2509.10599).",
+      "doi": "10.1145/3763355",
+      "arxiv": "2509.10599",
+      "why": "Inverse-operation planning for hybrid additive-subtractive: a voxel search over operation order (no field). Names chips trapped in closed cavities as unsolved.",
+      "access": {
+        "kind": "http",
+        "url": "https://arxiv.org/pdf/2509.10599",
+        "note": "arXiv preprint (title checked against the arXiv API 2026-09-29). Published in ACM TOG 44(6), 2025 (DOI 10.1145/3763355), which the arXiv PDF itself prints; open on the ACM DL."
+      },
+      "file": "2025-chen-inverse-hybrid-planning.pdf",
+      "got": {
+        "sha256": "7dc85a12b65e3c91a3e0915e6c302a3fd9b0c1203ac2d71584f71000851afd49",
+        "bytes": 9732001,
+        "pages": 14,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 55,
+      "id": "held-1991-pocket-book",
+      "group": "path",
+      "priority": "background",
+      "year": 1991,
+      "citation": "Held, M. \"On the Computational Geometry of Pocket Machining.\" Lecture Notes in Computer Science, 1991.",
+      "doi": "10.1007/3-540-54103-9",
+      "arxiv": "",
+      "why": "Held's book on the computational geometry of pocket machining.",
+      "access": {
+        "kind": "none",
+        "note": "Springer book (LNCS 500). OpenAlex lists no open copy."
+      },
+      "file": "1991-held-pocket-book.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 56,
+      "id": "kramer-1992-engagement",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 1992,
+      "citation": "Kramer, T. R. \"Pocket milling with tool engagement detection.\" Journal of Manufacturing Systems 11(2):114-123, 1992.",
+      "doi": "10.1016/0278-6125(92)90042-e",
+      "arxiv": "",
+      "why": "NIST 1992; start of the constant-engagement lineage (arch doc cites it).",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "1992-kramer-engagement.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 57,
+      "id": "stori-wright-2000-constant-engagement",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2000,
+      "citation": "Stori, J., Wright, P. \"Constant engagement tool path generation for convex geometries.\" Journal of Manufacturing Systems 19(3):172-184, 2000.",
+      "doi": "10.1016/s0278-6125(00)80010-2",
+      "arxiv": "",
+      "why": "Constant-engagement paths (arch doc lineage).",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2000-stori-wright-constant-engagement.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 58,
+      "id": "ibaraki-2010-trochoidal-grooving",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2010,
+      "citation": "Ibaraki, S., Yamaji, I., Matsubara, A. \"On the removal of critical cutting regions by trochoidal grooving.\" Precision Engineering 34(3):467-473, 2010.",
+      "doi": "10.1016/j.precisioneng.2010.01.007",
+      "arxiv": "",
+      "why": "Engagement regulation with trochoids (arch doc lineage).",
+      "access": {
+        "kind": "browser",
+        "url": "https://repository.kulib.kyoto-u.ac.jp/dspace/bitstream/2433/113248/1/pe09_yamaji.pdf",
+        "note": "Kyoto University repository (KURENAI) author copy. The repository serves a script-rendered page to scripted clients, so save it from a browser."
+      },
+      "file": "2010-ibaraki-trochoidal-grooving.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 59,
+      "id": "gupta-2005-engagement-functions",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2005,
+      "citation": "Gupta, S. K., Saini, S. K., Spranklin, B. W., Yao, Z. \"Geometric algorithms for computing cutter engagement functions in 2.5D milling operations.\" Computer-Aided Design 37(14):1469-1480, 2005.",
+      "doi": "10.1016/j.cad.2005.03.001",
+      "arxiv": "",
+      "why": "Engagement computed geometrically along a path.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2005-gupta-engagement-functions.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 60,
+      "id": "held-pfeiffer-2025-trochoidal-engagement",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2025,
+      "citation": "Held, M., Pfeiffer, J. \"Trochoidal Tool Paths for Pocket Machining with Full Control of the Tool Engagement Angle.\" Computer-Aided Design and Applications 22(5):731-747, 2025.",
+      "doi": "10.14733/cadaps.2025.731-747",
+      "arxiv": "",
+      "why": "2025 CAD&A: trochoids with full engagement control.",
+      "access": {
+        "kind": "http",
+        "url": "https://cad-journal.net/files/vol_22/CAD_22(5)_2025_731-747.pdf",
+        "note": "Computer-Aided Design and Applications is open access."
+      },
+      "file": "2025-held-pfeiffer-trochoidal-engagement.pdf",
+      "got": {
+        "sha256": "cf75427308ed8071c87e7596ce238cdc902d3aa8c0d69d2706743d1ce9ecbf61",
+        "bytes": 3135988,
+        "pages": 17,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 61,
+      "id": "altintas-budak-1995-stability-lobes",
+      "group": "mach",
+      "priority": "core",
+      "year": 1995,
+      "citation": "Altintas, Y., Budak, E. \"Analytical Prediction of Stability Lobes in Milling.\" CIRP Annals 44(1):357-362, 1995.",
+      "doi": "10.1016/s0007-8506(07)62342-7",
+      "arxiv": "",
+      "why": "Stability lobes; the chatter model already in PhysPlan.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "1995-altintas-budak-stability-lobes.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 62,
+      "id": "erkorkmaz-altintas-2001-jerk",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2001,
+      "citation": "Erkorkmaz, K., Altintas, Y. \"High speed CNC system design. Part I: jerk limited trajectory generation and quintic spline interpolation.\" International Journal of Machine Tools and Manufacture 41(9):1323-1345, 2001.",
+      "doi": "10.1016/s0890-6955(01)00002-5",
+      "arxiv": "",
+      "why": "Jerk-limited trajectories; the accel/link losses in the roughing time model.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2001-erkorkmaz-altintas-jerk.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 63,
+      "id": "tulsyan-altintas-2015-local-smoothing",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2015,
+      "citation": "Tulsyan, S., Altintas, Y. \"Local toolpath smoothing for five-axis machine tools.\" International Journal of Machine Tools and Manufacture 96:15-26, 2015.",
+      "doi": "10.1016/j.ijmachtools.2015.04.014",
+      "arxiv": "",
+      "why": "Corner smoothing for 5-axis.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2015-tulsyan-altintas-local-smoothing.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 64,
+      "id": "tang-2014-collision-review",
+      "group": "mach",
+      "priority": "supporting",
+      "year": 2014,
+      "citation": "Tang, T. D. \"Algorithms for collision detection and avoidance for five-axis NC machining: A state of the art review.\" Computer-Aided Design 51:1-17, 2014.",
+      "doi": "10.1016/j.cad.2014.02.001",
+      "arxiv": "",
+      "why": "State-of-the-art review of 5-axis collision detection and avoidance.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2014-tang-collision-review.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 65,
+      "id": "lasemi-2010-freeform-review",
+      "group": "mach",
+      "priority": "background",
+      "year": 2010,
+      "citation": "Lasemi, A., Xue, D., Gu, P. \"Recent development in CNC machining of freeform surfaces: A state-of-the-art review.\" Computer-Aided Design 42(7):641-654, 2010.",
+      "doi": "10.1016/j.cad.2010.04.002",
+      "arxiv": "",
+      "why": "Review of freeform CNC machining.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2010-lasemi-freeform-review.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 66,
+      "id": "keeter-2013-thesis",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2013,
+      "citation": "Keeter, M. J. \"Hierarchical Volumetric Object Representations for Digital Fabrication Workflows.\" S.M. thesis, Massachusetts Institute of Technology, 2013.",
+      "doi": "",
+      "arxiv": "",
+      "why": "F-rep CAD to toolpaths in one pipeline (kokopelli and fab modules); the nearest open precedent. Cuts enclosed contours first so pieces cannot move.",
+      "access": {
+        "kind": "http",
+        "url": "https://cba.mit.edu/docs/theses/13.05.Keeter.pdf",
+        "note": "MIT Center for Bits and Atoms thesis archive."
+      },
+      "file": "2013-keeter-thesis.pdf",
+      "got": {
+        "sha256": "27e56b1f1b93014602abd345c679625b6acbb8b52f860774397ae62c2b775bfe",
+        "bytes": 19613458,
+        "pages": 114,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 67,
+      "id": "held-pfeiffer-2026-limited-engagement-spiral",
+      "group": "path",
+      "priority": "core",
+      "year": 2026,
+      "citation": "Held, M., Pfeiffer, J. \"Spiral Paths for Pocket Machining with Limited Tool Engagement Angle.\" CAD'26 Proceedings, 106-111, 2026.",
+      "doi": "10.14733/cadconfp.2026.106-111",
+      "arxiv": "",
+      "why": "2026: spirals with a hard cap on engagement angle; the newest step in the spiral-pocketing line.",
+      "access": {
+        "kind": "none",
+        "note": "Conference proceedings; no open PDF located yet (Crossref has no link). Found while resolving Chuang and Yang."
+      },
+      "file": "2026-held-pfeiffer-limited-engagement-spiral.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 68,
+      "id": "huang-2017-aggressive-spiral-mat",
+      "group": "path",
+      "priority": "supporting",
+      "year": 2017,
+      "citation": "Huang, N., Lynn, R., Kurfess, T. \"Aggressive Spiral Toolpaths for Pocket Machining Based on Medial Axis Transformation.\" Journal of Manufacturing Science and Engineering 139(5):051011, 2017.",
+      "doi": "10.1115/1.4035720",
+      "arxiv": "",
+      "why": "Medial-axis spirals tuned for aggressive (high-engagement) roughing; Kurfess group, GPU-minded.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-29) and none was found. Not searched beyond that."
+      },
+      "file": "2017-huang-aggressive-spiral-mat.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 69,
+      "id": "shapiro-vossler-1991-csg-construction",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 1991,
+      "citation": "Shapiro, V., Vossler, D. L. \"Construction and optimization of CSG representations.\" Computer-Aided Design 23(1):4-20, 1991.",
+      "doi": "10.1016/0010-4485(91)90077-a",
+      "arxiv": "",
+      "why": "Builds and minimizes a CSG tree for a solid from its boundary half-spaces; the compile step that replaces a section leaf by per-curve CSG (F-rep version 2).",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-30) and none was found. Not searched beyond that."
+      },
+      "file": "1991-shapiro-vossler-csg-construction.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 70,
+      "id": "shapiro-vossler-1993-separation",
+      "group": "dist",
+      "priority": "core",
+      "year": 1993,
+      "citation": "Shapiro, V., Vossler, D. L. \"Separation for boundary to CSG conversion.\" ACM Transactions on Graphics 12(1):35-55, 1993.",
+      "doi": "10.1145/169728.169723",
+      "arxiv": "",
+      "why": "When the boundary half-spaces alone cannot separate inside from outside, adds separating primitives; the known answer to building one global max/min formula for curved profiles.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/169728.169723",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "1993-shapiro-vossler-separation.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "a09eda4dd978a38e99427087b38a4b57966865e99b0f3336e899f0884de57c88",
+        "bytes": 1306408,
+        "pages": 21,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 71,
+      "id": "dobkin-1993-csg-polygon",
+      "group": "dist",
+      "priority": "core",
+      "year": 1993,
+      "citation": "Dobkin, D., Guibas, L., Hershberger, J., Snoeyink, J. \"An efficient algorithm for finding the CSG representation of a simple polygon.\" Algorithmica 10(1):1-23, 1993.",
+      "doi": "10.1007/bf01908629",
+      "arxiv": "",
+      "why": "A monotone CSG formula for any simple polygon using each edge half-plane once; the exact base case for the line segments of a section.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-30) and none was found. Not searched beyond that."
+      },
+      "file": "1993-dobkin-csg-polygon.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 72,
+      "id": "buchele-crawford-2003-halfspace-csg",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2003,
+      "citation": "Buchele, S. F., Crawford, R. H. \"Three-dimensional halfspace constructive solid geometry tree construction from implicit boundary representations.\" Proceedings of the eighth ACM symposium on Solid modeling and applications, 135-144, 2003.",
+      "doi": "10.1145/781606.781629",
+      "arxiv": "",
+      "why": "Halfspace CSG trees from implicit boundary representations in 3D, curved surfaces included; the 3D generalization of the section compile.",
+      "access": {
+        "kind": "browser",
+        "url": "https://dl.acm.org/doi/pdf/10.1145/781606.781629",
+        "note": "ACM Digital Library, open access to everyone since 2026-01-01. dl.acm.org answers scripted clients with a Cloudflare challenge (HTTP 403), so save it from a browser."
+      },
+      "file": "2003-buchele-crawford-halfspace-csg.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "073bde557d48d018cd4ba80fa2eb8f6735845ffa22d5580f6157fe9187b29a6e",
+        "bytes": 474194,
+        "pages": 10,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 73,
+      "id": "ma-hewitt-2003-nurbs-point-inversion",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 2003,
+      "citation": "Ma, Y. L., Hewitt, W. \"Point inversion and projection for NURBS curve and surface: Control polygon approach.\" Computer Aided Geometric Design 20(2):79-99, 2003.",
+      "doi": "10.1016/s0167-8396(03)00021-9",
+      "arxiv": "",
+      "why": "Point inversion and projection onto NURBS curves and surfaces from the control polygon; the classic subdivide-then-Newton scheme behind our certified closest point.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-30) and none was found. Not searched beyond that."
+      },
+      "file": "2003-ma-hewitt-nurbs-point-inversion.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 74,
+      "id": "chen-2008-point-nurbs-distance",
+      "group": "eval",
+      "priority": "core",
+      "year": 2008,
+      "citation": "Chen, X. D., Yong, J. H., Wang, G., Paul, J. C., Xu, G. \"Computing the minimum distance between a point and a NURBS curve.\" Computer-Aided Design 40(10-11):1051-1054, 2008.",
+      "doi": "10.1016/j.cad.2008.06.008",
+      "arxiv": "",
+      "why": "Certified minimum distance from a point to a NURBS curve (exclusion by bounds, then root isolation); the guarantee our GPU spline pieces approximate with chord and thickness bounds.",
+      "access": {
+        "kind": "browser",
+        "url": "https://inria.hal.science/inria-00518359v1/document",
+        "note": "HAL open archive. HAL answers scripted clients with an Anubis proof-of-work page, so save it from a browser."
+      },
+      "file": "2008-chen-point-nurbs-distance.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 75,
+      "id": "selimovic-2006-point-projection",
+      "group": "eval",
+      "priority": "supporting",
+      "year": 2006,
+      "citation": "Selimovic, I. \"Improved algorithms for the projection of points on NURBS curves and surfaces.\" Computer Aided Geometric Design 23(5):439-445, 2006.",
+      "doi": "10.1016/j.cagd.2006.01.007",
+      "arxiv": "",
+      "why": "Faster exclusion tests for projecting points onto NURBS curves and surfaces; candidates for pruning spline pieces on the GPU.",
+      "access": {
+        "kind": "none",
+        "note": "OpenAlex lists no open copy (checked 2026-09-30) and none was found. Not searched beyond that."
+      },
+      "file": "2006-selimovic-point-projection.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 76,
+      "id": "vossler-shapiro-1996-patent-brep-csg",
+      "group": "dist",
+      "priority": "core",
+      "year": 1996,
+      "citation": "Vossler, D. L., Shapiro, V. \"System and method for converting boundary representations to constructive solid geometry representations for three-dimensional solid object modeling.\" US Patent 5,537,519, 1996.",
+      "doi": "",
+      "arxiv": "",
+      "why": "The fullest statement of Shapiro-Vossler separation (Buchele and Crawford 2003 say so): separating planes through triples of a face's vertices and through every planar edge, and for nonplanar edges between quadrics, tangent planes or polar planes that isolate the edge from the rest of its intersection curve.",
+      "access": {
+        "kind": "http",
+        "url": "https://patentimages.storage.googleapis.com/3d/e1/77/736825872dff19/US5537519.pdf",
+        "note": "Google Patents image PDF of the granted patent; expired (lifetime). The text mentions a program listing in an appendix that the Google full text does not include; not checked whether the PDF carries it."
+      },
+      "file": "1996-vossler-shapiro-patent-us5537519.pdf",
+      "got": {
+        "sha256": "652ed40b50941567753d3c3b5ee3014861f42c89dceaede5769d54f424c46e20",
+        "bytes": 5538255,
+        "pages": 112,
+        "verified": "2026-10-02",
+        "via": "tool"
+      },
+      "status": "acquired"
+    },
+    {
+      "n": 77,
+      "id": "upreti-subbarayan-2017-signed-algebraic-level-sets",
+      "group": "dist",
+      "priority": "core",
+      "year": 2017,
+      "citation": "Upreti, K., Subbarayan, G. \"Signed algebraic level sets on NURBS surfaces and implicit Boolean compositions for isogeometric CAD-CAE integration.\" Computer-Aided Design 82:112-126, 2017. Online 2016.",
+      "doi": "10.1016/j.cad.2016.09.006",
+      "arxiv": "",
+      "why": "Signed algebraic level sets for NURBS B-reps: each Bezier patch implicitized by the Dixon resultant (degree 18 for bicubic), normalized by its gradient, trimmed to its control hull and composed with R-functions; sign outside the hulls by ray casting. Read through its restatement in the Liao 2022 thesis (entry 80): it does not give a usable global leaf for a B-spline face (self-intersections of the implicit inside the hull flip the sign, knot insertion cannot fix it, false zero sets along trim curves, no certified bound).",
+      "access": {
+        "kind": "none",
+        "note": "Elsevier, paywalled; OpenAlex lists no open copy (checked 2026-10-02). The method is restated in full in entry 80, chapters 3.3 and 4."
+      },
+      "file": "2017-upreti-subbarayan-signed-algebraic-level-sets.pdf",
+      "status": "no open copy"
+    },
+    {
+      "n": 78,
+      "id": "balu-2022-hybodt",
+      "group": "dist",
+      "priority": "background",
+      "year": 2022,
+      "citation": "Balu, A., Ghadai, S., Bingol, O. R., Krishnamurthy, A. \"HyBoDT: Hybrid Bounded Distance Transforms of Trimmed NURBS Models.\" Journal of Computing and Information Science in Engineering 22(4):041008, 2022. Online 2021.",
+      "doi": "10.1115/1.4053202",
+      "arxiv": "",
+      "why": "GPU voxel distance transforms of trimmed NURBS models via tessellation, with error bounds from tessellation density; unsigned, sign from winding numbers afterwards. Tessellate-then-sample, so it does not bear on the global F-rep; read 2026-10-02.",
+      "access": {
+        "kind": "browser",
+        "url": "https://asmedigitalcollection.asme.org/computingengineering/article-pdf/22/4/041008/6843469/jcise_22_4_041008.pdf",
+        "note": "ASME Digital Collection, open access per OpenAlex. The site answered a scripted client with an HTML bot-check page (2026-10-02), so save it from a browser."
+      },
+      "file": "2022-balu-hybodt.pdf",
+      "status": "saved from browser",
+      "got": {
+        "sha256": "ce8140434b437fc230d3a8d347562d11ceb882bfe74d4c92adc6655813cc1c05",
+        "bytes": 1163070,
+        "pages": 11,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      }
+    },
+    {
+      "n": 79,
+      "id": "liao-2020-algebraic-point-projection",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2020,
+      "citation": "Liao, H., Vaitheeswaran, P. K., Song, T., Subbarayan, G. \"Algebraic Point Projection for Immersed Boundary Analysis on Low Degree NURBS Curves and Surfaces.\" Algorithms 13(4):82, 2020.",
+      "doi": "10.3390/a13040082",
+      "arxiv": "",
+      "why": "Algebraic point projection on low-degree NURBS from the Upreti-Subbarayan group. Its content is chapter 3 of the Liao 2022 thesis (entry 80), which is on disk.",
+      "access": {
+        "kind": "browser",
+        "url": "https://www.mdpi.com/1999-4893/13/4/82/pdf?version=1586927358",
+        "note": "MDPI, open access. mdpi.com answered a scripted client with an HTML block page (2026-10-02), so save it from a browser."
+      },
+      "file": "2020-liao-algebraic-point-projection.pdf",
+      "status": "browser download needed"
+    },
+    {
+      "n": 80,
+      "id": "liao-2022-thesis-algebraic-level-sets",
+      "group": "dist",
+      "priority": "supporting",
+      "year": 2022,
+      "citation": "Liao, H. \"Explicit Boundary Solutions for Ellipsoidal Particle Packing and Reaction-Diffusion Problems.\" PhD dissertation, Purdue University, 2022.",
+      "doi": "",
+      "arxiv": "",
+      "why": "Chapter 3.3 restates Upreti-Subbarayan algebraic level sets (Dixon implicitization, gradient normalization, control-hull trimming by R-functions); chapter 4 extends them to signed classification of multi-patch B-reps and documents the open failures: implicit self-intersection inside the hull, which knot insertion provably cannot remove, and false zero sets along trim curves. The open stand-in for entry 77.",
+      "access": {
+        "kind": "none",
+        "note": "Purdue dissertation; Derek saved a copy 2026-10-02. No DOI found through OpenAlex."
+      },
+      "file": "2022-liao-thesis-algebraic-level-sets.pdf",
+      "got": {
+        "sha256": "dc43b48a60ab0f43326b3b639dd8f9f1158e95d68747b9c989b36c75a4f2c43a",
+        "bytes": 14690870,
+        "pages": 235,
+        "verified": "2026-10-02",
+        "via": "by hand"
+      },
+      "status": "supplied by hand"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    name: Design guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      # Decisions 1-7 in CONTRIBUTING.md, checked by pattern over every Rust file in crates/
+      # against tools/frep-guard/baseline.json. Decisions 8 (no incumbent toolpath
+      # constructions) and 9 (GPU first) are about method, which no pattern sees; Claude Code's
+      # edit check enforces 8, and review enforces both.
+      - run: node tools/frep-guard/check.mjs
+
+  test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: rustup toolchain install stable --profile minimal && rustup default stable
+      - uses: Swatinem/rust-cache@v2
+      # The GPU test skips itself on runners without a GPU.
+      - run: cargo test --workspace --release --locked
